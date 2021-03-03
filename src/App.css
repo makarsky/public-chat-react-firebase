@@ -1,0 +1,46 @@
+.app {
+  text-align: center;
+}
+
+.app-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.app-message-form {
+  margin-top: 18px;
+  text-align: left;
+}
+
+.app-debtors-table {
+  margin-top: 12px;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.app-debtors-table th {
+  border-bottom: 1px solid #61dafb;
+}
+
+.app-debtors-table th,
+.app-debtors-table td,
+.app-history-table th,
+.app-history-table td {
+  padding: 3px;
+}
+
+.app-history-table {
+  margin-top: 12px;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.app-history-table th {
+  border-bottom: 1px solid #61dafb;
+}
