@@ -1,46 +1,43 @@
 .app {
-  text-align: center;
-}
-
-.app-header {
-  background-color: #282c34;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+}
+
+.app-drawer-close-icon {
+  display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  justify-content: flex-end;
 }
 
 .app-message-form {
-  margin-top: 18px;
-  text-align: left;
+  display: flex;
 }
 
-.app-debtors-table {
-  margin-top: 12px;
-  border-collapse: collapse;
-  border-spacing: 0;
+.app-message-form__input {
+  flex-grow: 1;
 }
 
-.app-debtors-table th {
-  border-bottom: 1px solid #61dafb;
+.app-message-list-container {
+  overflow-y: auto;
+  flex-grow: 1;
 }
 
-.app-debtors-table th,
-.app-debtors-table td,
-.app-history-table th,
-.app-history-table td {
-  padding: 3px;
+.app-message-list-item {
+  max-width: 80%;
 }
 
-.app-history-table {
-  margin-top: 12px;
-  border-collapse: collapse;
-  border-spacing: 0;
+.app-message-list-item .app-message-list-item__content {
+  padding: 6px !important;
+  word-wrap: break-word;
 }
 
-.app-history-table th {
-  border-bottom: 1px solid #61dafb;
+.app-message-list-item-container {
+  display: flex;
+  margin: 12px;
+}
+
+.app-message-list-item-container--personal {
+  justify-content: end;
 }
