@@ -1,5 +1,5 @@
 import { AuthStateUser } from './AuthStateUser';
 
-export interface MessageCollectionProps {
+export interface MessageListProps {
   user: AuthStateUser;
 }
