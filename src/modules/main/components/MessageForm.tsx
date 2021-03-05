@@ -27,6 +27,7 @@ const handleSubmit = async (
   newMessage.userUid = userUid;
 
   if (!newMessage.value) {
+    event.preventDefault();
     return;
   }
 
@@ -46,11 +47,16 @@ const handleSubmit = async (
   } catch (error) {
     window.location.reload();
   } finally {
+    newMessage.value = '';
     event.preventDefault();
   }
 };
 
-const MessageForm = ({ userUid, setTimerSeconds }: MessageFormProps) => (
+const MessageForm = ({
+  userUid,
+  seconds,
+  setTimerSeconds,
+}: MessageFormProps) => (
   <FirestoreBatchedWrite>
     {({ addMutationToBatch, commit }) => (
       <form
@@ -78,8 +84,9 @@ const MessageForm = ({ userUid, setTimerSeconds }: MessageFormProps) => (
           color='primary'
           type='submit'
           data-testid='send-message'
+          disabled={seconds !== 0}
         >
-          <SendIcon />
+          {seconds > 0 ? seconds : <SendIcon />}
         </Button>
       </form>
     )}

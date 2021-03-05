@@ -44,10 +44,13 @@ const MessageFormContainer = ({
     return () => clearInterval(interval);
   }, [seconds]);
 
-  return seconds > 0 ? (
-    `Wait ${seconds}s`
-  ) : (
-    <MessageForm userUid={userUid} setTimerSeconds={setSeconds} />
+  return (
+    <MessageForm
+      key={seconds}
+      userUid={userUid}
+      seconds={seconds}
+      setTimerSeconds={setSeconds}
+    />
   );
 };
 
