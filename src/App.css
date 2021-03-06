@@ -22,6 +22,7 @@
 .app-message-list-container {
   overflow-y: auto;
   flex-grow: 1;
+  background-color: aliceblue;
 }
 
 .app-message-list-item {
