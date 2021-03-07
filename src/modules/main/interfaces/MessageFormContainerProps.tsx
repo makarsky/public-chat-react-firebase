@@ -1,4 +1,4 @@
-export interface MessageFormContainerProps {
+export default interface MessageFormContainerProps {
   userUid: string;
   userData: any;
 }

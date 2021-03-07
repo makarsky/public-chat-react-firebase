@@ -25,7 +25,7 @@ import { mainListItems } from './modules/main/components/drawerListItems';
 import { config } from './config';
 import MessageList from './modules/main/components/MessageList';
 import MessageFormContainer from './modules/main/components/MessageFormContainer';
-import { AuthState } from './modules/main/interfaces/AuthState';
+import AuthState from './modules/main/interfaces/AuthState';
 
 const App = (): any => {
   const [open, setOpen] = React.useState(false);
@@ -81,6 +81,7 @@ const App = (): any => {
       >
         <IfFirebaseAuthed>
           {({ user }: AuthState) => {
+            console.log('IfFirebaseAuthed');
             return (
               <FirestoreProvider
                 // eslint-disable-next-line react/jsx-props-no-spreading
