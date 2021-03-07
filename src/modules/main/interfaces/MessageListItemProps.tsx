@@ -1,7 +1,7 @@
-import { AuthStateUser } from "./AuthStateUser";
-import { Message } from "./Message";
+import AuthStateUser from './AuthStateUser';
+import Message from './Message';
 
 export interface MessageListItemProps {
-  message: Message;
-  user: AuthStateUser;
+  message: Message,
+  user: AuthStateUser,
 }

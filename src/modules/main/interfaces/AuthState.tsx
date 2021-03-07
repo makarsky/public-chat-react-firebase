@@ -1,5 +1,5 @@
-import { AuthStateUser } from './AuthStateUser';
+import AuthStateUser from './AuthStateUser';
 
-export interface AuthState {
+export default interface AuthState {
   user: AuthStateUser,
 };

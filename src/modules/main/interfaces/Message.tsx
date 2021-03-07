@@ -1,5 +1,5 @@
-export interface Message {
+export default interface Message {
   userUid: string;
-  value: number;
+  value: string;
   timestamp: any;
 }

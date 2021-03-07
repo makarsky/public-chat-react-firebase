@@ -5,16 +5,19 @@ import 'firebase/firestore';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import SendIcon from '@material-ui/icons/Send';
-import { MessageFormProps } from '../interfaces/MessageFormProps';
+import MessageFormProps from '../interfaces/MessageFormProps';
+import Message from '../interfaces/Message';
 
 const collectionPath = 'messages';
 const userPath = 'users';
 
-const newMessage = {
-  value: '',
-  timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-  userUid: '',
-};
+// const newMessage = {
+//   value: '',
+//   timestamp: null,
+//   userUid: '',
+// };
+
+let newMessageValue = '';
 
 const handleSubmit = async (
   event: any,
@@ -23,8 +26,11 @@ const handleSubmit = async (
   userUid: string,
   setTimerSeconds: any,
 ) => {
-  newMessage.timestamp = firebase.firestore.FieldValue.serverTimestamp();
-  newMessage.userUid = userUid;
+  const newMessage: Message = {
+    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+    userUid,
+    value: newMessageValue,
+  };
 
   if (!newMessage.value) {
     event.preventDefault();
@@ -47,7 +53,7 @@ const handleSubmit = async (
   } catch (error) {
     window.location.reload();
   } finally {
-    newMessage.value = '';
+    newMessageValue = '';
     event.preventDefault();
   }
 };
@@ -75,7 +81,7 @@ const MessageForm = ({
           label='Emoji...'
           variant='outlined'
           onChange={(event) => {
-            newMessage.value = event.target.value;
+            newMessageValue = event.target.value;
           }}
           className='app-message-form__input'
         />

@@ -1,5 +1,5 @@
-import { AuthStateUser } from './AuthStateUser';
+import AuthStateUser from './AuthStateUser';
 
-export interface MessageListProps {
+export default interface MessageListProps {
   user: AuthStateUser;
 }

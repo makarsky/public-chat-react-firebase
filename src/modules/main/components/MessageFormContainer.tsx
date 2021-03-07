@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { MessageFormContainerProps } from '../interfaces/MessageFormContainerProps';
+import MessageFormContainerProps from '../interfaces/MessageFormContainerProps';
 import MessageForm from './MessageForm';
 
 const timeoutInSeconds = 10;
