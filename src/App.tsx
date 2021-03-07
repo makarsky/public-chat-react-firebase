@@ -80,31 +80,29 @@ const App = (): any => {
         firebase={firebase}
       >
         <IfFirebaseAuthed>
-          {({ user }: AuthState) => {
-            console.log('IfFirebaseAuthed');
-            return (
-              <FirestoreProvider
-                // eslint-disable-next-line react/jsx-props-no-spreading
-                {...config}
-                firebase={firebase}
-              >
-                <MessageList user={user} />
-
-                <FirestoreDocument path={`/users/${user.uid}`}>
-                  {({ value, isLoading }) => {
-                    return isLoading === false ? (
+          {({ user }: AuthState) => (
+            <FirestoreProvider
+              // eslint-disable-next-line react/jsx-props-no-spreading
+              {...config}
+              firebase={firebase}
+            >
+              <FirestoreDocument path={`/users/${user.uid}`}>
+                {({ value, isLoading }) => {
+                  return isLoading === false ? (
+                    <>
+                      <MessageList user={user} />
                       <MessageFormContainer
                         userUid={user.uid}
                         userData={value}
                       />
-                    ) : (
-                      'Loading user info...'
-                    );
-                  }}
-                </FirestoreDocument>
-              </FirestoreProvider>
-            );
-          }}
+                    </>
+                  ) : (
+                    'Loading user info...'
+                  );
+                }}
+              </FirestoreDocument>
+            </FirestoreProvider>
+          )}
         </IfFirebaseAuthed>
       </FirebaseAuthProvider>
     </div>
