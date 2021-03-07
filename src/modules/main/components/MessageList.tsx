@@ -24,7 +24,6 @@ const MessageList = ({ user }: MessageListProps) => {
       orderBy={[{ field: 'timestamp', type: 'asc' }]}
     >
       {(collection) => {
-        console.log(collection);
         return (
           <div className='app-message-list-container'>
             <div ref={chatContainer}>
