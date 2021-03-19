@@ -10,37 +10,67 @@ import LayersIcon from '@material-ui/icons/Layers';
 
 export const mainListItems = (
   <div>
-    <ListItem button>
+    <ListItem
+      button
+      component='a'
+      href='https://www.instagram.com/igor_makarsky'
+      target='_blank'
+    >
       <ListItemIcon>
         <InstagramIcon />
       </ListItemIcon>
       <ListItemText primary='Instagram' />
     </ListItem>
-    <ListItem button>
+    <ListItem
+      button
+      component='a'
+      href='https://www.facebook.com/profile.php?id=100017176034290'
+      target='_blank'
+    >
       <ListItemIcon>
         <FacebookIcon />
       </ListItemIcon>
       <ListItemText primary='Facebook' />
     </ListItem>
-    <ListItem button>
+    <ListItem
+      button
+      component='a'
+      href='https://www.sololearn.com/profile/779917?ref=app'
+      target='_blank'
+    >
       <ListItemIcon>
         <FilterVintageIcon />
       </ListItemIcon>
       <ListItemText primary='SoloLearn' />
     </ListItem>
-    <ListItem button href='https://github.com/makarsky'>
+    <ListItem
+      button
+      component='a'
+      href='https://github.com/makarsky'
+      target='_blank'
+    >
       <ListItemIcon>
         <GitHubIcon />
       </ListItemIcon>
       <ListItemText primary='GitHub' />
     </ListItem>
-    <ListItem button>
+    <ListItem
+      button
+      component='a'
+      href='https://linktr.ee/makarskyy'
+      target='_blank'
+    >
       <ListItemIcon>
         <LayersIcon />
       </ListItemIcon>
       <ListItemText primary='Linktree' />
     </ListItem>
-    <ListItem button>
+    <ListItem
+      button
+      component='a'
+      href='https://github.com/makarsky'
+      target='_blank'
+    >
       <ListItemIcon>
         <GitHubIcon />
       </ListItemIcon>
