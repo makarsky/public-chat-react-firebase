@@ -28,7 +28,7 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary='SoloLearn' />
     </ListItem>
-    <ListItem button>
+    <ListItem button href='https://github.com/makarsky'>
       <ListItemIcon>
         <GitHubIcon />
       </ListItemIcon>
@@ -39,6 +39,12 @@ export const mainListItems = (
         <LayersIcon />
       </ListItemIcon>
       <ListItemText primary='Linktree' />
+    </ListItem>
+    <ListItem button>
+      <ListItemIcon>
+        <GitHubIcon />
+      </ListItemIcon>
+      <ListItemText primary='Source Code' />
     </ListItem>
   </div>
 );
