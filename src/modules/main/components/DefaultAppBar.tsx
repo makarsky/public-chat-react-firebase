@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, FunctionComponent } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -12,7 +12,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import Box from '@material-ui/core/Box';
 import { mainListItems } from './drawerListItems';
 
-const DefaultAppBar: React.FunctionComponent = () => {
+const DefaultAppBar: FunctionComponent = () => {
   const [open, setOpen] = useState(false);
   const handleDrawerOpen = () => {
     setOpen(true);
