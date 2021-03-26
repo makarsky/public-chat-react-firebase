@@ -34,6 +34,7 @@
 
 .app-message-list-item {
   max-width: 80%;
+  display: inline-block
 }
 
 .app-message-list-item .app-message-list-item__content {
@@ -42,10 +43,9 @@
 }
 
 .app-message-list-item-container {
-  display: flex;
   margin: 12px;
 }
 
 .app-message-list-item-container--personal {
-  justify-content: end;
+  text-align: end;
 }
