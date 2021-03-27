@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, FunctionComponent } from 'react';
 import MessageFormContainerProps from '../interfaces/MessageFormContainerProps';
 import MessageForm from './MessageForm';
 
 const timeoutInSeconds = 10;
+
+let interval: NodeJS.Timeout;
 
 const isCoolDownActive = (lastAccessDate: Date) => {
   const allowedDate = new Date();
@@ -16,24 +18,24 @@ const getCoolDownSeconds = (lastAccessDate: Date) => {
   return Math.ceil((lastAccessDate.getTime() - allowedDate.getTime()) / 1000);
 };
 
-const MessageFormContainer = ({
-  userUid,
-  userData,
-}: MessageFormContainerProps): any => {
+const MessageFormContainer: FunctionComponent<MessageFormContainerProps> = ({
+  user,
+  rateLimit,
+  isLoading,
+}: MessageFormContainerProps) => {
   const [seconds, setSeconds] = useState(0);
 
   useEffect(() => {
     if (
-      userData &&
-      userData.rateLimit.lastMessage &&
-      isCoolDownActive(userData.rateLimit.lastMessage.toDate())
+      rateLimit &&
+      rateLimit.lastMessage &&
+      isCoolDownActive(rateLimit.lastMessage.toDate())
     ) {
-      setSeconds(getCoolDownSeconds(userData.rateLimit.lastMessage.toDate()));
+      setSeconds(getCoolDownSeconds(rateLimit.lastMessage.toDate()));
     }
-  }, [userData]);
+  }, [rateLimit]);
 
   useEffect(() => {
-    let interval: any = null;
     if (seconds !== 0) {
       interval = setInterval(() => {
         setSeconds(seconds - 1);
@@ -47,9 +49,10 @@ const MessageFormContainer = ({
   return (
     <MessageForm
       key={seconds}
-      userUid={userUid}
+      userUid={user.uid}
       seconds={seconds}
       setTimerSeconds={setSeconds}
+      isLoading={isLoading}
     />
   );
 };
