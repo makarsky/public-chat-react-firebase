@@ -1,46 +1,56 @@
-import React, { useRef } from 'react';
-import { FirestoreCollection } from '@react-firebase/firestore';
-import Message from '../interfaces/Message';
+import React, {
+  useRef,
+  useEffect,
+  FunctionComponent,
+  MutableRefObject,
+} from 'react';
+import { useCollectionData } from 'react-firebase-hooks/firestore';
+import Box from '@material-ui/core/Box';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import firebaseProvider from '../../../firebase';
 import MessageListItem from './MessageListItem';
 import MessageListProps from '../interfaces/MessageListProps';
 
-const collectionPath = 'messages';
+const MessageList: FunctionComponent<MessageListProps> = ({
+  user,
+}: MessageListProps) => {
+  const messagesRef = firebaseProvider.firestore.collection('messages');
+  const query = messagesRef.orderBy('timestamp', 'desc').limit(15);
 
-const MessageList = ({ user }: MessageListProps) => {
-  const chatContainer = useRef<HTMLInputElement>(null);
+  const [messages, isLoading] = useCollectionData(query, { idField: 'id' });
 
-  const scrollToMyRef = () => {
-    console.log(chatContainer);
-    // if (chatContainer !== null) {
-    //   const scroll =
-    //     chatContainer?.current.scrollHeight - chatContainer.current.clientHeight;
-    //   chatContainer.current.scrollTo(0, scroll);
-    // }
-  };
+  const chatRef = useRef() as MutableRefObject<HTMLDivElement>;
+
+  useEffect(() => {
+    chatRef?.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+  }, [messages]);
 
   return (
-    <FirestoreCollection
-      path={collectionPath}
-      orderBy={[{ field: 'timestamp', type: 'asc' }]}
-    >
-      {(collection) => {
-        return (
-          <div className='app-message-list-container'>
-            <div ref={chatContainer}>
-              {collection.value &&
-                collection.value.map((item: Message, index: number) => (
-                  <MessageListItem
-                    message={item}
-                    user={user}
-                    key={collection.ids[index]}
-                  />
-                ))}
-            </div>
-            {collection.isLoading && <div>Loading messages...</div>}
-          </div>
-        );
-      }}
-    </FirestoreCollection>
+    <div className='app-message-list-container'>
+      <div>
+        {messages &&
+          messages
+            .reverse()
+            .map((item: any, index: number) => (
+              <MessageListItem
+                message={item}
+                user={user}
+                key={messages[index].id}
+              />
+            ))}
+        <span ref={chatRef} />
+      </div>
+      {isLoading && (
+        <Box
+          display='flex'
+          justifyContent='center'
+          alignItems='center'
+          height='100%'
+        >
+          <CircularProgress color='inherit' />
+        </Box>
+      )}
+    </div>
   );
 };
 

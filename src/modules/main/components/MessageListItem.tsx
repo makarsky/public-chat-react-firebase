@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import { MessageListItemProps } from '../interfaces/MessageListItemProps';
 
-const MessageListItem = ({ message, user }: MessageListItemProps) => (
+const MessageListItem: FunctionComponent<MessageListItemProps> = ({
+  message,
+  user,
+}: MessageListItemProps) => (
   <div
     className={`app-message-list-item-container${
       user.uid === message.userUid
@@ -19,8 +22,9 @@ const MessageListItem = ({ message, user }: MessageListItemProps) => (
           {message.value}
         </Typography>
         <Typography color='textSecondary' variant='caption'>
-          {message.timestamp &&
-            new Date(message.timestamp.seconds * 1000).toLocaleDateString()}
+          {message.timestamp
+            ? new Date(message.timestamp.seconds * 1000).toLocaleTimeString()
+            : new Date().toLocaleDateString()}
         </Typography>
       </CardContent>
     </Card>
