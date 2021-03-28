@@ -19,14 +19,25 @@ const MessageList: FunctionComponent<MessageListProps> = ({
 
   const [messages, isLoading] = useCollectionData(query, { idField: 'id' });
 
+  const chatBottomRef = useRef() as MutableRefObject<HTMLSpanElement>;
   const chatRef = useRef() as MutableRefObject<HTMLDivElement>;
 
   useEffect(() => {
-    chatRef?.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    if (
+      chatRef?.current?.scrollHeight - chatRef?.current?.scrollTop <
+      chatRef?.current?.clientHeight + chatRef?.current?.clientHeight / 2
+    ) {
+      chatBottomRef?.current?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'end',
+      });
+    } else {
+      // show tooltip "New messages" (clicking on it will scroll down)
+    }
   }, [messages]);
 
   return (
-    <div className='app-message-list-container'>
+    <div className='app-message-list-container' ref={chatRef}>
       <div>
         {messages &&
           messages
@@ -38,7 +49,7 @@ const MessageList: FunctionComponent<MessageListProps> = ({
                 key={messages[index].id}
               />
             ))}
-        <span ref={chatRef} />
+        <span ref={chatBottomRef} />
       </div>
       {isLoading && (
         <Box
