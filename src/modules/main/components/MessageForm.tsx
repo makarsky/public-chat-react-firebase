@@ -1,24 +1,23 @@
-import React, { FunctionComponent } from 'react';
+import React, { useState, FunctionComponent } from 'react';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
-import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import SendIcon from '@material-ui/icons/Send';
 import firebaseProvider from '../../../firebase';
 import MessageFormProps from '../interfaces/MessageFormProps';
 import Message from '../interfaces/Message';
-
-let newMessageValue = '';
+import SendMessageButton from './SendMessageButton';
 
 const handleSubmit = async (
   event: React.FormEvent<HTMLFormElement>,
   userUid: string,
-  setTimerSeconds: React.Dispatch<React.SetStateAction<number>>,
+  setLastMessageDate: React.Dispatch<React.SetStateAction<Date>>,
+  setMessage: React.Dispatch<React.SetStateAction<string>>,
+  message: string,
 ) => {
   const newMessage: Message = {
     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     userUid,
-    value: newMessageValue,
+    value: message,
   };
 
   if (!newMessage.value) {
@@ -38,45 +37,55 @@ const handleSubmit = async (
 
   try {
     batch.commit();
-    setTimerSeconds(10);
+    setLastMessageDate(new Date());
+    setMessage('');
   } catch (error) {
     window.location.reload();
   } finally {
-    newMessageValue = '';
     event.preventDefault();
   }
 };
 
+const getDefaultLastSubmissionDate = () => {
+  const d = new Date();
+  d.setFullYear(d.getFullYear() - 1);
+  return d;
+};
+
 const MessageForm: FunctionComponent<MessageFormProps> = ({
   userUid,
-  seconds,
-  setTimerSeconds,
   isLoading,
-}: MessageFormProps) => (
-  <form
-    className='app-message-form'
-    onSubmit={(event) => handleSubmit(event, userUid, setTimerSeconds)}
-    noValidate
-    autoComplete='off'
-  >
-    <TextField
-      label='Emoji...'
-      variant='outlined'
-      onChange={(event) => {
-        newMessageValue = event.target.value;
-      }}
-      className='app-message-form__input'
-    />
-    <Button
-      variant='contained'
-      color='primary'
-      type='submit'
-      data-testid='send-message'
-      disabled={isLoading || seconds !== 0}
+  rateLimit,
+}: MessageFormProps) => {
+  const [lastMessageDate, setLastMessageDate] = useState(
+    rateLimit?.lastMessage
+      ? rateLimit.lastMessage.toDate()
+      : getDefaultLastSubmissionDate(),
+  );
+  const [message, setMessage] = useState('');
+
+  return (
+    <form
+      className='app-message-form'
+      onSubmit={(event) =>
+        handleSubmit(event, userUid, setLastMessageDate, setMessage, message)
+      }
+      noValidate
+      autoComplete='off'
     >
-      {seconds > 0 ? seconds : <SendIcon />}
-    </Button>
-  </form>
-);
+      <TextField
+        label='Emoji...'
+        variant='outlined'
+        onChange={(event) => setMessage(event.target.value)}
+        className='app-message-form__input'
+        value={message}
+      />
+      <SendMessageButton
+        isDisabled={isLoading}
+        lastMessageDate={lastMessageDate}
+      />
+    </form>
+  );
+};
 
 export default MessageForm;
