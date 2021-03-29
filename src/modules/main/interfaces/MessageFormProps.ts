@@ -1,8 +1,8 @@
 import React from 'react';
+import RateLimit from './RateLimit';
 
 export default interface MessageFormProps {
   userUid: string;
-  seconds: number;
-  setTimerSeconds: React.Dispatch<React.SetStateAction<number>>;
   isLoading: boolean;
+  rateLimit: RateLimit;
 }

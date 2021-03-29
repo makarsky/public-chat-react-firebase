@@ -1,6 +1,6 @@
-import React, { useEffect, useState, FunctionComponent } from 'react';
-import MessageFormContainerProps from '../interfaces/MessageFormContainerProps';
-import MessageForm from './MessageForm';
+import React, { FunctionComponent, useState, useEffect } from 'react';
+import Button from '@material-ui/core/Button';
+import SendIcon from '@material-ui/icons/Send';
 
 const timeoutInSeconds = 10;
 
@@ -18,22 +18,22 @@ const getCoolDownSeconds = (lastAccessDate: Date) => {
   return Math.ceil((lastAccessDate.getTime() - allowedDate.getTime()) / 1000);
 };
 
-const MessageFormContainer: FunctionComponent<MessageFormContainerProps> = ({
-  user,
-  rateLimit,
-  isLoading,
-}: MessageFormContainerProps) => {
+interface SendMessageButtonProps {
+  isDisabled: boolean;
+  lastMessageDate: Date;
+}
+
+const SendMessageButton: FunctionComponent<SendMessageButtonProps> = ({
+  isDisabled,
+  lastMessageDate,
+}: SendMessageButtonProps) => {
   const [seconds, setSeconds] = useState(0);
 
   useEffect(() => {
-    if (
-      rateLimit &&
-      rateLimit.lastMessage &&
-      isCoolDownActive(rateLimit.lastMessage.toDate())
-    ) {
-      setSeconds(getCoolDownSeconds(rateLimit.lastMessage.toDate()));
+    if (isCoolDownActive(lastMessageDate)) {
+      setSeconds(getCoolDownSeconds(lastMessageDate));
     }
-  }, [rateLimit]);
+  }, [lastMessageDate]);
 
   useEffect(() => {
     if (seconds !== 0) {
@@ -47,14 +47,16 @@ const MessageFormContainer: FunctionComponent<MessageFormContainerProps> = ({
   }, [seconds]);
 
   return (
-    <MessageForm
-      key={seconds}
-      userUid={user.uid}
-      seconds={seconds}
-      setTimerSeconds={setSeconds}
-      isLoading={isLoading}
-    />
+    <Button
+      variant='contained'
+      color='primary'
+      type='submit'
+      data-testid='send-message'
+      disabled={isDisabled || seconds !== 0}
+    >
+      {seconds > 0 ? seconds : <SendIcon />}
+    </Button>
   );
 };
 
-export default MessageFormContainer;
+export default SendMessageButton;
