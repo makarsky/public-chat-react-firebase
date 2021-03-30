@@ -36,6 +36,13 @@ const MessageList: FunctionComponent<MessageListProps> = ({
     }
   }, [messages]);
 
+  useEffect(() => {
+    chatBottomRef?.current?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'end',
+    });
+  });
+
   return (
     <div className='app-message-list-container' ref={chatRef}>
       <div>
