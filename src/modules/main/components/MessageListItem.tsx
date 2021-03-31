@@ -1,4 +1,5 @@
 import React, { FunctionComponent } from 'react';
+import { format } from 'timeago.js';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
@@ -23,8 +24,8 @@ const MessageListItem: FunctionComponent<MessageListItemProps> = ({
         </Typography>
         <Typography color='textSecondary' variant='caption'>
           {message.timestamp
-            ? new Date(message.timestamp.seconds * 1000).toLocaleTimeString()
-            : new Date().toLocaleDateString()}
+            ? format(message.timestamp.seconds * 1000)
+            : format(Date.now())}
         </Typography>
       </CardContent>
     </Card>
