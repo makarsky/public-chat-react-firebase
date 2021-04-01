@@ -22,7 +22,12 @@ const MessageListItem: FunctionComponent<MessageListItemProps> = ({
         <Typography variant='body2' component='p'>
           {message.value}
         </Typography>
-        <Typography color='textSecondary' variant='caption'>
+        <Typography
+          color='textSecondary'
+          variant='caption'
+          component='p'
+          align='right'
+        >
           {message.timestamp
             ? format(message.timestamp.seconds * 1000)
             : format(Date.now())}
