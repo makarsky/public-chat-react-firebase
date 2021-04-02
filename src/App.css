@@ -1,6 +1,4 @@
 .app {
-  display: flex;
-  flex-direction: column;
   height: 100vh;
   width: 100vw;
 }
@@ -27,6 +25,7 @@
 }
 
 .app-message-list-container {
+  position: relative;
   overflow-y: auto;
   flex-grow: 1;
   background-color: aliceblue;

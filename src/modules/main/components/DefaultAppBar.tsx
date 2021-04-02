@@ -42,11 +42,11 @@ const DefaultAppBar: FunctionComponent = () => {
         </Toolbar>
       </AppBar>
       <Drawer open={open} className='app-drawer' onClose={handleDrawerClose}>
-        <div className='app-drawer-close-icon'>
+        <Box className='app-drawer-close-icon'>
           <IconButton onClick={handleDrawerClose}>
             <ChevronLeftIcon />
           </IconButton>
-        </div>
+        </Box>
         <Divider />
         <Box color='inherit' clone p={2}>
           <Typography component='h1' variant='h6' color='inherit'>

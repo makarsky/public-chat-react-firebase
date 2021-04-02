@@ -1,4 +1,5 @@
 import React, { FunctionComponent } from 'react';
+import { Box } from '@material-ui/core';
 import DefaultAppBar from '../components/DefaultAppBar';
 import MessageList from '../components/MessageList';
 import DefaultLayoutProps from '../interfaces/DefaultLayoutProps';
@@ -9,7 +10,7 @@ import MessageForm from '../components/MessageForm';
 const DefaultLayout: FunctionComponent<DefaultLayoutProps> = ({
   user,
 }: DefaultLayoutProps) => (
-  <div className='app'>
+  <Box display='flex' flexDirection='column' className='app'>
     <DefaultAppBar />
     <MessageList user={user} />
     <RateLimitProvider
@@ -22,7 +23,7 @@ const DefaultLayout: FunctionComponent<DefaultLayoutProps> = ({
         />
       )}
     />
-  </div>
+  </Box>
 );
 
 export default DefaultLayout;
