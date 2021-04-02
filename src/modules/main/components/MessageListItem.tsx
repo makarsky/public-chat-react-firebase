@@ -3,13 +3,14 @@ import { format } from 'timeago.js';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import { Box } from '@material-ui/core';
 import { MessageListItemProps } from '../interfaces/MessageListItemProps';
 
 const MessageListItem: FunctionComponent<MessageListItemProps> = ({
   message,
   user,
 }: MessageListItemProps) => (
-  <div
+  <Box
     className={`app-message-list-item-container${
       user.uid === message.userUid
         ? ' app-message-list-item-container--personal'
@@ -34,7 +35,7 @@ const MessageListItem: FunctionComponent<MessageListItemProps> = ({
         </Typography>
       </CardContent>
     </Card>
-  </div>
+  </Box>
 );
 
 export default MessageListItem;

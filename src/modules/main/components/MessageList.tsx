@@ -18,6 +18,7 @@ const MessageList: FunctionComponent<MessageListProps> = ({
   const query = messagesRef.orderBy('timestamp', 'desc').limit(15);
 
   const [messages, isLoading] = useCollectionData(query, { idField: 'id' });
+  console.log(messages);
 
   const chatBottomRef = useRef() as MutableRefObject<HTMLSpanElement>;
   const chatRef = useRef() as MutableRefObject<HTMLDivElement>;
@@ -45,7 +46,7 @@ const MessageList: FunctionComponent<MessageListProps> = ({
 
   return (
     <div className='app-message-list-container' ref={chatRef}>
-      <div>
+      <Box>
         {messages &&
           messages
             .reverse()
@@ -57,7 +58,7 @@ const MessageList: FunctionComponent<MessageListProps> = ({
               />
             ))}
         <span ref={chatBottomRef} />
-      </div>
+      </Box>
       {isLoading && (
         <Box
           display='flex'
