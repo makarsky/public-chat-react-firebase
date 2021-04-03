@@ -16,7 +16,11 @@ const DefaultLayout: FunctionComponent<DefaultLayoutProps> = ({
     <DefaultAppBar />
     <MessageCollectionProvider
       renderChildren={(messages: Data[] | undefined, isLoading: boolean) => (
-        <MessageList user={user} messages={messages} isLoading={isLoading} />
+        <MessageList
+          user={user}
+          messages={messages || []}
+          isLoading={isLoading}
+        />
       )}
     />
     <RateLimitProvider

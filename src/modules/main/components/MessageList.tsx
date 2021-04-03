@@ -1,6 +1,7 @@
 import React, {
   useRef,
   useEffect,
+  useState,
   FunctionComponent,
   MutableRefObject,
 } from 'react';
@@ -11,6 +12,8 @@ import MessageListItem from './MessageListItem';
 import MessageListProps from '../interfaces/MessageListProps';
 import PinnedMessage from './PinnedMessage';
 
+const cachedMessages: Data[] = [];
+
 const MessageList: FunctionComponent<MessageListProps> = ({
   user,
   messages,
@@ -18,8 +21,17 @@ const MessageList: FunctionComponent<MessageListProps> = ({
 }: MessageListProps) => {
   const chatBottomRef = useRef() as MutableRefObject<HTMLSpanElement>;
   const chatRef = useRef() as MutableRefObject<HTMLDivElement>;
+  const [, setTimestamp] = useState(0);
 
   useEffect(() => {
+    const newMessages = messages.filter(
+      (message) =>
+        !cachedMessages.find(
+          (cachedMessage) => cachedMessage.id === message.id,
+        ),
+    );
+    cachedMessages.push(...newMessages);
+    setTimestamp((v) => v + 1);
     if (
       chatRef?.current?.scrollHeight - chatRef?.current?.scrollTop <
       chatRef?.current?.clientHeight + chatRef?.current?.clientHeight / 2
@@ -44,12 +56,12 @@ const MessageList: FunctionComponent<MessageListProps> = ({
     <div className='app-message-list-container' ref={chatRef}>
       <PinnedMessage />
       <Box>
-        {messages &&
-          messages.map((item: Data, index: number) => (
+        {cachedMessages &&
+          cachedMessages.map((item: Data, index: number) => (
             <MessageListItem
               message={item}
               user={user}
-              key={messages[index].id}
+              key={cachedMessages[index].id}
             />
           ))}
         <span ref={chatBottomRef} />
