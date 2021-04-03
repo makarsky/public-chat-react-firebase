@@ -48,3 +48,8 @@
 .app-message-list-item-container--personal {
   text-align: end;
 }
+
+.pinned-message {
+  opacity: 0.9;
+  color: #bdbdbd;
+}
