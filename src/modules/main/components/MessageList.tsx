@@ -4,23 +4,18 @@ import React, {
   FunctionComponent,
   MutableRefObject,
 } from 'react';
-import { useCollectionData } from 'react-firebase-hooks/firestore';
 import Box from '@material-ui/core/Box';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import firebaseProvider from '../../../firebase';
+import { Data } from 'react-firebase-hooks/firestore/dist/firestore/types';
 import MessageListItem from './MessageListItem';
 import MessageListProps from '../interfaces/MessageListProps';
 import PinnedMessage from './PinnedMessage';
 
 const MessageList: FunctionComponent<MessageListProps> = ({
   user,
+  messages,
+  isLoading,
 }: MessageListProps) => {
-  const messagesRef = firebaseProvider.firestore.collection('messages');
-  const query = messagesRef.orderBy('timestamp', 'desc').limit(15);
-
-  const [messages, isLoading] = useCollectionData(query, { idField: 'id' });
-  console.log(messages);
-
   const chatBottomRef = useRef() as MutableRefObject<HTMLSpanElement>;
   const chatRef = useRef() as MutableRefObject<HTMLDivElement>;
 
@@ -50,15 +45,13 @@ const MessageList: FunctionComponent<MessageListProps> = ({
       <PinnedMessage />
       <Box>
         {messages &&
-          messages
-            .reverse()
-            .map((item: any, index: number) => (
-              <MessageListItem
-                message={item}
-                user={user}
-                key={messages[index].id}
-              />
-            ))}
+          messages.map((item: Data, index: number) => (
+            <MessageListItem
+              message={item}
+              user={user}
+              key={messages[index].id}
+            />
+          ))}
         <span ref={chatBottomRef} />
       </Box>
       {isLoading && (
