@@ -10,6 +10,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import firebaseProvider from '../../../firebase';
 import MessageListItem from './MessageListItem';
 import MessageListProps from '../interfaces/MessageListProps';
+import PinnedMessage from './PinnedMessage';
 
 const MessageList: FunctionComponent<MessageListProps> = ({
   user,
@@ -46,6 +47,7 @@ const MessageList: FunctionComponent<MessageListProps> = ({
 
   return (
     <div className='app-message-list-container' ref={chatRef}>
+      <PinnedMessage />
       <Box>
         {messages &&
           messages
