@@ -28,7 +28,7 @@
   position: relative;
   overflow-y: auto;
   flex-grow: 1;
-  background-color: aliceblue;
+  background-color: #e8eaf6;
 }
 
 .app-message-list-item {
