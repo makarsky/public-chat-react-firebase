@@ -10,14 +10,7 @@ const MessageListItem: FunctionComponent<MessageListItemProps> = ({
   message,
   user,
 }: MessageListItemProps) => (
-  <Box
-    className={`app-message-list-item-container${
-      user.uid === message.userUid
-        ? ' app-message-list-item-container--personal'
-        : ''
-    }
-    `}
-  >
+  <Box m={1} textAlign={user.uid === message.userUid ? 'right' : 'left'}>
     <Card className='app-message-list-item'>
       <CardContent className='app-message-list-item__content'>
         <Typography variant='body2' component='p'>
