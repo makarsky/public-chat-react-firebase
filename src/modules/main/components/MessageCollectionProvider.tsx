@@ -4,7 +4,7 @@ import { Data } from 'react-firebase-hooks/firestore/dist/firestore/types';
 import firebaseProvider from '../../../firebase';
 
 interface RenderMessageCollectionProviderChildren {
-  (messages: Data[] | undefined, isLoading: boolean): JSX.Element;
+  (messages: Data[], isLoading: boolean): JSX.Element;
 }
 
 interface MessageCollectionProviderProps {
@@ -20,7 +20,7 @@ const MessageCollectionProvider: FunctionComponent<MessageCollectionProviderProp
   const [messages, isLoading] = useCollectionData(query, { idField: 'id' });
   console.log(messages);
 
-  return <>{renderChildren(messages?.reverse(), isLoading)}</>;
+  return <>{renderChildren(messages?.reverse() || [], isLoading)}</>;
 };
 
 export default MessageCollectionProvider;

@@ -4,5 +4,5 @@ import User from './User';
 export default interface MessageListProps {
   user: User;
   messages: Data[];
-  isLoading: Boolean;
+  afterMessageListIsRenderedCallback: () => void;
 }

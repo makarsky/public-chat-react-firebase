@@ -33,7 +33,7 @@
 
 .app-message-list-item {
   max-width: 80%;
-  display: inline-block
+  display: inline-block;
 }
 
 .app-message-list-item .app-message-list-item__content {
