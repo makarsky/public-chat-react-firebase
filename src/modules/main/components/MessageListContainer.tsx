@@ -1,9 +1,4 @@
-import React, {
-  useRef,
-  useState,
-  FunctionComponent,
-  MutableRefObject,
-} from 'react';
+import React, { useRef, FunctionComponent, MutableRefObject } from 'react';
 import Box from '@material-ui/core/Box';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Data } from 'react-firebase-hooks/firestore/dist/firestore/types';
@@ -18,9 +13,6 @@ const MessageListContainer: FunctionComponent<DefaultLayoutProps> = ({
 }: DefaultLayoutProps) => {
   const chatBottomRef = useRef() as MutableRefObject<HTMLSpanElement>;
   const chatRef = useRef() as MutableRefObject<HTMLDivElement>;
-  const [isFirstCollectionRendered, setIsFirstCollectionRendered] = useState(
-    false,
-  );
 
   const scrollDown = () => {
     chatBottomRef?.current?.scrollIntoView({
@@ -30,11 +22,7 @@ const MessageListContainer: FunctionComponent<DefaultLayoutProps> = ({
   };
 
   const onNewMessage = () => {
-    if (!isFirstCollectionRendered) {
-      // This is the initial scroll.
-      scrollDown();
-      setIsFirstCollectionRendered(true);
-    } else if (
+    if (
       chatRef?.current?.scrollHeight - chatRef?.current?.scrollTop <
       chatRef?.current?.clientHeight + chatRef?.current?.clientHeight / 2
     ) {
@@ -45,27 +33,27 @@ const MessageListContainer: FunctionComponent<DefaultLayoutProps> = ({
   };
 
   return (
-    <div className='app-message-list-container' ref={chatRef}>
+    <div className='app-message-list-container' ref={chatRef} key='ytv'>
       <PinnedMessage />
       <MessageCollectionProvider
         renderChildren={(messages: Data[], isLoading: boolean) => (
           <>
-            <Box>
-              <CachedMessageCollectionProvider
-                messages={messages || []}
-                renderChildren={(cachedMessages: Data[]) => (
-                  <>
-                    {cachedMessages.length && (
-                      <MessageList
-                        user={user}
-                        messages={cachedMessages}
-                        afterMessageListIsRenderedCallback={onNewMessage}
-                      />
-                    )}
-                  </>
-                )}
-              />
-            </Box>
+            {!isLoading && (
+              <Box>
+                <CachedMessageCollectionProvider
+                  messages={messages || []}
+                  afterCachedMessagesAreRenderedCallback={onNewMessage}
+                  onFirstRenderingCallback={scrollDown}
+                  renderChildren={(cachedMessages: Data[]) => (
+                    <>
+                      {cachedMessages.length > 1 && (
+                        <MessageList user={user} messages={cachedMessages} />
+                      )}
+                    </>
+                  )}
+                />
+              </Box>
+            )}
             {isLoading && (
               <Box
                 display='flex'

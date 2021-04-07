@@ -1,4 +1,4 @@
-import React, { useEffect, useState, FunctionComponent } from 'react';
+import React, { useEffect, FunctionComponent } from 'react';
 import { Data } from 'react-firebase-hooks/firestore/dist/firestore/types';
 import CachedMessageCollectionProviderProps from '../interfaces/CachedMessageCollectionProviderProps';
 
@@ -7,20 +7,26 @@ const cachedMessages: Data[] = [];
 const CachedMessageCollectionProvider: FunctionComponent<CachedMessageCollectionProviderProps> = ({
   messages,
   renderChildren,
+  afterCachedMessagesAreRenderedCallback,
+  onFirstRenderingCallback,
 }: CachedMessageCollectionProviderProps) => {
-  const [, setHash] = useState(0);
+  const newMessages = messages.filter(
+    (message) =>
+      message.timestamp &&
+      !cachedMessages.find((cachedMessage) => cachedMessage.id === message.id),
+  );
+  cachedMessages.push(...newMessages);
 
   useEffect(() => {
-    const newMessages = messages.filter(
-      (message) =>
-        message.timestamp &&
-        !cachedMessages.find(
-          (cachedMessage) => cachedMessage.id === message.id,
-        ),
-    );
-    cachedMessages.push(...newMessages);
-    setHash((v) => v + 1);
-  }, [messages]);
+    if (
+      cachedMessages.length === messages.length &&
+      messages[messages.length - 1].timestamp
+    ) {
+      onFirstRenderingCallback();
+    } else if (messages[messages.length - 1].timestamp) {
+      afterCachedMessagesAreRenderedCallback();
+    }
+  });
 
   return <>{renderChildren(cachedMessages)}</>;
 };
