@@ -1,11 +1,15 @@
 import React, { FunctionComponent } from 'react';
 import { Box } from '@material-ui/core';
 import DefaultAppBar from '../components/DefaultAppBar';
-import DefaultLayoutProps from '../interfaces/DefaultLayoutProps';
 import RateLimitProvider from '../components/RateLimitProvider';
 import RateLimit from '../interfaces/RateLimit';
 import MessageForm from '../components/MessageForm';
 import MessageListContainer from '../components/MessageListContainer';
+import User from '../interfaces/User';
+
+interface DefaultLayoutProps {
+  user: User;
+}
 
 const DefaultLayout: FunctionComponent<DefaultLayoutProps> = ({
   user,

@@ -4,7 +4,7 @@ interface RenderCachedMessageCollectionProviderChildren {
   (cachedMessages: Data[]): JSX.Element;
 }
 
-export default  interface CachedMessageCollectionProviderProps {
+export default interface CachedMessageCollectionProviderProps {
   messages: Data[];
   renderChildren: RenderCachedMessageCollectionProviderChildren;
   afterCachedMessagesAreRenderedCallback: () => void;
