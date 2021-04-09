@@ -6,11 +6,15 @@ import PinnedMessage from './PinnedMessage';
 import MessageCollectionProvider from './MessageCollectionProvider';
 import CachedMessageCollectionProvider from './CachedMessageCollectionProvider';
 import MessageList from './MessageList';
-import DefaultLayoutProps from '../interfaces/DefaultLayoutProps';
+import User from '../interfaces/User';
 
-const MessageListContainer: FunctionComponent<DefaultLayoutProps> = ({
+interface MessageListContainerProps {
+  user: User;
+}
+
+const MessageListContainer: FunctionComponent<MessageListContainerProps> = ({
   user,
-}: DefaultLayoutProps) => {
+}: MessageListContainerProps) => {
   const chatBottomRef = useRef() as MutableRefObject<HTMLSpanElement>;
   const chatRef = useRef() as MutableRefObject<HTMLDivElement>;
 

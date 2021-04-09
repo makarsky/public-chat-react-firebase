@@ -1,11 +1,16 @@
 import React, { useEffect, useState, FunctionComponent } from 'react';
 import { Data } from 'react-firebase-hooks/firestore/dist/firestore/types';
 import MessageListItem from './MessageListItem';
-import MessageListProps from '../interfaces/MessageListProps';
+import User from '../interfaces/User';
 
 const timeoutInSeconds = 15;
 
 let interval: NodeJS.Timeout;
+
+interface MessageListProps {
+  user: User;
+  messages: Data[];
+}
 
 const MessageList: FunctionComponent<MessageListProps> = ({
   user,

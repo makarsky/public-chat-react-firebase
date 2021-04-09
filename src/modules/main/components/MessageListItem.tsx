@@ -1,10 +1,16 @@
 import React, { FunctionComponent } from 'react';
+import { Data } from 'react-firebase-hooks/firestore/dist/firestore/types';
 import { format } from 'timeago.js';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import { Box } from '@material-ui/core';
-import { MessageListItemProps } from '../interfaces/MessageListItemProps';
+import User from '../interfaces/User';
+
+interface MessageListItemProps {
+  message: Data;
+  user: User;
+}
 
 const MessageListItem: FunctionComponent<MessageListItemProps> = ({
   message,

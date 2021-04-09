@@ -3,9 +3,9 @@ import firebase from 'firebase/app';
 import 'firebase/firestore';
 import TextField from '@material-ui/core/TextField';
 import firebaseProvider from '../../../firebase';
-import MessageFormProps from '../interfaces/MessageFormProps';
 import Message from '../interfaces/Message';
 import SendMessageButton from './SendMessageButton';
+import RateLimit from '../interfaces/RateLimit';
 
 const handleSubmit = async (
   event: React.FormEvent<HTMLFormElement>,
@@ -51,6 +51,12 @@ const getDefaultLastSubmissionDate = () => {
   d.setFullYear(d.getFullYear() - 1);
   return d;
 };
+
+interface MessageFormProps {
+  userUid: string;
+  isLoading: boolean;
+  rateLimit: RateLimit;
+}
 
 const MessageForm: FunctionComponent<MessageFormProps> = ({
   userUid,
