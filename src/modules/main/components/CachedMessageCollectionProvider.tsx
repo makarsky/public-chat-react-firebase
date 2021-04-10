@@ -3,20 +3,14 @@ import { Data } from 'react-firebase-hooks/firestore/dist/firestore/types';
 import CachedMessageCollectionProviderProps from '../interfaces/CachedMessageCollectionProviderProps';
 
 const cachedMessages: Data[] = [];
-let areOldMessagesLoaded = false;
 
 const CachedMessageCollectionProvider: FunctionComponent<CachedMessageCollectionProviderProps> = ({
-  oldMessages,
-  freshMessages,
+  messages,
   renderChildren,
   afterCachedMessagesAreRenderedCallback,
   onFirstRenderingCallback,
 }: CachedMessageCollectionProviderProps) => {
-  if (cachedMessages.length === 0) {
-    cachedMessages.push(...oldMessages);
-  }
-
-  const newMessages = freshMessages.filter(
+  const newMessages = messages.filter(
     (message) =>
       message.timestamp &&
       !cachedMessages.find((cachedMessage) => cachedMessage.id === message.id),
@@ -25,12 +19,11 @@ const CachedMessageCollectionProvider: FunctionComponent<CachedMessageCollection
 
   useEffect(() => {
     if (
-      !areOldMessagesLoaded &&
-      freshMessages[freshMessages.length - 1].timestamp
+      cachedMessages.length === messages.length &&
+      messages[messages.length - 1].timestamp
     ) {
-      areOldMessagesLoaded = true;
       onFirstRenderingCallback();
-    } else if (freshMessages[freshMessages.length - 1].timestamp) {
+    } else if (messages[messages.length - 1].timestamp) {
       afterCachedMessagesAreRenderedCallback();
     }
   });
