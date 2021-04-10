@@ -5,7 +5,8 @@ interface RenderCachedMessageCollectionProviderChildren {
 }
 
 export default interface CachedMessageCollectionProviderProps {
-  messages: Data[];
+  oldMessages: Data[];
+  freshMessages: Data[];
   renderChildren: RenderCachedMessageCollectionProviderChildren;
   afterCachedMessagesAreRenderedCallback: () => void;
   onFirstRenderingCallback: () => void;
