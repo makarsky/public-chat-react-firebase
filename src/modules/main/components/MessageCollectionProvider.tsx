@@ -15,7 +15,7 @@ const MessageCollectionProvider: FunctionComponent<MessageCollectionProviderProp
   renderChildren,
 }: MessageCollectionProviderProps) => {
   const messagesRef = firebaseProvider.firestore.collection('messages');
-  const query = messagesRef.orderBy('timestamp', 'desc').limit(15);
+  const query = messagesRef.orderBy('timestamp', 'desc').limit(5);
 
   const [messages, isLoading] = useCollectionData(query, { idField: 'id' });
   console.log(messages);
