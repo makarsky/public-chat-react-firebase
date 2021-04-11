@@ -80,7 +80,7 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
       autoComplete='off'
     >
       <TextField
-        label='Emoji...'
+        label='Message...'
         variant='outlined'
         onChange={(event) => setMessage(event.target.value)}
         fullWidth
