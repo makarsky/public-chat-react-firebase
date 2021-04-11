@@ -85,6 +85,8 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
         onChange={(event) => setMessage(event.target.value)}
         className='app-message-form__input'
         value={message}
+        multiline
+        rowsMax={10}
       />
       <SendMessageButton
         isDisabled={isLoading}
