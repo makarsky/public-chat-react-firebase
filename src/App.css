@@ -21,10 +21,6 @@
   display: flex;
 }
 
-.app-message-form__input {
-  flex-grow: 1;
-}
-
 .app-message-list-container {
   position: relative;
   overflow-y: auto;
