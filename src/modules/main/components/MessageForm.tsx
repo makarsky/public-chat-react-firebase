@@ -17,7 +17,7 @@ const handleSubmit = async (
   const newMessage: Message = {
     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     userUid,
-    value: message,
+    value: message.trim(),
   };
 
   if (!newMessage.value) {

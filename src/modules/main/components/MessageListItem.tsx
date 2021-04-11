@@ -23,9 +23,9 @@ const MessageListItem: FunctionComponent<MessageListItemProps> = ({
   >
     <Card className='app-message-list-item'>
       <CardContent className='app-message-list-item__content'>
-        <Typography variant='body2' component='p'>
+        <Box textAlign='left' whiteSpace='break-spaces'>
           {message.value}
-        </Typography>
+        </Box>
         <Typography
           color='textSecondary'
           variant='caption'
