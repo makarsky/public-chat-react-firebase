@@ -83,7 +83,7 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
         label='Emoji...'
         variant='outlined'
         onChange={(event) => setMessage(event.target.value)}
-        className='app-message-form__input'
+        fullWidth
         value={message}
         multiline
         rowsMax={10}
