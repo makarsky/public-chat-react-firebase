@@ -1,5 +1,11 @@
+interface ShortUserData {
+  uid: string;
+  name: string;
+  color: string;
+}
+
 export default interface Message {
-  userUid: string;
+  userData: ShortUserData;
   value: string;
   timestamp: any;
 }
