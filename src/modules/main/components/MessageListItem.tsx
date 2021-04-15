@@ -19,11 +19,20 @@ const MessageListItem: FunctionComponent<MessageListItemProps> = ({
   <Box
     my={0.5}
     mx={1}
-    textAlign={user.uid === message.userUid ? 'right' : 'left'}
+    textAlign={user.uid === message.userData.uid ? 'right' : 'left'}
   >
     <Card className='app-message-list-item'>
       <CardContent className='app-message-list-item__content'>
-        <Box textAlign='left' whiteSpace='break-spaces'>
+        <Box
+          fontWeight={900}
+          textAlign='left'
+          fontSize={13}
+          mb={0.5}
+          color={message.userData.color}
+        >
+          {message.userData.name}
+        </Box>
+        <Box textAlign='left' whiteSpace='break-spaces' fontSize={15}>
           {message.value}
         </Box>
         <Typography

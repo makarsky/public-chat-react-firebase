@@ -20,10 +20,10 @@ const CachedMessageCollectionProvider: FunctionComponent<CachedMessageCollection
   useEffect(() => {
     if (
       cachedMessages.length === messages.length &&
-      messages[messages.length - 1].timestamp
+      messages[messages.length - 1]?.timestamp
     ) {
       onFirstRenderingCallback();
-    } else if (messages[messages.length - 1].timestamp) {
+    } else if (messages[messages.length - 1]?.timestamp) {
       afterCachedMessagesAreRenderedCallback();
     }
   });

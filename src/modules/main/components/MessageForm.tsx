@@ -1,22 +1,22 @@
-import React, { useState, FunctionComponent } from 'react';
+import React, { useState, useEffect, FunctionComponent } from 'react';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import TextField from '@material-ui/core/TextField';
 import firebaseProvider from '../../../firebase';
 import Message from '../interfaces/Message';
 import SendMessageButton from './SendMessageButton';
-import RateLimit from '../interfaces/RateLimit';
+import UserData from '../interfaces/UserData';
 
 const handleSubmit = async (
   event: React.FormEvent<HTMLFormElement>,
-  userUid: string,
+  userData: UserData,
   setLastMessageDate: React.Dispatch<React.SetStateAction<Date>>,
   setMessage: React.Dispatch<React.SetStateAction<string>>,
   message: string,
 ) => {
   const newMessage: Message = {
     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-    userUid,
+    userData: { uid: userData.uid, name: userData.name, color: userData.color },
     value: message.trim(),
   };
 
@@ -28,10 +28,12 @@ const handleSubmit = async (
   const batch = firebaseProvider.firestore.batch();
 
   batch.set(
-    firebaseProvider.firestore.doc(`messages/${Date.now() + userUid}`),
+    firebaseProvider.firestore.doc(`messages/${Date.now() + userData.uid}`),
     newMessage,
   );
-  batch.set(firebaseProvider.firestore.doc(`users/${userUid}`), {
+  batch.set(firebaseProvider.firestore.doc(`users/${userData.uid}`), {
+    name: userData.name,
+    color: userData.color,
     rateLimit: { lastMessage: newMessage.timestamp },
   });
 
@@ -52,29 +54,35 @@ const getDefaultLastSubmissionDate = () => {
   return d;
 };
 
+const getLastSubmissionDate = (userData: UserData) => {
+  return userData.rateLimit?.lastMessage
+    ? userData.rateLimit.lastMessage.toDate()
+    : getDefaultLastSubmissionDate();
+};
+
 interface MessageFormProps {
-  userUid: string;
+  userData: UserData;
   isLoading: boolean;
-  rateLimit: RateLimit;
 }
 
 const MessageForm: FunctionComponent<MessageFormProps> = ({
-  userUid,
+  userData,
   isLoading,
-  rateLimit,
 }: MessageFormProps) => {
   const [lastMessageDate, setLastMessageDate] = useState(
-    rateLimit?.lastMessage
-      ? rateLimit.lastMessage.toDate()
-      : getDefaultLastSubmissionDate(),
+    getLastSubmissionDate(userData),
   );
   const [message, setMessage] = useState('');
+
+  useEffect(() => setLastMessageDate(getLastSubmissionDate(userData)), [
+    userData,
+  ]);
 
   return (
     <form
       className='app-message-form'
       onSubmit={(event) =>
-        handleSubmit(event, userUid, setLastMessageDate, setMessage, message)
+        handleSubmit(event, userData, setLastMessageDate, setMessage, message)
       }
       noValidate
       autoComplete='off'
