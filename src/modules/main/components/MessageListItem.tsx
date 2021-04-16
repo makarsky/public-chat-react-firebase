@@ -4,7 +4,7 @@ import { format } from 'timeago.js';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import { Box } from '@material-ui/core';
+import { Box, Avatar } from '@material-ui/core';
 import User from '../interfaces/User';
 
 interface MessageListItemProps {
@@ -15,39 +15,59 @@ interface MessageListItemProps {
 const MessageListItem: FunctionComponent<MessageListItemProps> = ({
   message,
   user,
-}: MessageListItemProps) => (
-  <Box
-    my={0.5}
-    mx={1}
-    textAlign={user.uid === message.userData.uid ? 'right' : 'left'}
-  >
-    <Card className='app-message-list-item'>
-      <CardContent className='app-message-list-item__content'>
-        <Box
-          fontWeight={900}
-          textAlign='left'
-          fontSize={13}
-          mb={0.5}
-          color={message.userData.color}
-        >
-          {message.userData.name}
+}: MessageListItemProps) => {
+  const belongsToUser = user.uid === message.userData.uid;
+
+  return (
+    <Box
+      my={0.5}
+      mx={1}
+      textAlign={belongsToUser ? 'right' : 'left'}
+      display='flex'
+    >
+      {!belongsToUser && (
+        <Box mr={1}>
+          <Box height='calc(100% - 40px)' />
+          <Box position='sticky' bottom='0' pb={0.4}>
+            <Avatar
+              alt='Remy Sharp'
+              style={{ backgroundColor: message.userData.color }}
+            >
+              {message.userData.name[0]}
+            </Avatar>
+          </Box>
         </Box>
-        <Box textAlign='left' whiteSpace='break-spaces' fontSize={15}>
-          {message.value}
-        </Box>
-        <Typography
-          color='textSecondary'
-          variant='caption'
-          component='p'
-          align='right'
-        >
-          {message.timestamp
-            ? format(message.timestamp.seconds * 1000)
-            : format(Date.now())}
-        </Typography>
-      </CardContent>
-    </Card>
-  </Box>
-);
+      )}
+      <Box width='100%'>
+        <Card className='app-message-list-item'>
+          <CardContent className='app-message-list-item__content'>
+            <Box
+              fontWeight={900}
+              textAlign='left'
+              fontSize={13}
+              mb={0.5}
+              color={message.userData.color}
+            >
+              {message.userData.name}
+            </Box>
+            <Box textAlign='left' whiteSpace='break-spaces' fontSize={15}>
+              {message.value}
+            </Box>
+            <Typography
+              color='textSecondary'
+              variant='caption'
+              component='p'
+              align='right'
+            >
+              {message.timestamp
+                ? format(message.timestamp.seconds * 1000)
+                : format(Date.now())}
+            </Typography>
+          </CardContent>
+        </Card>
+      </Box>
+    </Box>
+  );
+};
 
 export default MessageListItem;

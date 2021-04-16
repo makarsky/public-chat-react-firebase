@@ -12,6 +12,7 @@ const PinnedMessage: FunctionComponent = () => (
     top={0}
     display='flex'
     alignItems='center'
+    zIndex={1}
   >
     <Box color='white' clone px={1}>
       <Attachment />
