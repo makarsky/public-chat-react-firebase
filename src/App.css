@@ -29,16 +29,6 @@
   background-color: #e8eaf6;
 }
 
-.app-message-list-item {
-  max-width: 80%;
-  display: inline-block;
-}
-
-.app-message-list-item .app-message-list-item__content {
-  padding: 6px !important;
-  word-wrap: break-word;
-}
-
 .pinned-message {
   opacity: 0.9;
   color: #bdbdbd;
