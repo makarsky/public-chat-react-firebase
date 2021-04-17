@@ -7,6 +7,19 @@ import Typography from '@material-ui/core/Typography';
 import { Box, Avatar } from '@material-ui/core';
 import User from '../interfaces/User';
 
+const userMessageStyles = {
+  borderTopLeftRadius: '10px',
+  borderTopRightRadius: '10px',
+  borderBottomLeftRadius: '10px',
+  borderBottomRightRadius: '0px',
+};
+const otherMessageStyles = {
+  borderTopLeftRadius: '10px',
+  borderTopRightRadius: '10px',
+  borderBottomLeftRadius: '0px',
+  borderBottomRightRadius: '10px',
+};
+
 interface MessageListItemProps {
   message: Data;
   user: User;
@@ -38,33 +51,35 @@ const MessageListItem: FunctionComponent<MessageListItemProps> = ({
           </Box>
         </Box>
       )}
-      <Box width='100%'>
-        <Card className='app-message-list-item'>
-          <CardContent className='app-message-list-item__content'>
-            <Box
-              fontWeight={900}
-              textAlign='left'
-              fontSize={13}
-              mb={0.5}
-              color={message.userData.color}
-            >
-              {message.userData.name}
-            </Box>
-            <Box textAlign='left' whiteSpace='break-spaces' fontSize={15}>
-              {message.value}
-            </Box>
-            <Typography
-              color='textSecondary'
-              variant='caption'
-              component='p'
-              align='right'
-            >
-              {message.timestamp
-                ? format(message.timestamp.seconds * 1000)
-                : format(Date.now())}
-            </Typography>
-          </CardContent>
-        </Card>
+      <Box flexGrow='1'>
+        <Box display='inline-block' maxWidth='80%'>
+          <Card style={belongsToUser ? userMessageStyles : otherMessageStyles}>
+            <CardContent style={{ padding: '6px' }}>
+              <Box
+                fontWeight={900}
+                textAlign='left'
+                fontSize={13}
+                mb={0.5}
+                color={message.userData.color}
+              >
+                {message.userData.name}
+              </Box>
+              <Box textAlign='left' whiteSpace='break-spaces' fontSize={15}>
+                {message.value}
+              </Box>
+              <Typography
+                color='textSecondary'
+                variant='caption'
+                component='p'
+                align='right'
+              >
+                {message.timestamp
+                  ? format(message.timestamp.seconds * 1000)
+                  : format(Date.now())}
+              </Typography>
+            </CardContent>
+          </Card>
+        </Box>
       </Box>
     </Box>
   );
