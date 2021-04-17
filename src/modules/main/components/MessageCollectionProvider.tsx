@@ -23,4 +23,7 @@ const MessageCollectionProvider: FunctionComponent<MessageCollectionProviderProp
   return <>{renderChildren(messages?.reverse() || [], isLoading)}</>;
 };
 
-export default MessageCollectionProvider;
+export const MessageCollectionProviderMemorized = React.memo(
+  MessageCollectionProvider,
+  () => true,
+);

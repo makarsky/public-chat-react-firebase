@@ -5,8 +5,6 @@ import User from '../interfaces/User';
 
 const timeoutInSeconds = 15;
 
-let interval: NodeJS.Timeout;
-
 interface MessageListProps {
   user: User;
   messages: Data[];
@@ -19,7 +17,7 @@ const MessageList: FunctionComponent<MessageListProps> = ({
   const [, setHash] = useState(0);
 
   useEffect(() => {
-    interval = setInterval(() => {
+    const interval = setInterval(() => {
       setHash((v) => v + 1);
     }, timeoutInSeconds * 1000);
     return () => {
