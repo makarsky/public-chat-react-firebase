@@ -3,7 +3,7 @@ import Box from '@material-ui/core/Box';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Data } from 'react-firebase-hooks/firestore/dist/firestore/types';
 import PinnedMessage from './PinnedMessage';
-import MessageCollectionProvider from './MessageCollectionProvider';
+import { MessageCollectionProviderMemorized } from './MessageCollectionProvider';
 import CachedMessageCollectionProvider from './CachedMessageCollectionProvider';
 import MessageList from './MessageList';
 import User from '../interfaces/User';
@@ -39,7 +39,7 @@ const MessageListContainer: FunctionComponent<MessageListContainerProps> = ({
   return (
     <div className='app-message-list-container' ref={chatRef} key='ytv'>
       <PinnedMessage />
-      <MessageCollectionProvider
+      <MessageCollectionProviderMemorized
         renderChildren={(messages: Data[], isLoading: boolean) => (
           <>
             {!isLoading && (
