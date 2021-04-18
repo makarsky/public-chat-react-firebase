@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useState, useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import SendIcon from '@material-ui/icons/Send';
+import { ClickAwayListener, Tooltip } from '@material-ui/core';
 
 const timeoutInSeconds = 10;
 
@@ -28,6 +29,7 @@ const SendMessageButton: FunctionComponent<SendMessageButtonProps> = ({
   lastMessageDate,
 }: SendMessageButtonProps) => {
   const [seconds, setSeconds] = useState(0);
+  const [isTooltipOpen, setIsTooltipOpen] = useState(false);
 
   useEffect(() => {
     if (isCoolDownActive(lastMessageDate)) {
@@ -46,16 +48,51 @@ const SendMessageButton: FunctionComponent<SendMessageButtonProps> = ({
     return () => clearInterval(interval);
   }, [seconds]);
 
+  const handleTooltipClose = () => {
+    setIsTooltipOpen(false);
+  };
+
+  const handleTooltipOpen = () => {
+    setIsTooltipOpen(true);
+  };
+
+  const isTimerShown = seconds !== 0;
+
   return (
-    <Button
-      variant='contained'
-      color='primary'
-      type='submit'
-      data-testid='send-message'
-      disabled={isDisabled || seconds !== 0}
-    >
-      {seconds > 0 ? seconds : <SendIcon />}
-    </Button>
+    <>
+      {!isTimerShown && (
+        <Button
+          variant='contained'
+          color='primary'
+          type='submit'
+          data-testid='send-message'
+          disabled={isDisabled}
+        >
+          <SendIcon />
+        </Button>
+      )}
+      {isTimerShown && (
+        <ClickAwayListener onClickAway={handleTooltipClose}>
+          <Tooltip
+            title='Anti-SPAM timer :)'
+            PopperProps={{
+              disablePortal: true,
+            }}
+            onClose={handleTooltipClose}
+            open={isTooltipOpen}
+            arrow
+          >
+            <Button
+              variant='contained'
+              color='default'
+              onMouseDown={handleTooltipOpen}
+            >
+              {seconds}
+            </Button>
+          </Tooltip>
+        </ClickAwayListener>
+      )}
+    </>
   );
 };
 
