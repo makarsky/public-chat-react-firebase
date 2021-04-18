@@ -64,7 +64,12 @@ const MessageListItem: FunctionComponent<MessageListItemProps> = ({
               >
                 {message.userData.name}
               </Box>
-              <Box textAlign='left' whiteSpace='break-spaces' fontSize={15}>
+              <Box
+                textAlign='left'
+                whiteSpace='break-spaces'
+                fontSize={15}
+                mb={0.5}
+              >
                 {message.value}
               </Box>
               <Typography
