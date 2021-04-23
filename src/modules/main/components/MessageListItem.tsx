@@ -51,7 +51,7 @@ const MessageListItem: FunctionComponent<MessageListItemProps> = ({
 
   return (
     <Box flexGrow='1' my={0.2}>
-      <Box display='inline-block' maxWidth='80%'>
+      <Box display='inline-block' maxWidth='80%' minWidth='30%'>
         <Card style={cardStyle}>
           <CardContent style={{ padding: '6px' }}>
             {showName && (
@@ -80,8 +80,8 @@ const MessageListItem: FunctionComponent<MessageListItemProps> = ({
               align='right'
             >
               {message.timestamp
-                ? format(message.timestamp.seconds * 1000)
-                : format(Date.now())}
+                ? format(message.timestamp.seconds * 1000, 'be')
+                : format(Date.now(), 'be')}
             </Typography>
           </CardContent>
         </Card>
