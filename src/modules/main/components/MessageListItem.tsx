@@ -50,7 +50,7 @@ const MessageListItem: FunctionComponent<MessageListItemProps> = ({
   }
 
   return (
-    <Box flexGrow='1'>
+    <Box flexGrow='1' my={0.2}>
       <Box display='inline-block' maxWidth='80%'>
         <Card style={cardStyle}>
           <CardContent style={{ padding: '6px' }}>
