@@ -1,11 +1,14 @@
 import React, { FunctionComponent } from 'react';
 import { Data } from 'react-firebase-hooks/firestore/dist/firestore/types';
-import { format } from 'timeago.js';
+import * as timeago from 'timeago.js';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import { Box } from '@material-ui/core';
+import enShort from 'timeago.js/lib/lang/en_short';
 import User from '../interfaces/User';
+
+timeago.register('enShort', enShort);
 
 const cardRadius = '10px';
 
@@ -51,7 +54,7 @@ const MessageListItem: FunctionComponent<MessageListItemProps> = ({
 
   return (
     <Box flexGrow='1' my={0.2}>
-      <Box display='inline-block' maxWidth='80%' minWidth='30%'>
+      <Box display='inline-block' maxWidth='80%' minWidth='90px'>
         <Card style={cardStyle}>
           <CardContent style={{ padding: '6px' }}>
             {showName && (
@@ -79,9 +82,7 @@ const MessageListItem: FunctionComponent<MessageListItemProps> = ({
               component='p'
               align='right'
             >
-              {message.timestamp
-                ? format(message.timestamp.seconds * 1000, 'be')
-                : format(Date.now(), 'be')}
+              {timeago.format(message.timestamp.seconds * 1000, 'enShort')}
             </Typography>
           </CardContent>
         </Card>
