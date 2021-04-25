@@ -9,7 +9,7 @@ const CachedMessageCollectionProvider: FunctionComponent<CachedMessageCollection
   messages,
   renderChildren,
   afterCachedMessagesAreRenderedCallback,
-  onFirstRenderingCallback,
+  scrollDown,
 }: CachedMessageCollectionProviderProps) => {
   const newMessages = messages.filter(
     (message) =>
@@ -37,11 +37,19 @@ const CachedMessageCollectionProvider: FunctionComponent<CachedMessageCollection
 
   useEffect(() => {
     if (
+      messages[messages.length - 1]?.timestamp &&
+      messages[messages.length - 1]?.userData.uid === currentUser.uid
+    ) {
+      // On each current user new message
+      scrollDown();
+    } else if (
       cachedMessages.length === messages.length &&
       messages[messages.length - 1]?.timestamp
     ) {
-      onFirstRenderingCallback();
+      // On the first rendering
+      scrollDown();
     } else if (messages[messages.length - 1]?.timestamp) {
+      // On each new message
       afterCachedMessagesAreRenderedCallback();
     }
   });
