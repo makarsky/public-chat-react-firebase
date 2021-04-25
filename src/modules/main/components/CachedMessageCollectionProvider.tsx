@@ -1,25 +1,40 @@
 import React, { useEffect, FunctionComponent } from 'react';
-import { Data } from 'react-firebase-hooks/firestore/dist/firestore/types';
 import CachedMessageCollectionProviderProps from '../interfaces/CachedMessageCollectionProviderProps';
+import Message from '../interfaces/Message';
 
-const cachedMessages: Data[] = [];
-const cachedGroupedMessages: Array<Array<Data>> = [];
+const cachedMessages: Message[] = [];
+const cachedGroupedMessages: Array<Array<Message>> = [];
 
 const CachedMessageCollectionProvider: FunctionComponent<CachedMessageCollectionProviderProps> = ({
+  currentUser,
   messages,
   renderChildren,
   afterCachedMessagesAreRenderedCallback,
   scrollDown,
 }: CachedMessageCollectionProviderProps) => {
-  const newMessages = messages.filter(
-    (message) =>
-      message.timestamp &&
-      !cachedMessages.find((cachedMessage) => cachedMessage.id === message.id),
-  );
+  const newMessages = messages
+    .filter(
+      (message) =>
+        !cachedMessages.find(
+          (cachedMessage) => cachedMessage.id === message.id,
+        ),
+    )
+    .map(
+      (message): Message => {
+        if (message.timestamp) {
+          return message;
+        }
+        // Have to do this hack, because sometimes timestamp is undefined.
+        return {
+          ...message,
+          timestamp: { seconds: Date.now() / 1000 },
+        };
+      },
+    );
 
   cachedMessages.push(...newMessages);
 
-  newMessages.forEach((message: Data) => {
+  newMessages.forEach((message: Message) => {
     if (cachedGroupedMessages.length === 0) {
       cachedGroupedMessages.push([message]);
       return;

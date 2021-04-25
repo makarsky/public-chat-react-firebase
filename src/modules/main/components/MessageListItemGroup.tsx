@@ -1,12 +1,12 @@
 import React, { FunctionComponent } from 'react';
-import { Data } from 'react-firebase-hooks/firestore/dist/firestore/types';
 import { Avatar, Box } from '@material-ui/core';
 import MessageListItem from './MessageListItem';
 import User from '../interfaces/User';
+import Message from '../interfaces/Message';
 
 interface MessageListItemGroupProps {
   user: User;
-  messages: Data[];
+  messages: Message[];
 }
 
 const MessageListItemGroup: FunctionComponent<MessageListItemGroupProps> = ({
@@ -38,7 +38,7 @@ const MessageListItemGroup: FunctionComponent<MessageListItemGroupProps> = ({
       )}
       <Box flexGrow='1'>
         {messages &&
-          messages.map((item: Data, index: number) => (
+          messages.map((item: Message, index: number) => (
             <MessageListItem
               message={item}
               user={user}

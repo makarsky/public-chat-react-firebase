@@ -1,11 +1,13 @@
-import { Data } from 'react-firebase-hooks/firestore/dist/firestore/types';
+import Message from './Message';
+import User from './User';
 
 interface RenderCachedMessageCollectionProviderChildren {
-  (cachedGroupedMessages: Data[][]): JSX.Element;
+  (cachedGroupedMessages: Message[][]): JSX.Element;
 }
 
 export default interface CachedMessageCollectionProviderProps {
-  messages: Data[];
+  currentUser: User,
+  messages: Message[];
   renderChildren: RenderCachedMessageCollectionProviderChildren;
   afterCachedMessagesAreRenderedCallback: () => void;
   scrollDown: () => void;

@@ -1,12 +1,12 @@
 import React, { useRef, FunctionComponent, MutableRefObject } from 'react';
 import Box from '@material-ui/core/Box';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { Data } from 'react-firebase-hooks/firestore/dist/firestore/types';
 import PinnedMessage from './PinnedMessage';
 import { MessageCollectionProviderMemorized } from './MessageCollectionProvider';
 import CachedMessageCollectionProvider from './CachedMessageCollectionProvider';
 import MessageList from './MessageList';
 import User from '../interfaces/User';
+import Message from '../interfaces/Message';
 
 interface MessageListContainerProps {
   user: User;
@@ -40,7 +40,7 @@ const MessageListContainer: FunctionComponent<MessageListContainerProps> = ({
     <div className='app-message-list-container' ref={chatRef} key='ytv'>
       <PinnedMessage />
       <MessageCollectionProviderMemorized
-        renderChildren={(messages: Data[], isLoading: boolean) => (
+        renderChildren={(messages: Message[], isLoading: boolean) => (
           <>
             {!isLoading && (
               <Box>
@@ -49,7 +49,7 @@ const MessageListContainer: FunctionComponent<MessageListContainerProps> = ({
                   messages={messages || []}
                   afterCachedMessagesAreRenderedCallback={onNewMessage}
                   scrollDown={scrollDown}
-                  renderChildren={(cachedGroupedMessages: Data[][]) => (
+                  renderChildren={(cachedGroupedMessages: Message[][]) => (
                     <>
                       {cachedGroupedMessages.length > 1 && (
                         <MessageList
