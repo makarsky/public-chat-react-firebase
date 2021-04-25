@@ -1,10 +1,10 @@
 import React, { FunctionComponent } from 'react';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
-import { Data } from 'react-firebase-hooks/firestore/dist/firestore/types';
 import firebaseProvider from '../../../firebase';
+import Message from '../interfaces/Message';
 
 interface RenderMessageCollectionProviderChildren {
-  (messages: Data[], isLoading: boolean): JSX.Element;
+  (messages: Message[], isLoading: boolean): JSX.Element;
 }
 
 interface MessageCollectionProviderProps {
@@ -17,7 +17,9 @@ const MessageCollectionProvider: FunctionComponent<MessageCollectionProviderProp
   const messagesRef = firebaseProvider.firestore.collection('messages');
   const query = messagesRef.orderBy('timestamp', 'desc').limit(15);
 
-  const [messages, isLoading] = useCollectionData(query, { idField: 'id' });
+  const [messages, isLoading] = useCollectionData<Message>(query, {
+    idField: 'id',
+  });
   console.log(messages);
 
   return <>{renderChildren(messages?.reverse() || [], isLoading)}</>;

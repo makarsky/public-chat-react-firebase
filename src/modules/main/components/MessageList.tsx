@@ -1,13 +1,13 @@
 import React, { useEffect, useState, FunctionComponent } from 'react';
-import { Data } from 'react-firebase-hooks/firestore/dist/firestore/types';
 import MessageListItemGroup from './MessageListItemGroup';
 import User from '../interfaces/User';
+import Message from '../interfaces/Message';
 
 const timeoutInSeconds = 15;
 
 interface MessageListProps {
   user: User;
-  groupedMessages: Data[][];
+  groupedMessages: Message[][];
 }
 
 const MessageList: FunctionComponent<MessageListProps> = ({
@@ -25,9 +25,9 @@ const MessageList: FunctionComponent<MessageListProps> = ({
     };
   });
 
-  const getKey = (messages: Data[]) => {
+  const getKey = (messages: Message[]) => {
     return messages.reduce(
-      (acc: string, message: Data) => acc + message.id,
+      (acc: string, message: Message) => acc + message.id,
       'MessageListItemGroup',
     );
   };
@@ -35,7 +35,7 @@ const MessageList: FunctionComponent<MessageListProps> = ({
   return (
     <>
       {groupedMessages &&
-        groupedMessages.map((messages: Data[]) => (
+        groupedMessages.map((messages: Message[]) => (
           <MessageListItemGroup
             key={getKey(messages)}
             messages={messages}

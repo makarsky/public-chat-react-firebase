@@ -1,5 +1,4 @@
 import React, { FunctionComponent } from 'react';
-import { Data } from 'react-firebase-hooks/firestore/dist/firestore/types';
 import * as timeago from 'timeago.js';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -7,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import { Box } from '@material-ui/core';
 import enShort from 'timeago.js/lib/lang/en_short';
 import User from '../interfaces/User';
+import Message from '../interfaces/Message';
 
 timeago.register('enShort', enShort);
 
@@ -32,7 +32,7 @@ const cardStyleWithRightTail = {
 };
 
 interface MessageListItemProps {
-  message: Data;
+  message: Message;
   user: User;
   showName: boolean;
   showTail: boolean;
