@@ -51,19 +51,13 @@ const CachedMessageCollectionProvider: FunctionComponent<CachedMessageCollection
   });
 
   useEffect(() => {
-    if (
-      messages[messages.length - 1]?.timestamp &&
-      messages[messages.length - 1]?.userData.uid === currentUser.uid
-    ) {
-      // On each current user new message
+    if (messages[messages.length - 1]?.userData.uid === currentUser.uid) {
+      // On each current user's new message
       scrollDown();
-    } else if (
-      cachedMessages.length === messages.length &&
-      messages[messages.length - 1]?.timestamp
-    ) {
+    } else if (cachedMessages.length === messages.length) {
       // On the first rendering
       scrollDown();
-    } else if (messages[messages.length - 1]?.timestamp) {
+    } else {
       // On each new message
       afterCachedMessagesAreRenderedCallback();
     }
