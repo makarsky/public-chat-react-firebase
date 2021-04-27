@@ -50,14 +50,10 @@ const MessageListContainer: FunctionComponent<MessageListContainerProps> = ({
                   afterCachedMessagesAreRenderedCallback={onNewMessage}
                   scrollDown={scrollDown}
                   renderChildren={(cachedGroupedMessages: Message[][]) => (
-                    <>
-                      {cachedGroupedMessages.length > 1 && (
-                        <MessageList
-                          user={user}
-                          groupedMessages={cachedGroupedMessages}
-                        />
-                      )}
-                    </>
+                    <MessageList
+                      user={user}
+                      groupedMessages={cachedGroupedMessages}
+                    />
                   )}
                 />
               </Box>
