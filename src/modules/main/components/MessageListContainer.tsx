@@ -1,6 +1,12 @@
-import React, { useRef, FunctionComponent, MutableRefObject } from 'react';
+import React, {
+  useRef,
+  useState,
+  FunctionComponent,
+  MutableRefObject,
+} from 'react';
 import Box from '@material-ui/core/Box';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { Chip, Slide } from '@material-ui/core';
 import PinnedMessage from './PinnedMessage';
 import { MessageCollectionProviderMemorized } from './MessageCollectionProvider';
 import CachedMessageCollectionProvider from './CachedMessageCollectionProvider';
@@ -17,6 +23,7 @@ const MessageListContainer: FunctionComponent<MessageListContainerProps> = ({
 }: MessageListContainerProps) => {
   const chatBottomRef = useRef() as MutableRefObject<HTMLSpanElement>;
   const chatRef = useRef() as MutableRefObject<HTMLDivElement>;
+  const [haveNewMessages, setHaveNewMessages] = useState(false);
 
   const scrollDown = () => {
     chatBottomRef?.current?.scrollIntoView({
@@ -32,12 +39,31 @@ const MessageListContainer: FunctionComponent<MessageListContainerProps> = ({
     ) {
       scrollDown();
     } else {
-      // show tooltip "New messages" (clicking on it will scroll down)
+      setHaveNewMessages(true);
+    }
+  };
+
+  const chipClickHandler = () => {
+    setHaveNewMessages(false);
+    scrollDown();
+  };
+
+  const onScroll = () => {
+    if (
+      chatRef?.current?.scrollHeight - chatRef?.current?.scrollTop <
+        chatRef?.current?.clientHeight + chatRef?.current?.clientHeight * 0.3 &&
+      haveNewMessages
+    ) {
+      setHaveNewMessages(false);
     }
   };
 
   return (
-    <div className='app-message-list-container' ref={chatRef} key='ytv'>
+    <div
+      className='app-message-list-container'
+      ref={chatRef}
+      onScroll={onScroll}
+    >
       <PinnedMessage />
       <MessageCollectionProviderMemorized
         renderChildren={(messages: Message[], isLoading: boolean) => (
@@ -72,6 +98,16 @@ const MessageListContainer: FunctionComponent<MessageListContainerProps> = ({
         )}
       />
       <span ref={chatBottomRef} />
+      <Slide direction='up' in={haveNewMessages} mountOnEnter unmountOnExit>
+        <Box
+          position='sticky'
+          bottom='18px'
+          display='flex'
+          justifyContent='center'
+        >
+          <Chip label='You have new messages' onClick={chipClickHandler} />
+        </Box>
+      </Slide>
     </div>
   );
 };
