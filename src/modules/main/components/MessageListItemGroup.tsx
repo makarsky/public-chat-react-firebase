@@ -14,6 +14,10 @@ const MessageListItemGroup: FunctionComponent<MessageListItemGroupProps> = ({
   messages,
 }: MessageListItemGroupProps) => {
   const belongsToUser = user.uid === messages[0].userData.uid;
+  const shortName = messages[0].userData.name
+    .split(' ')
+    .map((name: string) => name[0])
+    .join('');
 
   return (
     <Box
@@ -25,13 +29,13 @@ const MessageListItemGroup: FunctionComponent<MessageListItemGroupProps> = ({
     >
       {!belongsToUser && (
         <Box mr={1}>
-          <Box height='calc(100% - 40px)' />
+          <Box height='calc(100% - 44px)' />
           <Box position='sticky' bottom='0' pb={0.4}>
             <Avatar
               alt='Remy Sharp'
               style={{ backgroundColor: messages[0].userData.color }}
             >
-              {messages[0].userData.name[0]}
+              {shortName}
             </Avatar>
           </Box>
         </Box>
