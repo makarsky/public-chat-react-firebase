@@ -7,6 +7,7 @@ const PinnedMessage: FunctionComponent = () => (
   <Box
     className='pinned-message'
     bgcolor='#2c387e'
+    color='#bdbdbd'
     p={1}
     position='sticky'
     top={0}
