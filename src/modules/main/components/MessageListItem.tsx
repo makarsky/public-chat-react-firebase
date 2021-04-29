@@ -17,17 +17,12 @@ const defaultCardStye = {
   borderTopRightRadius: cardRadius,
   borderBottomLeftRadius: cardRadius,
   borderBottomRightRadius: cardRadius,
+  backgroundColor: '#ffffff',
 };
-const cardStyleWithLeftTail = {
-  borderTopLeftRadius: cardRadius,
-  borderTopRightRadius: cardRadius,
+const sharpLeftCorder = {
   borderBottomLeftRadius: '0',
-  borderBottomRightRadius: cardRadius,
 };
-const cardStyleWithRightTail = {
-  borderTopLeftRadius: cardRadius,
-  borderTopRightRadius: cardRadius,
-  borderBottomLeftRadius: cardRadius,
+const sharpRightCorder = {
   borderBottomRightRadius: '0',
 };
 
@@ -45,11 +40,17 @@ const MessageListItem: FunctionComponent<MessageListItemProps> = ({
   showTail,
 }: MessageListItemProps) => {
   const belongsToUser = user.uid === message.userData.uid;
+  const nameColor = belongsToUser ? '#5c6bc0' : message.userData.color;
 
   let cardStyle = defaultCardStye;
 
+  if (belongsToUser) {
+    cardStyle = { ...cardStyle, backgroundColor: '#fffde7' };
+  }
+
   if (showTail) {
-    cardStyle = belongsToUser ? cardStyleWithRightTail : cardStyleWithLeftTail;
+    const borderStyle = belongsToUser ? sharpRightCorder : sharpLeftCorder;
+    cardStyle = { ...cardStyle, ...borderStyle };
   }
 
   return (
@@ -63,7 +64,7 @@ const MessageListItem: FunctionComponent<MessageListItemProps> = ({
                 textAlign='left'
                 fontSize={13}
                 mb={0.5}
-                color={message.userData.color}
+                color={nameColor}
               >
                 {message.userData.name}
               </Box>
