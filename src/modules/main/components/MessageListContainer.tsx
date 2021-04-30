@@ -14,6 +14,8 @@ import MessageList from './MessageList';
 import User from '../interfaces/User';
 import Message from '../interfaces/Message';
 
+const audio = new Audio('/new_message.mp3');
+
 interface MessageListContainerProps {
   user: User;
 }
@@ -33,6 +35,8 @@ const MessageListContainer: FunctionComponent<MessageListContainerProps> = ({
   };
 
   const onNewMessage = () => {
+    audio.play();
+
     if (
       chatRef?.current?.scrollHeight - chatRef?.current?.scrollTop <
       chatRef?.current?.clientHeight + chatRef?.current?.clientHeight / 2
@@ -64,6 +68,7 @@ const MessageListContainer: FunctionComponent<MessageListContainerProps> = ({
       ref={chatRef}
       onScroll={onScroll}
     >
+      {/* <audio ref="audio_tag" src='new_message.mp3' style={{display: 'none'}} autoPlay> */}
       <PinnedMessage />
       <MessageCollectionProviderMemorized
         renderChildren={(messages: Message[], isLoading: boolean) => (
