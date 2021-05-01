@@ -63,57 +63,55 @@ const MessageListContainer: FunctionComponent<MessageListContainerProps> = ({
   };
 
   return (
-    <div
-      className='app-message-list-container'
-      ref={chatRef}
-      onScroll={onScroll}
-    >
-      {/* <audio ref="audio_tag" src='new_message.mp3' style={{display: 'none'}} autoPlay> */}
-      <PinnedMessage />
-      <MessageCollectionProviderMemorized
-        renderChildren={(messages: Message[], isLoading: boolean) => (
-          <>
-            {!isLoading && (
-              <Box>
-                <CachedMessageCollectionProvider
-                  currentUser={user}
-                  messages={messages || []}
-                  afterCachedMessagesAreRenderedCallback={onNewMessage}
-                  scrollDown={scrollDown}
-                  renderChildren={(cachedGroupedMessages: Message[][]) => (
-                    <MessageList
-                      user={user}
-                      groupedMessages={cachedGroupedMessages}
-                    />
-                  )}
-                />
-              </Box>
-            )}
-            {isLoading && (
-              <Box
-                display='flex'
-                justifyContent='center'
-                alignItems='center'
-                height='90%'
-              >
-                <CircularProgress color='inherit' />
-              </Box>
-            )}
-          </>
-        )}
-      />
-      <span ref={chatBottomRef} />
-      <Slide direction='up' in={haveNewMessages} mountOnEnter unmountOnExit>
-        <Box
-          position='sticky'
-          bottom='18px'
-          display='flex'
-          justifyContent='center'
-        >
-          <Chip label='You have new messages' onClick={chipClickHandler} />
-        </Box>
-      </Slide>
-    </div>
+    <>
+      <div
+        className='app-message-list-container'
+        ref={chatRef}
+        onScroll={onScroll}
+      >
+        <PinnedMessage />
+        <MessageCollectionProviderMemorized
+          renderChildren={(messages: Message[], isLoading: boolean) => (
+            <>
+              {!isLoading && (
+                <Box>
+                  <CachedMessageCollectionProvider
+                    currentUser={user}
+                    messages={messages || []}
+                    afterCachedMessagesAreRenderedCallback={onNewMessage}
+                    scrollDown={scrollDown}
+                    renderChildren={(cachedGroupedMessages: Message[][]) => (
+                      <MessageList
+                        user={user}
+                        groupedMessages={cachedGroupedMessages}
+                      />
+                    )}
+                  />
+                </Box>
+              )}
+              {isLoading && (
+                <Box
+                  display='flex'
+                  justifyContent='center'
+                  alignItems='center'
+                  height='90%'
+                >
+                  <CircularProgress color='inherit' />
+                </Box>
+              )}
+            </>
+          )}
+        />
+        <span ref={chatBottomRef} />
+      </div>
+      <Box position='relative' display='flex' justifyContent='center'>
+        <Slide direction='up' in={haveNewMessages} mountOnEnter unmountOnExit>
+          <Box position='absolute' bottom='18px'>
+            <Chip label='You have new messages' onClick={chipClickHandler} />
+          </Box>
+        </Slide>
+      </Box>
+    </>
   );
 };
 

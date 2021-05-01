@@ -86,6 +86,7 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
       }
       noValidate
       autoComplete='off'
+      style={{ zIndex: 0, backgroundColor: '#ffffff' }}
     >
       <TextField
         label='Message...'
