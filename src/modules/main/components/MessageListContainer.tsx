@@ -7,6 +7,7 @@ import React, {
 import Box from '@material-ui/core/Box';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Chip, Slide } from '@material-ui/core';
+import ExpandMore from '@material-ui/icons/ExpandMore';
 import PinnedMessage from './PinnedMessage';
 import { MessageCollectionProviderMemorized } from './MessageCollectionProvider';
 import CachedMessageCollectionProvider from './CachedMessageCollectionProvider';
@@ -14,6 +15,7 @@ import MessageList from './MessageList';
 import User from '../interfaces/User';
 import Message from '../interfaces/Message';
 
+let cachedScrollTop = 0;
 const audio = new Audio('/new_message.mp3');
 
 interface MessageListContainerProps {
@@ -26,6 +28,15 @@ const MessageListContainer: FunctionComponent<MessageListContainerProps> = ({
   const chatBottomRef = useRef() as MutableRefObject<HTMLSpanElement>;
   const chatRef = useRef() as MutableRefObject<HTMLDivElement>;
   const [haveNewMessages, setHaveNewMessages] = useState(false);
+  const [isScrollButtonShown, setIsScrollButtonShown] = useState(false);
+  const [isScrollingDown, setIsScrollingDown] = useState(true);
+
+  const isAtTheBottom = () => {
+    return (
+      chatRef?.current?.scrollHeight - chatRef?.current?.scrollTop <
+      chatRef?.current?.clientHeight + chatRef?.current?.clientHeight * 0.3
+    );
+  };
 
   const scrollDown = () => {
     chatBottomRef?.current?.scrollIntoView({
@@ -37,28 +48,45 @@ const MessageListContainer: FunctionComponent<MessageListContainerProps> = ({
   const onNewMessage = () => {
     audio.play();
 
-    if (
-      chatRef?.current?.scrollHeight - chatRef?.current?.scrollTop <
-      chatRef?.current?.clientHeight + chatRef?.current?.clientHeight / 2
-    ) {
+    if (isAtTheBottom()) {
       scrollDown();
     } else {
       setHaveNewMessages(true);
+      setIsScrollButtonShown(true);
     }
   };
 
   const chipClickHandler = () => {
-    setHaveNewMessages(false);
+    setIsScrollButtonShown(false);
+    setIsScrollingDown(true);
     scrollDown();
   };
 
   const onScroll = () => {
-    if (
-      chatRef?.current?.scrollHeight - chatRef?.current?.scrollTop <
-        chatRef?.current?.clientHeight + chatRef?.current?.clientHeight * 0.3 &&
-      haveNewMessages
-    ) {
+    if (isAtTheBottom()) {
       setHaveNewMessages(false);
+      setIsScrollButtonShown(false);
+      setIsScrollingDown(false);
+      cachedScrollTop = 0;
+      return;
+    }
+
+    if (
+      !haveNewMessages &&
+      !isScrollingDown &&
+      (cachedScrollTop === 0 || chatRef?.current?.scrollTop < cachedScrollTop)
+    ) {
+      cachedScrollTop = chatRef?.current?.scrollTop;
+      setIsScrollButtonShown(false);
+      return;
+    }
+
+    if (
+      !isScrollingDown &&
+      cachedScrollTop + 50 < chatRef?.current?.scrollTop
+    ) {
+      cachedScrollTop = chatRef?.current?.scrollTop - 50;
+      setIsScrollButtonShown(true);
     }
   };
 
@@ -104,10 +132,28 @@ const MessageListContainer: FunctionComponent<MessageListContainerProps> = ({
         />
         <span ref={chatBottomRef} />
       </div>
-      <Box position='relative' display='flex' justifyContent='center'>
-        <Slide direction='up' in={haveNewMessages} mountOnEnter unmountOnExit>
+      <Box
+        position='relative'
+        display='flex'
+        justifyContent='center'
+        height='0'
+      >
+        <Slide
+          direction='up'
+          in={isScrollButtonShown}
+          mountOnEnter
+          unmountOnExit
+        >
           <Box position='absolute' bottom='18px'>
-            <Chip label='You have new messages' onClick={chipClickHandler} />
+            <Chip
+              label={
+                <Box display='flex' alignItems='center'>
+                  {haveNewMessages && 'You have new messages'}
+                  <ExpandMore />
+                </Box>
+              }
+              onClick={chipClickHandler}
+            />
           </Box>
         </Slide>
       </Box>
