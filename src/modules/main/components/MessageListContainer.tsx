@@ -8,6 +8,7 @@ import Box from '@material-ui/core/Box';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Chip, Slide } from '@material-ui/core';
 import ExpandMore from '@material-ui/icons/ExpandMore';
+import { CSSProperties } from '@material-ui/styles';
 import PinnedMessage from './PinnedMessage';
 import { MessageCollectionProviderMemorized } from './MessageCollectionProvider';
 import CachedMessageCollectionProvider from './CachedMessageCollectionProvider';
@@ -17,6 +18,14 @@ import Message from '../interfaces/Message';
 
 let cachedScrollTop = 0;
 const audio = new Audio('/new_message.mp3');
+
+const style: Record<string, CSSProperties> = {
+  boxStyle: {
+    backgroundColor: '#e8eaf6',
+    overflowX: 'hidden',
+    overflowY: 'auto',
+  },
+};
 
 interface MessageListContainerProps {
   user: User;
@@ -92,10 +101,12 @@ const MessageListContainer: FunctionComponent<MessageListContainerProps> = ({
 
   return (
     <>
-      <div
-        className='app-message-list-container'
-        ref={chatRef}
+      <Box
+        {...{ ref: chatRef }}
         onScroll={onScroll}
+        flexGrow='1'
+        position='relative'
+        style={style.boxStyle}
       >
         <PinnedMessage />
         <MessageCollectionProviderMemorized
@@ -131,7 +142,7 @@ const MessageListContainer: FunctionComponent<MessageListContainerProps> = ({
           )}
         />
         <span ref={chatBottomRef} />
-      </div>
+      </Box>
       <Box
         position='relative'
         display='flex'

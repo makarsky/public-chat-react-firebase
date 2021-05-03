@@ -21,14 +21,6 @@
   display: flex;
 }
 
-.app-message-list-container {
-  position: relative;
-  overflow-x: hidden;
-  overflow-y: auto;
-  flex-grow: 1;
-  background-color: #e8eaf6;
-}
-
 .pinned-message {
   opacity: 0.9;
 }
