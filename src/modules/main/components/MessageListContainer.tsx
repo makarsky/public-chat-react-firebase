@@ -6,8 +6,6 @@ import React, {
 } from 'react';
 import Box from '@material-ui/core/Box';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { Chip, Slide } from '@material-ui/core';
-import ExpandMore from '@material-ui/icons/ExpandMore';
 import { CSSProperties } from '@material-ui/styles';
 import PinnedMessage from './PinnedMessage';
 import { MessageCollectionProviderMemorized } from './MessageCollectionProvider';
@@ -15,6 +13,7 @@ import CachedMessageCollectionProvider from './CachedMessageCollectionProvider';
 import MessageList from './MessageList';
 import User from '../interfaces/User';
 import Message from '../interfaces/Message';
+import ScrollDownChip from './ScrollDownChip';
 
 let cachedScrollTop = 0;
 const audio = new Audio('/new_message.mp3');
@@ -143,31 +142,12 @@ const MessageListContainer: FunctionComponent<MessageListContainerProps> = ({
         />
         <span ref={chatBottomRef} />
       </Box>
-      <Box
-        position='relative'
-        display='flex'
-        justifyContent='center'
-        height='0'
-      >
-        <Slide
-          direction='up'
-          in={isScrollButtonShown}
-          mountOnEnter
-          unmountOnExit
-        >
-          <Box position='absolute' bottom='18px'>
-            <Chip
-              label={
-                <Box display='flex' alignItems='center'>
-                  {haveNewMessages && 'You have new messages'}
-                  <ExpandMore />
-                </Box>
-              }
-              onClick={chipClickHandler}
-            />
-          </Box>
-        </Slide>
-      </Box>
+      <ScrollDownChip
+        show={isScrollButtonShown}
+        onClick={chipClickHandler}
+        label='You have new messages'
+        showLabel={haveNewMessages}
+      />
     </>
   );
 };
