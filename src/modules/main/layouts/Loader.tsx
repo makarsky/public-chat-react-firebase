@@ -5,7 +5,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 const Loader: FunctionComponent = () => {
   return (
     <Backdrop open>
-      <CircularProgress color='inherit' />
+      <CircularProgress color='primary' />
     </Backdrop>
   );
 };

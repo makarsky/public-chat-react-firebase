@@ -142,7 +142,7 @@ const MessageListContainer: FunctionComponent<MessageListContainerProps> = ({
                   alignItems='center'
                   height='90%'
                 >
-                  <CircularProgress color='inherit' />
+                  <CircularProgress color='primary' />
                 </Box>
               )}
             </>
