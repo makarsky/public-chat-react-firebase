@@ -9,13 +9,17 @@ import UserData from '../interfaces/UserData';
 
 interface DefaultLayoutProps {
   user: User;
+  isDarkMode: boolean;
+  setIsDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const DefaultLayout: FunctionComponent<DefaultLayoutProps> = ({
   user,
+  isDarkMode,
+  setIsDarkMode,
 }: DefaultLayoutProps) => (
   <Box display='flex' flexDirection='column' className='app'>
-    <DefaultAppBar />
+    <DefaultAppBar isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
     <MessageListContainer user={user} />
     <UserDataProvider
       user={user}

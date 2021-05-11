@@ -42,7 +42,15 @@ const App: FunctionComponent = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      {user ? <DefaultLayout user={user} /> : <Loader />}
+      {user ? (
+        <DefaultLayout
+          user={user}
+          isDarkMode={isDarkMode}
+          setIsDarkMode={setIsDarkMode}
+        />
+      ) : (
+        <Loader />
+      )}
     </ThemeProvider>
   );
 };
