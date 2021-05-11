@@ -20,9 +20,6 @@ const StyledTextField: FunctionComponent<TextFieldProps> = (
           background: theme.palette.secondary.dark,
         },
       },
-      label: {
-        textTransform: 'capitalize',
-      },
     })(TextField);
   }, [theme]);
 
