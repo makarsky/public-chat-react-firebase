@@ -10,6 +10,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import MoodIcon from '@material-ui/icons/Mood';
 import MoonIcon from '@material-ui/icons/Brightness2';
 import SunIcon from '@material-ui/icons/Brightness7';
+import VolumeUp from '@material-ui/icons/VolumeUp';
+import VolumeOff from '@material-ui/icons/VolumeOff';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import Box from '@material-ui/core/Box';
 import { mainListItems } from './drawerListItems';
@@ -17,11 +19,15 @@ import { mainListItems } from './drawerListItems';
 interface DefaultAppBarProps {
   isDarkMode: boolean;
   setIsDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
+  isSoundOn: boolean;
+  setIsSoundOn: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const DefaultAppBar: FunctionComponent<DefaultAppBarProps> = ({
   isDarkMode,
   setIsDarkMode,
+  isSoundOn,
+  setIsSoundOn,
 }: DefaultAppBarProps) => {
   const [open, setOpen] = useState(false);
   const handleDrawerOpen = () => {
@@ -50,6 +56,15 @@ const DefaultAppBar: FunctionComponent<DefaultAppBarProps> = ({
             <MoodIcon />
           </Box>
           <Box textAlign='right' flexGrow='1'>
+            <IconButton
+              edge='end'
+              color='inherit'
+              aria-label='Sound switcher'
+              onClick={() => setIsSoundOn(!isSoundOn)}
+            >
+              {isSoundOn && <VolumeUp />}
+              {!isSoundOn && <VolumeOff />}
+            </IconButton>
             <IconButton
               edge='end'
               color='inherit'

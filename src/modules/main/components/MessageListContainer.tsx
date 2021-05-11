@@ -17,14 +17,17 @@ import Message from '../interfaces/Message';
 import ScrollDownChip from './ScrollDownChip';
 
 let cachedScrollTop = 0;
-const audio = new Audio('/new_message.mp3');
+let cachedIsSoundOn = false;
+const newMessageSound = new Audio('/new_message.mp3');
 
 interface MessageListContainerProps {
   user: User;
+  isSoundOn: boolean;
 }
 
 const MessageListContainer: FunctionComponent<MessageListContainerProps> = ({
   user,
+  isSoundOn,
 }: MessageListContainerProps) => {
   const chatBottomRef = useRef() as MutableRefObject<HTMLSpanElement>;
   const chatRef = useRef() as MutableRefObject<HTMLDivElement>;
@@ -32,6 +35,7 @@ const MessageListContainer: FunctionComponent<MessageListContainerProps> = ({
   const [isScrollButtonShown, setIsScrollButtonShown] = useState(false);
   const [isScrollingDown, setIsScrollingDown] = useState(true);
   const theme = useTheme();
+  cachedIsSoundOn = isSoundOn;
 
   const style: Record<string, CSSProperties> = {
     boxStyle: {
@@ -56,7 +60,9 @@ const MessageListContainer: FunctionComponent<MessageListContainerProps> = ({
   };
 
   const onNewMessage = () => {
-    audio.play();
+    if (cachedIsSoundOn) {
+      newMessageSound.play();
+    }
 
     if (isAtTheBottom()) {
       scrollDown();
