@@ -48,7 +48,7 @@ const MessageListItem: FunctionComponent<MessageListItemProps> = ({
   };
 
   if (belongsToUser) {
-    cardStyle = { ...cardStyle, backgroundColor: theme.palette.primary.dark };
+    cardStyle = { ...cardStyle, backgroundColor: theme.palette.info.dark };
   }
 
   if (showTail) {

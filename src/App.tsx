@@ -26,12 +26,15 @@ const App: FunctionComponent = () => {
           primary: {
             light: isDarkMode ? '#616161' : '#2c387e',
             main: isDarkMode ? '#424242' : '#3f51b5',
-            dark: isDarkMode ? '#1976d2' : '#fffde7',
           },
           secondary: {
             light: isDarkMode ? '#616161' : '#2c387e',
             main: isDarkMode ? '#ffee58' : '#5c6bc0',
             dark: isDarkMode ? '#353535' : '#fff',
+          },
+          info: {
+            main: isDarkMode ? '#2196f3' : '#2196f3',
+            dark: isDarkMode ? '#1976d2' : '#fffde7',
           },
           background: {
             default: isDarkMode ? '#212121' : '#e8eaf6',
