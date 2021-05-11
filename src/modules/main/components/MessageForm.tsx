@@ -1,10 +1,11 @@
 import React, { useState, useEffect, FunctionComponent } from 'react';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
-import TextField from '@material-ui/core/TextField';
+import { useTheme } from '@material-ui/core/styles';
 import firebaseProvider from '../../../firebase';
 import Message from '../interfaces/Message';
 import SendMessageButton from './SendMessageButton';
+import StyledTextField from './StyledTextField';
 import UserData from '../interfaces/UserData';
 
 const handleSubmit = async (
@@ -73,6 +74,7 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
     getLastSubmissionDate(userData),
   );
   const [message, setMessage] = useState('');
+  const theme = useTheme();
 
   useEffect(() => setLastMessageDate(getLastSubmissionDate(userData)), [
     userData,
@@ -86,11 +88,11 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
       }
       noValidate
       autoComplete='off'
-      style={{ zIndex: 0, backgroundColor: '#ffffff' }}
+      style={{ zIndex: 0, backgroundColor: theme.palette.background.default }}
     >
-      <TextField
+      <StyledTextField
         label='Message...'
-        variant='outlined'
+        variant='filled'
         onChange={(event) => setMessage(event.target.value)}
         fullWidth
         value={message}

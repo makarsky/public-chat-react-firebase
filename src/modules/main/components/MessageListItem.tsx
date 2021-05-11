@@ -4,6 +4,7 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import { Box } from '@material-ui/core';
+import { useTheme } from '@material-ui/core/styles';
 import enShort from 'timeago.js/lib/lang/en_short';
 import User from '../interfaces/User';
 import Message from '../interfaces/Message';
@@ -12,13 +13,6 @@ timeago.register('enShort', enShort);
 
 const cardRadius = '10px';
 
-const defaultCardStye = {
-  borderTopLeftRadius: cardRadius,
-  borderTopRightRadius: cardRadius,
-  borderBottomLeftRadius: cardRadius,
-  borderBottomRightRadius: cardRadius,
-  backgroundColor: '#ffffff',
-};
 const sharpLeftCorder = {
   borderBottomLeftRadius: '0',
 };
@@ -39,13 +33,22 @@ const MessageListItem: FunctionComponent<MessageListItemProps> = ({
   showName,
   showTail,
 }: MessageListItemProps) => {
+  const theme = useTheme();
   const belongsToUser = user.uid === message.userData.uid;
-  const nameColor = belongsToUser ? '#5c6bc0' : message.userData.color;
+  const nameColor = belongsToUser
+    ? theme.palette.secondary.main
+    : message.userData.color;
 
-  let cardStyle = defaultCardStye;
+  let cardStyle = {
+    borderTopLeftRadius: cardRadius,
+    borderTopRightRadius: cardRadius,
+    borderBottomLeftRadius: cardRadius,
+    borderBottomRightRadius: cardRadius,
+    backgroundColor: theme.palette.background.paper,
+  };
 
   if (belongsToUser) {
-    cardStyle = { ...cardStyle, backgroundColor: '#fffde7' };
+    cardStyle = { ...cardStyle, backgroundColor: theme.palette.primary.dark };
   }
 
   if (showTail) {
@@ -69,13 +72,10 @@ const MessageListItem: FunctionComponent<MessageListItemProps> = ({
                 {message.userData.name}
               </Box>
             )}
-            <Box
-              textAlign='left'
-              whiteSpace='break-spaces'
-              fontSize={15}
-              mb={0.5}
-            >
-              {message.value}
+            <Box whiteSpace='break-spaces' mb={0.5}>
+              <Typography color='textPrimary' variant='body1' align='left'>
+                {message.value}
+              </Typography>
             </Box>
             <Typography
               color='textSecondary'
