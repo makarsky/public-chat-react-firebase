@@ -12,6 +12,7 @@ const App: FunctionComponent = () => {
   const [isDarkMode, setIsDarkMode] = useState(
     useMediaQuery('(prefers-color-scheme: dark)'),
   );
+  const [isSoundOn, setIsSoundOn] = useState(false);
 
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
@@ -47,6 +48,8 @@ const App: FunctionComponent = () => {
           user={user}
           isDarkMode={isDarkMode}
           setIsDarkMode={setIsDarkMode}
+          isSoundOn={isSoundOn}
+          setIsSoundOn={setIsSoundOn}
         />
       ) : (
         <Loader />
