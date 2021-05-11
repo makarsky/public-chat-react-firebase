@@ -35,7 +35,7 @@ const MessageListItemGroup: FunctionComponent<MessageListItemGroupProps> = ({
               alt='Remy Sharp'
               style={{ backgroundColor: messages[0].userData.color }}
             >
-              {shortName}
+              <Box style={{ color: '#fff' }}>{shortName}</Box>
             </Avatar>
           </Box>
         </Box>

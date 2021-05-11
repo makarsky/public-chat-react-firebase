@@ -7,6 +7,7 @@ import React, {
 import Box from '@material-ui/core/Box';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { CSSProperties } from '@material-ui/styles';
+import { useTheme } from '@material-ui/core/styles';
 import PinnedMessage from './PinnedMessage';
 import { MessageCollectionProviderMemorized } from './MessageCollectionProvider';
 import CachedMessageCollectionProvider from './CachedMessageCollectionProvider';
@@ -17,14 +18,6 @@ import ScrollDownChip from './ScrollDownChip';
 
 let cachedScrollTop = 0;
 const audio = new Audio('/new_message.mp3');
-
-const style: Record<string, CSSProperties> = {
-  boxStyle: {
-    backgroundColor: '#e8eaf6',
-    overflowX: 'hidden',
-    overflowY: 'auto',
-  },
-};
 
 interface MessageListContainerProps {
   user: User;
@@ -38,6 +31,15 @@ const MessageListContainer: FunctionComponent<MessageListContainerProps> = ({
   const [haveNewMessages, setHaveNewMessages] = useState(false);
   const [isScrollButtonShown, setIsScrollButtonShown] = useState(false);
   const [isScrollingDown, setIsScrollingDown] = useState(true);
+  const theme = useTheme();
+
+  const style: Record<string, CSSProperties> = {
+    boxStyle: {
+      backgroundColor: theme.palette.background.default,
+      overflowX: 'hidden',
+      overflowY: 'auto',
+    },
+  };
 
   const isAtTheBottom = () => {
     return (

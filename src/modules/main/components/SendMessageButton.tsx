@@ -84,7 +84,7 @@ const SendMessageButton: FunctionComponent<SendMessageButtonProps> = ({
           >
             <Button
               variant='contained'
-              color='default'
+              color='primary'
               onMouseDown={handleTooltipOpen}
             >
               {seconds}

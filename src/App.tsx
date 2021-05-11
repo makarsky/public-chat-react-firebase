@@ -28,7 +28,9 @@ const App: FunctionComponent = () => {
             dark: isDarkMode ? '#1976d2' : '#fffde7',
           },
           secondary: {
+            light: isDarkMode ? '#616161' : '#2c387e',
             main: isDarkMode ? '#ffee58' : '#5c6bc0',
+            dark: isDarkMode ? '#353535' : '#fff',
           },
           background: {
             default: isDarkMode ? '#212121' : '#e8eaf6',
