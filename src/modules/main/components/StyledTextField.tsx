@@ -27,5 +27,4 @@ const StyledTextField: FunctionComponent<TextFieldProps> = (
   return <StyledInput {...props} />;
 };
 
-// export default StyledTextField;
-export default React.memo(StyledTextField, () => false);
+export default StyledTextField;

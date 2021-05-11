@@ -8,11 +8,21 @@ import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import MenuIcon from '@material-ui/icons/Menu';
 import MoodIcon from '@material-ui/icons/Mood';
+import MoonIcon from '@material-ui/icons/Brightness2';
+import SunIcon from '@material-ui/icons/Brightness7';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import Box from '@material-ui/core/Box';
 import { mainListItems } from './drawerListItems';
 
-const DefaultAppBar: FunctionComponent = () => {
+interface DefaultAppBarProps {
+  isDarkMode: boolean;
+  setIsDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const DefaultAppBar: FunctionComponent<DefaultAppBarProps> = ({
+  isDarkMode,
+  setIsDarkMode,
+}: DefaultAppBarProps) => {
   const [open, setOpen] = useState(false);
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -28,7 +38,7 @@ const DefaultAppBar: FunctionComponent = () => {
           <IconButton
             edge='start'
             color='inherit'
-            aria-label='open drawer'
+            aria-label='Open drawer'
             onClick={handleDrawerOpen}
           >
             <MenuIcon />
@@ -38,6 +48,17 @@ const DefaultAppBar: FunctionComponent = () => {
           </Typography>
           <Box color='inherit' clone m={1}>
             <MoodIcon />
+          </Box>
+          <Box textAlign='right' flexGrow='1'>
+            <IconButton
+              edge='end'
+              color='inherit'
+              aria-label='Theme switcher'
+              onClick={() => setIsDarkMode(!isDarkMode)}
+            >
+              {isDarkMode && <MoonIcon />}
+              {!isDarkMode && <SunIcon />}
+            </IconButton>
           </Box>
         </Toolbar>
       </AppBar>
