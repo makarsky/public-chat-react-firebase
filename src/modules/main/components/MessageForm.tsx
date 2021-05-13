@@ -17,7 +17,11 @@ const handleSubmit = async (
 ) => {
   const newMessage: Message = {
     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-    userData: { uid: userData.uid, name: userData.name, color: userData.color },
+    userData: {
+      uid: userData.uid,
+      name: userData.name,
+      colorIndex: userData.colorIndex,
+    },
     value: message.trim(),
   };
 
@@ -34,7 +38,7 @@ const handleSubmit = async (
   );
   batch.set(firebaseProvider.firestore.doc(`users/${userData.uid}`), {
     name: userData.name,
-    color: userData.color,
+    colorIndex: userData.colorIndex,
     rateLimit: { lastMessage: newMessage.timestamp },
   });
 

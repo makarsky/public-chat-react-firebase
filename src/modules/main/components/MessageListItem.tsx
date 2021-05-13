@@ -8,6 +8,7 @@ import { useTheme } from '@material-ui/core/styles';
 import enShort from 'timeago.js/lib/lang/en_short';
 import User from '../interfaces/User';
 import Message from '../interfaces/Message';
+import userColors from './userColors';
 
 timeago.register('enShort', enShort);
 
@@ -37,7 +38,7 @@ const MessageListItem: FunctionComponent<MessageListItemProps> = ({
   const belongsToUser = user.uid === message.userData.uid;
   const nameColor = belongsToUser
     ? theme.palette.secondary.main
-    : message.userData.color;
+    : userColors[message.userData.colorIndex];
 
   let cardStyle = {
     borderTopLeftRadius: cardRadius,

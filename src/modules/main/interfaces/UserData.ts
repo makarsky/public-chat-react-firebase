@@ -5,14 +5,19 @@ export default class UserData {
 
   public name: string;
 
-  public color: string;
+  public colorIndex: number;
 
   public rateLimit: RateLimit;
 
-  constructor(uid: string, name: string, color: string, rateLimit: RateLimit) {
+  constructor(
+    uid: string,
+    name: string,
+    colorIndex: number,
+    rateLimit: RateLimit,
+  ) {
     this.uid = uid;
     this.name = name;
-    this.color = color;
+    this.colorIndex = colorIndex;
     this.rateLimit = rateLimit;
   }
 }

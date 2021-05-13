@@ -1,7 +1,7 @@
 interface ShortUserData {
   uid: string;
   name: string;
-  color: string;
+  colorIndex: number;
 }
 
 export default interface Message {

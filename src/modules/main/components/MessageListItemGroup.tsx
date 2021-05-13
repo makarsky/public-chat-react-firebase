@@ -3,6 +3,7 @@ import { Avatar, Box } from '@material-ui/core';
 import MessageListItem from './MessageListItem';
 import User from '../interfaces/User';
 import Message from '../interfaces/Message';
+import userColors from './userColors';
 
 interface MessageListItemGroupProps {
   user: User;
@@ -33,7 +34,9 @@ const MessageListItemGroup: FunctionComponent<MessageListItemGroupProps> = ({
           <Box position='sticky' bottom='0' pb={0.4}>
             <Avatar
               alt='Remy Sharp'
-              style={{ backgroundColor: messages[0].userData.color }}
+              style={{
+                backgroundColor: userColors[messages[0].userData.colorIndex],
+              }}
             >
               <Box style={{ color: '#fff' }}>{shortName}</Box>
             </Avatar>
