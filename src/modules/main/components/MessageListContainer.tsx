@@ -120,7 +120,7 @@ const MessageListContainer: FunctionComponent<MessageListContainerProps> = ({
           renderChildren={(messages: Message[], isLoading: boolean) => (
             <>
               {!isLoading && (
-                <Box>
+                <Box pt='40px'>
                   <CachedMessageCollectionProvider
                     currentUser={user}
                     messages={messages || []}
