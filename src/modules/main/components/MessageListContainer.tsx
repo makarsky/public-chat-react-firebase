@@ -108,6 +108,7 @@ const MessageListContainer: FunctionComponent<MessageListContainerProps> = ({
 
   return (
     <>
+      <PinnedMessage />
       <Box
         {...{ ref: chatRef }}
         onScroll={onScroll}
@@ -115,7 +116,6 @@ const MessageListContainer: FunctionComponent<MessageListContainerProps> = ({
         position='relative'
         style={style.boxStyle}
       >
-        <PinnedMessage />
         <MessageCollectionProviderMemorized
           renderChildren={(messages: Message[], isLoading: boolean) => (
             <>
