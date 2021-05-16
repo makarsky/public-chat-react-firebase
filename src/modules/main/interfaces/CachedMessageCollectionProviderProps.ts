@@ -2,7 +2,7 @@ import Message from './Message';
 import User from './User';
 
 interface RenderCachedMessageCollectionProviderChildren {
-  (cachedGroupedMessages: Message[][]): JSX.Element;
+  (cachedGroupedMessages: Message[][], isListShown: boolean): JSX.Element;
 }
 
 export default interface CachedMessageCollectionProviderProps {
@@ -11,4 +11,5 @@ export default interface CachedMessageCollectionProviderProps {
   renderChildren: RenderCachedMessageCollectionProviderChildren;
   afterCachedMessagesAreRenderedCallback: () => void;
   scrollDown: () => void;
+  scrollDownSmoothly: () => void;
 }
