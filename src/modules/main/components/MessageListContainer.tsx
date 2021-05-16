@@ -52,9 +52,15 @@ const MessageListContainer: FunctionComponent<MessageListContainerProps> = ({
     );
   };
 
-  const scrollDown = () => {
+  const scrollDownSmoothly = () => {
     chatBottomRef?.current?.scrollIntoView({
       behavior: 'smooth',
+      block: 'end',
+    });
+  };
+
+  const scrollDown = () => {
+    chatBottomRef?.current?.scrollIntoView({
       block: 'end',
     });
   };
@@ -65,7 +71,7 @@ const MessageListContainer: FunctionComponent<MessageListContainerProps> = ({
     }
 
     if (isAtTheBottom()) {
-      scrollDown();
+      scrollDownSmoothly();
     } else {
       setHaveNewMessages(true);
       setIsScrollButtonShown(true);
@@ -120,27 +126,37 @@ const MessageListContainer: FunctionComponent<MessageListContainerProps> = ({
           renderChildren={(messages: Message[], isLoading: boolean) => (
             <>
               {!isLoading && (
-                <Box pt='40px'>
-                  <CachedMessageCollectionProvider
-                    currentUser={user}
-                    messages={messages || []}
-                    afterCachedMessagesAreRenderedCallback={onNewMessage}
-                    scrollDown={scrollDown}
-                    renderChildren={(cachedGroupedMessages: Message[][]) => (
+                <CachedMessageCollectionProvider
+                  currentUser={user}
+                  messages={messages || []}
+                  afterCachedMessagesAreRenderedCallback={onNewMessage}
+                  scrollDown={scrollDown}
+                  scrollDownSmoothly={scrollDownSmoothly}
+                  renderChildren={(
+                    cachedGroupedMessages: Message[][],
+                    isListShown: boolean,
+                  ) => (
+                    <Box
+                      pt='40px'
+                      style={{
+                        opacity: isListShown ? '1' : '0',
+                        transition: 'opacity 1s',
+                      }}
+                    >
                       <MessageList
                         user={user}
                         groupedMessages={cachedGroupedMessages}
                       />
-                    )}
-                  />
-                </Box>
+                    </Box>
+                  )}
+                />
               )}
               {isLoading && (
                 <Box
                   display='flex'
                   justifyContent='center'
                   alignItems='center'
-                  height='90%'
+                  height='100%'
                 >
                   <CircularProgress color='primary' />
                 </Box>

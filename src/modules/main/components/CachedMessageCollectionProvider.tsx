@@ -1,4 +1,4 @@
-import React, { useEffect, FunctionComponent } from 'react';
+import React, { useState, useEffect, FunctionComponent } from 'react';
 import CachedMessageCollectionProviderProps from '../interfaces/CachedMessageCollectionProviderProps';
 import Message from '../interfaces/Message';
 
@@ -11,7 +11,10 @@ const CachedMessageCollectionProvider: FunctionComponent<CachedMessageCollection
   renderChildren,
   afterCachedMessagesAreRenderedCallback,
   scrollDown,
+  scrollDownSmoothly,
 }: CachedMessageCollectionProviderProps) => {
+  const [isListShown, setIsListShown] = useState(false);
+
   const newMessages = messages
     .filter(
       (message) =>
@@ -51,19 +54,23 @@ const CachedMessageCollectionProvider: FunctionComponent<CachedMessageCollection
   });
 
   useEffect(() => {
-    if (messages[messages.length - 1]?.userData.uid === currentUser.uid) {
+    if (
+      cachedMessages.length !== messages.length &&
+      messages[messages.length - 1]?.userData.uid === currentUser.uid
+    ) {
       // On each current user's new message
-      scrollDown();
+      scrollDownSmoothly();
     } else if (cachedMessages.length === messages.length) {
       // On the first rendering
       scrollDown();
+      setIsListShown(true);
     } else {
       // On each new message
       afterCachedMessagesAreRenderedCallback();
     }
   });
 
-  return <>{renderChildren(cachedGroupedMessages)}</>;
+  return <>{renderChildren(cachedGroupedMessages, isListShown)}</>;
 };
 
 export default CachedMessageCollectionProvider;
