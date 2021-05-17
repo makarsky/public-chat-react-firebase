@@ -60,15 +60,17 @@ const CachedMessageCollectionProvider: FunctionComponent<CachedMessageCollection
     ) {
       // On each current user's new message
       scrollDownSmoothly();
-    } else if (cachedMessages.length === messages.length) {
-      // On the first rendering
-      scrollDown();
-      setIsListShown(true);
-    } else {
+    } else if (cachedMessages.length !== messages.length) {
       // On each new message
       afterCachedMessagesAreRenderedCallback();
     }
   });
+
+  useEffect(() => {
+    // On the first rendering
+    scrollDown();
+    setIsListShown(true);
+  }, [isListShown, scrollDown]);
 
   return <>{renderChildren(cachedGroupedMessages, isListShown)}</>;
 };
