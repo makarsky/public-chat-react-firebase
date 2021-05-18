@@ -8,7 +8,7 @@ import { useTheme } from '@material-ui/core/styles';
 import enShort from 'timeago.js/lib/lang/en_short';
 import User from '../interfaces/User';
 import Message from '../interfaces/Message';
-import userColors from './userColors';
+import userColors from '../configs/userColors';
 
 timeago.register('enShort', enShort);
 
