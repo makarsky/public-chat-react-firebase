@@ -10,7 +10,7 @@ import firebase from 'firebase/app';
 import firebaseProvider from '../../../firebase';
 import User from '../interfaces/User';
 import UserData from '../interfaces/UserData';
-import userColors from './userColors';
+import userColors from '../configs/userColors';
 
 const getRandomName = () => {
   const config: Config = {

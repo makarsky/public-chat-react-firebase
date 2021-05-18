@@ -3,7 +3,7 @@ import { Avatar, Box } from '@material-ui/core';
 import MessageListItem from './MessageListItem';
 import User from '../interfaces/User';
 import Message from '../interfaces/Message';
-import userColors from './userColors';
+import userColors from '../configs/userColors';
 
 interface MessageListItemGroupProps {
   user: User;
