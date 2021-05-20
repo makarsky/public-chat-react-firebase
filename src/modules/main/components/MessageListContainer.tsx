@@ -81,7 +81,7 @@ const MessageListContainer: FunctionComponent<MessageListContainerProps> = ({
   const chipClickHandler = () => {
     setIsScrollButtonShown(false);
     setIsScrollingDown(true);
-    scrollDown();
+    scrollDownSmoothly();
   };
 
   const onScroll = () => {
