@@ -30,9 +30,10 @@ const App: FunctionComponent = () => {
           secondary: {
             light: isDarkMode ? '#616161' : '#2c387e',
             main: isDarkMode ? '#ffee58' : '#5c6bc0',
-            dark: isDarkMode ? '#353535' : '#fff',
+            dark: isDarkMode ? '#353535' : '#ffffff',
           },
           info: {
+            light: isDarkMode ? '#ffffff' : '#3f51b5',
             main: isDarkMode ? '#2196f3' : '#2196f3',
             dark: isDarkMode ? '#1976d2' : '#fffde7',
           },
