@@ -19,6 +19,12 @@ const StyledTextField: FunctionComponent<TextFieldProps> = (
         '& .MuiFilledInput-root': {
           background: theme.palette.secondary.dark,
         },
+        '& .MuiFilledInput-underline::after': {
+          display: 'none',
+        },
+        '& .MuiFilledInput-underline::before': {
+          display: 'none',
+        },
       },
     })(TextField);
   }, [theme]);
