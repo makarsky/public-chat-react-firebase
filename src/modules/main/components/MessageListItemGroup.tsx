@@ -22,7 +22,7 @@ const MessageListItemGroup: FunctionComponent<MessageListItemGroupProps> = ({
 
   return (
     <Box
-      my={0.5}
+      mt={0.5}
       mr={1.4}
       ml={1}
       textAlign={belongsToUser ? 'right' : 'left'}
