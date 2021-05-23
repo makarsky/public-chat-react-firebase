@@ -7,6 +7,7 @@ import Message from '../interfaces/Message';
 import SendMessageButton from './SendMessageButton';
 import StyledTextField from './StyledTextField';
 import UserData from '../interfaces/UserData';
+import EmojiButton from './EmojiButton';
 
 const handleSubmit = async (
   event: React.FormEvent<HTMLFormElement>,
@@ -94,6 +95,7 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
       autoComplete='off'
       style={{ zIndex: 0, backgroundColor: theme.palette.secondary.dark }}
     >
+      <EmojiButton />
       <StyledTextField
         label='Message...'
         variant='filled'
