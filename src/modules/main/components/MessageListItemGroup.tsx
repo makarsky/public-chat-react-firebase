@@ -31,7 +31,7 @@ const MessageListItemGroup: FunctionComponent<MessageListItemGroupProps> = ({
       {!belongsToUser && (
         <Box mr={1}>
           <Box height='calc(100% - 44px)' />
-          <Box position='sticky' bottom='0' pb={0.4}>
+          <Box position='sticky' bottom='0' pb={0.6}>
             <Avatar
               alt='Remy Sharp'
               style={{
