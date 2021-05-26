@@ -12,7 +12,8 @@ interface DefaultLayoutProps {
   isDarkMode: boolean;
   setIsDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
   isSoundOn: boolean;
-  setIsSoundOn: React.Dispatch<React.SetStateAction<boolean>>;
+  setSoundOn: (value: boolean) => void;
+  playSound: () => void;
 }
 
 const DefaultLayout: FunctionComponent<DefaultLayoutProps> = ({
@@ -20,16 +21,21 @@ const DefaultLayout: FunctionComponent<DefaultLayoutProps> = ({
   isDarkMode,
   setIsDarkMode,
   isSoundOn,
-  setIsSoundOn,
+  setSoundOn,
+  playSound,
 }: DefaultLayoutProps) => (
   <Box display='flex' flexDirection='column' className='app'>
     <DefaultAppBar
       isDarkMode={isDarkMode}
       setIsDarkMode={setIsDarkMode}
       isSoundOn={isSoundOn}
-      setIsSoundOn={setIsSoundOn}
+      setSoundOn={setSoundOn}
     />
-    <MessageListContainer user={user} isSoundOn={isSoundOn} />
+    <MessageListContainer
+      user={user}
+      isSoundOn={isSoundOn}
+      playSound={playSound}
+    />
     <UserDataProvider
       user={user}
       renderChildren={(userData: UserData, isLoading: boolean) => (

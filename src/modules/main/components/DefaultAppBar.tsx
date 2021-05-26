@@ -20,14 +20,14 @@ interface DefaultAppBarProps {
   isDarkMode: boolean;
   setIsDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
   isSoundOn: boolean;
-  setIsSoundOn: React.Dispatch<React.SetStateAction<boolean>>;
+  setSoundOn: (value: boolean) => void;
 }
 
 const DefaultAppBar: FunctionComponent<DefaultAppBarProps> = ({
   isDarkMode,
   setIsDarkMode,
   isSoundOn,
-  setIsSoundOn,
+  setSoundOn,
 }: DefaultAppBarProps) => {
   const [open, setOpen] = useState(false);
   const handleDrawerOpen = () => {
@@ -60,7 +60,7 @@ const DefaultAppBar: FunctionComponent<DefaultAppBarProps> = ({
               edge='end'
               color='inherit'
               aria-label='Sound switcher'
-              onClick={() => setIsSoundOn(!isSoundOn)}
+              onClick={() => setSoundOn(!isSoundOn)}
             >
               {isSoundOn && <VolumeUp />}
               {!isSoundOn && <VolumeOff />}

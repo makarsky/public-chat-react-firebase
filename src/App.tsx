@@ -7,6 +7,8 @@ import firebaseProvider from './firebase';
 import DefaultLayout from './modules/main/layouts/DefaultLayout';
 import Loader from './modules/main/layouts/Loader';
 
+const newMessageSound = new Audio('/new_message.mp3');
+
 const App: FunctionComponent = () => {
   const [user] = useAuthState(firebaseProvider.auth);
   const [isDarkMode, setIsDarkMode] = useState(
@@ -45,6 +47,17 @@ const App: FunctionComponent = () => {
     [isDarkMode],
   );
 
+  const playSound = () => {
+    newMessageSound.play();
+  };
+
+  const setSoundOn = (value: boolean) => {
+    if (value) {
+      playSound();
+    }
+    setIsSoundOn(value);
+  };
+
   return (
     <ThemeProvider theme={theme}>
       {user ? (
@@ -53,7 +66,8 @@ const App: FunctionComponent = () => {
           isDarkMode={isDarkMode}
           setIsDarkMode={setIsDarkMode}
           isSoundOn={isSoundOn}
-          setIsSoundOn={setIsSoundOn}
+          setSoundOn={setSoundOn}
+          playSound={playSound}
         />
       ) : (
         <Loader />
