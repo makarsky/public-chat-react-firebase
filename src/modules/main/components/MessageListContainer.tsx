@@ -30,7 +30,7 @@ const MessageListContainer: FunctionComponent<MessageListContainerProps> = ({
   isSoundOn,
   playSound,
 }: MessageListContainerProps) => {
-  const chatBottomRef = useRef() as MutableRefObject<HTMLSpanElement>;
+  const chatBottomRef = useRef() as MutableRefObject<HTMLDivElement>;
   const chatRef = useRef() as MutableRefObject<HTMLDivElement>;
   const [haveNewMessages, setHaveNewMessages] = useState(false);
   const [isScrollButtonShown, setIsScrollButtonShown] = useState(false);
@@ -165,7 +165,7 @@ const MessageListContainer: FunctionComponent<MessageListContainerProps> = ({
             </>
           )}
         />
-        <span ref={chatBottomRef} />
+        <div ref={chatBottomRef} style={{ width: '100%', height: '2px' }} />
       </Box>
       <ScrollDownChip
         show={isScrollButtonShown}
