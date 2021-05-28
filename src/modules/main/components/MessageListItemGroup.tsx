@@ -29,9 +29,9 @@ const MessageListItemGroup: FunctionComponent<MessageListItemGroupProps> = ({
       display='flex'
     >
       {!belongsToUser && (
-        <Box mr={1}>
-          <Box height='calc(100% - 44px)' />
-          <Box position='sticky' bottom='0' pb={0.6}>
+        <Box display='flex' flexDirection='column' mr={1}>
+          <Box flexGrow='1' />
+          <Box position='sticky' bottom='0' pt={0.3} pb={0.4}>
             <Avatar
               alt='Remy Sharp'
               style={{
