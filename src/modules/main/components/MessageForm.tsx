@@ -2,12 +2,18 @@ import React, { useState, useEffect, FunctionComponent } from 'react';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import { useTheme } from '@material-ui/core/styles';
+import { Box, Divider, Collapse, Tabs, Tab } from '@material-ui/core';
+import { CSSProperties } from '@material-ui/core/styles/withStyles';
+import GifIcon from '@material-ui/icons/Image';
+import MoodIcon from '@material-ui/icons/Mood';
 import firebaseProvider from '../../../firebase';
 import Message from '../interfaces/Message';
 import SendMessageButton from './SendMessageButton';
 import StyledTextField from './StyledTextField';
 import UserData from '../interfaces/UserData';
 import EmojiButton from './EmojiButton';
+import TabPanel from './TabPanel';
+import EmojiSelect from './EmojiSelect';
 
 const handleSubmit = async (
   event: React.FormEvent<HTMLFormElement>,
@@ -79,36 +85,105 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
     getLastSubmissionDate(userData),
   );
   const [message, setMessage] = useState('');
+  const [isEmojiListShown, setIsEmojiListShown] = useState(false);
+  const [tab, setTab] = useState(0);
+  const [selectionStart, setSelectionStart] = useState(0);
+  const [selectionEnd, setSelectionEnd] = useState(0);
   const theme = useTheme();
 
   useEffect(() => setLastMessageDate(getLastSubmissionDate(userData)), [
     userData,
   ]);
 
+  const style: Record<string, CSSProperties> = {
+    emojiListStyle: {
+      overflowX: 'hidden',
+      overflowY: 'auto',
+    },
+  };
+
+  const handleInputInteraction = (
+    e: React.SyntheticEvent<HTMLDivElement, Event>,
+  ) => {
+    if (e.target instanceof HTMLTextAreaElement) {
+      setSelectionStart(e.target.selectionStart);
+      setSelectionEnd(e.target.selectionEnd);
+    }
+  };
+
+  const handleEmojiClick = (emoji: string) => {
+    setMessage(
+      `${message.substring(0, selectionStart)}${emoji}${message.substring(
+        selectionEnd,
+        message.length,
+      )}`,
+    );
+    setSelectionStart(selectionStart + emoji.length);
+    setSelectionEnd(selectionEnd + emoji.length);
+  };
+
   return (
     <form
-      className='app-message-form'
       onSubmit={(event) =>
         handleSubmit(event, userData, setLastMessageDate, setMessage, message)
       }
       noValidate
       autoComplete='off'
-      style={{ zIndex: 0, backgroundColor: theme.palette.secondary.dark }}
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        zIndex: 0,
+        backgroundColor: theme.palette.secondary.dark,
+      }}
     >
-      <EmojiButton />
-      <StyledTextField
-        label='Message...'
-        variant='filled'
-        onChange={(event) => setMessage(event.target.value)}
-        fullWidth
-        value={message}
-        multiline
-        rowsMax={10}
-      />
-      <SendMessageButton
-        isDisabled={isLoading}
-        lastMessageDate={lastMessageDate}
-      />
+      <Box display='flex' flexDirection='row' width='100%'>
+        <EmojiButton value={isEmojiListShown} onClick={setIsEmojiListShown} />
+        <StyledTextField
+          label='Message...'
+          variant='filled'
+          onChange={(event) => setMessage(event.target.value)}
+          onClick={handleInputInteraction}
+          onKeyUp={handleInputInteraction}
+          onFocus={() => setIsEmojiListShown(false)}
+          fullWidth
+          value={message}
+          multiline
+          rowsMax={10}
+        />
+        <SendMessageButton
+          isDisabled={isLoading}
+          lastMessageDate={lastMessageDate}
+        />
+      </Box>
+      <Collapse in={isEmojiListShown}>
+        <Box height='19.9rem' display='flex' flexDirection='column'>
+          <Divider />
+          <Box flexGrow='1' style={style.emojiListStyle}>
+            <TabPanel value={tab} index={0}>
+              <EmojiSelect onClick={handleEmojiClick} />
+            </TabPanel>
+            <TabPanel value={tab} index={1}>
+              <Box>
+                <Box>GIFs go here</Box>
+              </Box>
+            </TabPanel>
+          </Box>
+          <Box>
+            <Divider />
+            <Tabs
+              value={tab}
+              onChange={(event: React.ChangeEvent<any>, n: number) => setTab(n)}
+              variant='fullWidth'
+              indicatorColor='primary'
+              textColor='secondary'
+              aria-label='Content type tabs'
+            >
+              <Tab icon={<MoodIcon />} aria-label='Emojis' />
+              <Tab icon={<GifIcon />} aria-label='GIFs' />
+            </Tabs>
+          </Box>
+        </Box>
+      </Collapse>
     </form>
   );
 };
