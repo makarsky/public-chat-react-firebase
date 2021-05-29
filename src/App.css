@@ -17,10 +17,6 @@
   justify-content: flex-end;
 }
 
-.app-message-form {
-  display: flex;
-}
-
 .pinned-message {
   opacity: 0.9;
 }
