@@ -62,8 +62,8 @@ const DefaultAppBar: FunctionComponent<DefaultAppBarProps> = ({
               aria-label='Sound switcher'
               onClick={() => setSoundOn(!isSoundOn)}
             >
-              {isSoundOn && <VolumeUp />}
-              {!isSoundOn && <VolumeOff />}
+              {!isSoundOn && <VolumeUp />}
+              {isSoundOn && <VolumeOff />}
             </IconButton>
             <IconButton
               edge='end'
