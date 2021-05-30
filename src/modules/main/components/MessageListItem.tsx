@@ -1,9 +1,10 @@
 import React, { FunctionComponent } from 'react';
 import * as timeago from 'timeago.js';
+import Linkify from 'react-linkify';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import { Box } from '@material-ui/core';
+import { Box, Link } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 import enShort from 'timeago.js/lib/lang/en_short';
 import User from '../interfaces/User';
@@ -19,6 +20,24 @@ const sharpLeftCorder = {
 };
 const sharpRightCorder = {
   borderBottomRightRadius: '0',
+};
+const componentDecorator = (
+  decoratedHref: string,
+  decoratedText: string,
+  key: number,
+) => {
+  return (
+    <Link
+      key={key}
+      href={decoratedHref}
+      color='textPrimary'
+      underline='always'
+      target='_blank'
+      rel='noreferrer'
+    >
+      {decoratedText}
+    </Link>
+  );
 };
 
 interface MessageListItemProps {
@@ -75,7 +94,9 @@ const MessageListItem: FunctionComponent<MessageListItemProps> = ({
             )}
             <Box whiteSpace='break-spaces' mb={0.5}>
               <Typography color='textPrimary' variant='body1' align='left'>
-                {message.value}
+                <Linkify componentDecorator={componentDecorator}>
+                  {message.value}
+                </Linkify>
               </Typography>
             </Box>
             <Typography
