@@ -14,6 +14,7 @@ import UserData from '../interfaces/UserData';
 import EmojiButton from './EmojiButton';
 import TabPanel from './TabPanel';
 import EmojiSelect from './EmojiSelect';
+import { isMobileBrowser } from '../utils/browser';
 
 const handleSubmit = async (
   event: React.FormEvent<HTMLFormElement>,
@@ -122,6 +123,12 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
     setSelectionEnd(selectionEnd + emoji.length);
   };
 
+  const handleOnFocus = () => {
+    if (isMobileBrowser()) {
+      setIsEmojiListShown(false);
+    }
+  };
+
   return (
     <Box
       display='flex'
@@ -153,7 +160,7 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
             onChange={(event) => setMessage(event.target.value)}
             onClick={handleInputInteraction}
             onKeyUp={handleInputInteraction}
-            onFocus={() => setIsEmojiListShown(false)}
+            onFocus={handleOnFocus}
             fullWidth
             value={message}
             multiline
