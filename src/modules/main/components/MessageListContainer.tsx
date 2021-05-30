@@ -142,6 +142,8 @@ const MessageListContainer: FunctionComponent<MessageListContainerProps> = ({
                       style={{
                         opacity: isListShown ? '1' : '0',
                         transition: 'opacity 1s',
+                        maxWidth: theme.breakpoints.values.md,
+                        margin: '0 auto',
                       }}
                     >
                       <MessageList

@@ -123,68 +123,80 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
   };
 
   return (
-    <form
-      onSubmit={(event) =>
-        handleSubmit(event, userData, setLastMessageDate, setMessage, message)
-      }
-      noValidate
-      autoComplete='off'
+    <Box
+      display='flex'
+      justifyContent='center'
       style={{
-        display: 'flex',
-        flexDirection: 'column',
-        zIndex: 0,
-        backgroundColor: theme.palette.secondary.dark,
+        backgroundColor: theme.palette.background.default,
       }}
     >
-      <Box display='flex' flexDirection='row' width='100%'>
-        <EmojiButton value={isEmojiListShown} onClick={setIsEmojiListShown} />
-        <StyledTextField
-          label='Message...'
-          variant='filled'
-          onChange={(event) => setMessage(event.target.value)}
-          onClick={handleInputInteraction}
-          onKeyUp={handleInputInteraction}
-          onFocus={() => setIsEmojiListShown(false)}
-          fullWidth
-          value={message}
-          multiline
-          rowsMax={10}
-        />
-        <SendMessageButton
-          isDisabled={isLoading}
-          lastMessageDate={lastMessageDate}
-        />
-      </Box>
-      <Collapse in={isEmojiListShown}>
-        <Box height='19.9rem' display='flex' flexDirection='column'>
-          <Divider />
-          <Box flexGrow='1' style={style.emojiListStyle}>
-            <TabPanel value={tab} index={0}>
-              <EmojiSelect onClick={handleEmojiClick} />
-            </TabPanel>
-            <TabPanel value={tab} index={1}>
-              <Box>
-                <Box>GIFs go here</Box>
-              </Box>
-            </TabPanel>
-          </Box>
-          <Box>
-            <Divider />
-            <Tabs
-              value={tab}
-              onChange={(event: React.ChangeEvent<any>, n: number) => setTab(n)}
-              variant='fullWidth'
-              indicatorColor='primary'
-              textColor='secondary'
-              aria-label='Content type tabs'
-            >
-              <Tab icon={<MoodIcon />} aria-label='Emojis' />
-              <Tab icon={<GifIcon />} aria-label='GIFs' />
-            </Tabs>
-          </Box>
+      <form
+        onSubmit={(event) =>
+          handleSubmit(event, userData, setLastMessageDate, setMessage, message)
+        }
+        noValidate
+        autoComplete='off'
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          width: '100%',
+          maxWidth: theme.breakpoints.values.md,
+          zIndex: 0,
+          backgroundColor: theme.palette.secondary.dark,
+        }}
+      >
+        <Box display='flex' flexDirection='row'>
+          <EmojiButton value={isEmojiListShown} onClick={setIsEmojiListShown} />
+          <StyledTextField
+            label='Message...'
+            variant='filled'
+            onChange={(event) => setMessage(event.target.value)}
+            onClick={handleInputInteraction}
+            onKeyUp={handleInputInteraction}
+            onFocus={() => setIsEmojiListShown(false)}
+            fullWidth
+            value={message}
+            multiline
+            rowsMax={10}
+          />
+          <SendMessageButton
+            isDisabled={isLoading}
+            lastMessageDate={lastMessageDate}
+          />
         </Box>
-      </Collapse>
-    </form>
+        <Collapse in={isEmojiListShown}>
+          <Box height='19.9rem' display='flex' flexDirection='column'>
+            <Divider />
+            <Box flexGrow='1' style={style.emojiListStyle}>
+              <TabPanel value={tab} index={0}>
+                <EmojiSelect onClick={handleEmojiClick} />
+              </TabPanel>
+              <TabPanel value={tab} index={1}>
+                <Box>
+                  <Box>GIFs go here</Box>
+                </Box>
+              </TabPanel>
+            </Box>
+            <Box>
+              <Divider />
+              <Tabs
+                value={tab}
+                onChange={(event: React.ChangeEvent<any>, n: number) =>
+                  setTab(n)
+                }
+                variant='fullWidth'
+                indicatorColor='primary'
+                textColor='secondary'
+                aria-label='Content type tabs'
+              >
+                <Tab icon={<MoodIcon />} aria-label='Emojis' />
+                <Tab icon={<GifIcon />} aria-label='GIFs' />
+              </Tabs>
+            </Box>
+          </Box>
+        </Collapse>
+      </form>
+    </Box>
   );
 };
 

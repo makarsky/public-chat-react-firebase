@@ -7,18 +7,23 @@ const PinnedMessage: FunctionComponent = () => {
   const theme = useTheme();
 
   return (
-    <Box position='relative' display='flex' justifyContent='center' height='0'>
-      <Box position='absolute' top='0' width='100%'>
+    <Box position='relative' height='0'>
+      <Box
+        display='flex'
+        justifyContent='center'
+        position='absolute'
+        top='0'
+        width='100%'
+        bgcolor={theme.palette.primary.light}
+        color={theme.palette.grey.A100}
+        zIndex={1}
+      >
         <Box
-          className='pinned-message'
-          bgcolor={theme.palette.primary.light}
-          color={theme.palette.grey.A100}
           p={1}
-          position='sticky'
-          top={0}
           display='flex'
           alignItems='center'
-          zIndex={1}
+          width='100%'
+          maxWidth={theme.breakpoints.values.md}
         >
           <Box color='white' clone px={1}>
             <Attachment />
