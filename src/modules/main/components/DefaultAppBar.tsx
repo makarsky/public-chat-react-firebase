@@ -71,8 +71,8 @@ const DefaultAppBar: FunctionComponent<DefaultAppBarProps> = ({
               aria-label='Theme switcher'
               onClick={() => setIsDarkMode(!isDarkMode)}
             >
-              {isDarkMode && <MoonIcon />}
-              {!isDarkMode && <SunIcon />}
+              {!isDarkMode && <MoonIcon />}
+              {isDarkMode && <SunIcon />}
             </IconButton>
           </Box>
         </Toolbar>
