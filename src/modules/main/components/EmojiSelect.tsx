@@ -3,9 +3,10 @@ import { Box, IconButton, Tab, Tabs } from '@material-ui/core';
 import emojiGroups from '../configs/emojis';
 import TabPanel from './TabPanel';
 
-const emojiGroupTabs = emojiGroups.map((set: Array<string>) => (
-  <Tab icon={<>{set[0]}</>} />
-));
+const emojiGroupTabs = emojiGroups.map((set: Array<string>, index: number) => {
+  const key = `tab-${index}`;
+  return <Tab key={key} icon={<>{set[0]}</>} />;
+});
 
 const emojiTabPanels = emojiGroups.map(
   (group: Array<string>, groupIndex: number) => {
