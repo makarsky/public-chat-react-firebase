@@ -16,6 +16,8 @@ import TabPanel from './TabPanel';
 import EmojiSelect from './EmojiSelect';
 import { isMobileBrowser } from '../utils/browser';
 
+const maxMessageLength = 10000;
+
 const handleSubmit = async (
   event: React.FormEvent<HTMLFormElement>,
   userData: UserData,
@@ -86,6 +88,8 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
     getLastSubmissionDate(userData),
   );
   const [message, setMessage] = useState('');
+  const [error, setError] = useState(false);
+  const [helperText, setHelperText] = useState('');
   const [isEmojiListShown, setIsEmojiListShown] = useState(false);
   const [tab, setTab] = useState(0);
   const [selectionStart, setSelectionStart] = useState(0);
@@ -129,6 +133,18 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
     }
   };
 
+  const handleOnChange: React.ChangeEventHandler<
+    HTMLTextAreaElement | HTMLInputElement
+  > = (event) => {
+    setMessage(event.target.value);
+    setError(event.target.value.length >= maxMessageLength);
+    setHelperText(
+      event.target.value.length >= maxMessageLength
+        ? 'Maximum message length is 256 characters'
+        : '',
+    );
+  };
+
   return (
     <Box
       display='flex'
@@ -157,7 +173,7 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
           <StyledTextField
             label='Message...'
             variant='filled'
-            onChange={(event) => setMessage(event.target.value)}
+            onChange={handleOnChange}
             onClick={handleInputInteraction}
             onKeyUp={handleInputInteraction}
             onFocus={handleOnFocus}
@@ -165,6 +181,11 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
             value={message}
             multiline
             rowsMax={10}
+            error={error}
+            helperText={helperText}
+            inputProps={{
+              maxLength: maxMessageLength,
+            }}
           />
           <SendMessageButton
             isDisabled={isLoading}
