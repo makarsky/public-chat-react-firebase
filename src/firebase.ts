@@ -5,7 +5,7 @@ import 'firebase/auth';
 import 'firebase/firestore';
 // eslint-disable-next-line import/no-duplicates
 import 'firebase/analytics';
-import { config } from './config';
+import config from './config/firebase';
 
 class FirebaseProvider {
   auth: firebase.auth.Auth;
