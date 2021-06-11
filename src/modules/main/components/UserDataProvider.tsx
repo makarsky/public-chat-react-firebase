@@ -12,6 +12,8 @@ import User from '../interfaces/User';
 import UserData from '../interfaces/UserData';
 import userColors from '../configs/userColors';
 
+// https://codesandbox.io/s/unique-names-generator-7fn9r?file=/src/index.ts
+
 const getRandomName = () => {
   const config: Config = {
     dictionaries: [adjectives, animals],
@@ -26,11 +28,13 @@ const getUserData = (
   uid: string,
   userDataRaw: firebase.firestore.DocumentData | undefined,
 ) => {
+  const colorIndex =
+    userDataRaw?.colorIndex ||
+    Math.floor(Math.random() * (userColors.length + 1));
   return new UserData(
     uid,
     userDataRaw?.name || getRandomName(),
-    userDataRaw?.colorIndex ||
-      Math.floor(Math.random() * (userColors.length + 1)),
+    colorIndex,
     userDataRaw?.rateLimit,
   );
 };
