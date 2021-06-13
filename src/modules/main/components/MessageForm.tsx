@@ -6,6 +6,7 @@ import { Box, Divider, Collapse, Tabs, Tab } from '@material-ui/core';
 import { CSSProperties } from '@material-ui/core/styles/withStyles';
 import GifIcon from '@material-ui/icons/Image';
 import MoodIcon from '@material-ui/icons/Mood';
+import { IGif } from '@giphy/js-types';
 import firebaseProvider from '../../../firebase';
 import Message from '../interfaces/Message';
 import SendMessageButton from './SendMessageButton';
@@ -15,16 +16,37 @@ import EmojiButton from './EmojiButton';
 import TabPanel from './TabPanel';
 import EmojiSelect from './EmojiSelect';
 import { isMobileBrowser } from '../utils/browser';
+import GiphySelect from './GiphySelect';
+import { isCoolDownActive } from '../utils/cooldown';
 
 const maxMessageLength = 10000;
 
+const getModeratedMessage = (
+  message: string,
+  event: React.FormEvent<HTMLFormElement> | null,
+) => {
+  message.trim();
+
+  // Prevents from manual pasting 17+ rated gifs
+  if (event && /^#giphy#/.test(message)) {
+    return ` ${message}`;
+  }
+
+  return message;
+};
+
 const handleSubmit = async (
-  event: React.FormEvent<HTMLFormElement>,
+  event: React.FormEvent<HTMLFormElement> | null,
   userData: UserData,
+  lastMessageDate: Date,
   setLastMessageDate: React.Dispatch<React.SetStateAction<Date>>,
-  setMessage: React.Dispatch<React.SetStateAction<string>>,
+  setMessage: React.Dispatch<React.SetStateAction<string>> | null,
   message: string,
 ) => {
+  if (isCoolDownActive(lastMessageDate)) {
+    return;
+  }
+
   const newMessage: Message = {
     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     userData: {
@@ -32,11 +54,11 @@ const handleSubmit = async (
       name: userData.name,
       colorIndex: userData.colorIndex,
     },
-    value: message.trim(),
+    value: getModeratedMessage(message, event),
   };
 
   if (!newMessage.value) {
-    event.preventDefault();
+    event?.preventDefault();
     return;
   }
 
@@ -55,11 +77,14 @@ const handleSubmit = async (
   try {
     batch.commit();
     setLastMessageDate(new Date());
-    setMessage('');
+
+    if (setMessage) {
+      setMessage('');
+    }
   } catch (error) {
     window.location.reload();
   } finally {
-    event.preventDefault();
+    event?.preventDefault();
   }
 };
 
@@ -127,6 +152,21 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
     setSelectionEnd(selectionEnd + emoji.length);
   };
 
+  const handleGiphyClick = (
+    gif: IGif,
+    e: React.SyntheticEvent<HTMLElement, Event>,
+  ) => {
+    e.preventDefault();
+    handleSubmit(
+      null,
+      userData,
+      lastMessageDate,
+      setLastMessageDate,
+      null,
+      `#giphy#${gif.id}`,
+    );
+  };
+
   const handleOnFocus = () => {
     if (isMobileBrowser()) {
       setIsEmojiListShown(false);
@@ -155,7 +195,14 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
     >
       <form
         onSubmit={(event) =>
-          handleSubmit(event, userData, setLastMessageDate, setMessage, message)
+          handleSubmit(
+            event,
+            userData,
+            lastMessageDate,
+            setLastMessageDate,
+            setMessage,
+            message,
+          )
         }
         noValidate
         autoComplete='off'
@@ -201,7 +248,7 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
               </TabPanel>
               <TabPanel value={tab} index={1}>
                 <Box>
-                  <Box>GIFs go here</Box>
+                  <GiphySelect onClick={handleGiphyClick} />
                 </Box>
               </TabPanel>
             </Box>
@@ -209,7 +256,7 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
               <Divider />
               <Tabs
                 value={tab}
-                onChange={(event: React.ChangeEvent<any>, n: number) =>
+                onChange={(_event: React.ChangeEvent<any>, n: number) =>
                   setTab(n)
                 }
                 variant='fullWidth'
