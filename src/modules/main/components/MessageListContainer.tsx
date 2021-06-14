@@ -49,7 +49,7 @@ const MessageListContainer: FunctionComponent<MessageListContainerProps> = ({
   const isAtTheBottom = () => {
     return (
       chatRef?.current?.scrollHeight - chatRef?.current?.scrollTop <
-      chatRef?.current?.clientHeight + chatRef?.current?.clientHeight * 0.3
+      chatRef?.current?.clientHeight + chatRef?.current?.clientHeight * 0.5
     );
   };
 
