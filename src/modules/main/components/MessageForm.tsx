@@ -25,14 +25,14 @@ const getModeratedMessage = (
   message: string,
   event: React.FormEvent<HTMLFormElement> | null,
 ) => {
-  message.trim();
+  const moderatedMessage = message.trim();
 
-  // Prevents from manual pasting 17+ rated gifs
-  if (event && /^#giphy#/.test(message)) {
-    return ` ${message}`;
+  // Prevents from manual copy-pasting 17+ rated gifs
+  if (event && /^#giphy#/.test(moderatedMessage)) {
+    return ` ${moderatedMessage}`;
   }
 
-  return message;
+  return moderatedMessage;
 };
 
 const handleSubmit = async (
