@@ -25,7 +25,8 @@ const getModeratedMessage = (
   message: string,
   event: React.FormEvent<HTMLFormElement> | null,
 ) => {
-  const moderatedMessage = message.trim();
+  let moderatedMessage = message.trim();
+  moderatedMessage = moderatedMessage.replace(/\n\n+/g, '\n');
 
   // Prevents from manual copy-pasting 17+ rated gifs
   if (event && /^#giphy#/.test(moderatedMessage)) {
