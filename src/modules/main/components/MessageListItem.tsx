@@ -65,7 +65,7 @@ const MessageListItem: FunctionComponent<MessageListItemProps> = ({
   const matches = /^#giphy#(.+)/.exec(message.value);
 
   if (!loadedContent && matches) {
-    GiphyService.gif(matches[1]).then((iGif) =>
+    GiphyService.gif(matches[1]).then((iGif: IGif) =>
       setLoadedContent(<Gif gif={iGif} width={190} noLink hideAttribution />),
     );
   } else if (!loadedContent) {

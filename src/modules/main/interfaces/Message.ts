@@ -5,7 +5,7 @@ interface ShortUserData {
 }
 
 export default interface Message {
-  id?: string,
+  id?: string;
   userData: ShortUserData;
   value: string;
   timestamp: any;
