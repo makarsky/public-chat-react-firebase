@@ -7,22 +7,9 @@ import {
   Tooltip,
   useTheme,
 } from '@material-ui/core';
-
-const timeoutInSeconds = 10;
+import { isCoolDownActive, getCoolDownSeconds } from '../utils/cooldown';
 
 let interval: NodeJS.Timeout;
-
-const isCoolDownActive = (lastAccessDate: Date) => {
-  const allowedDate = new Date();
-  allowedDate.setSeconds(allowedDate.getSeconds() - timeoutInSeconds);
-  return lastAccessDate > allowedDate;
-};
-
-const getCoolDownSeconds = (lastAccessDate: Date) => {
-  const allowedDate = new Date();
-  allowedDate.setSeconds(allowedDate.getSeconds() - timeoutInSeconds);
-  return Math.ceil((lastAccessDate.getTime() - allowedDate.getTime()) / 1000);
-};
 
 interface SendMessageButtonProps {
   isDisabled: boolean;
