@@ -1599,7 +1599,7 @@
   dependencies:
     emotion "10.0.27"
 
-"@giphy/js-fetch-api@^4.0.0", "@giphy/js-fetch-api@^4.0.2":
+"@giphy/js-fetch-api@^4.0.2":
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/@giphy/js-fetch-api/-/js-fetch-api-4.0.2.tgz#81fa5e700870e4df02baa1d9ff3644854c45af54"
   integrity sha512-grWYabjefgYkhjBaIaTpEOhVdrbbfghbZzdH2eCJKexXZF7REj8jaudDpkBYvjjYrtv/LEErcGqFIevHENuhLw==
@@ -1622,7 +1622,7 @@
     dompurify "^2.2.2"
     uuid "^8.3.0"
 
-"@giphy/react-components@^3.0.5":
+"@giphy/react-components@^3.0.7":
   version "3.0.7"
   resolved "https://registry.yarnpkg.com/@giphy/react-components/-/react-components-3.0.7.tgz#7416c8557e1592da8769c58d81db321e9882fcdd"
   integrity sha512-8dUT1a/BGkTA0YTt4mRE1rb68ivalg8GBEfxFwWcsozIlD8RQZSHGDRU/UaAlmuMhOJqXnf9N6S3YdgYIYpmRg==
@@ -9710,9 +9710,9 @@ prettier-linter-helpers@^1.0.0:
     fast-diff "^1.1.2"
 
 prettier@^2.2.1:
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.3.1.tgz#76903c3f8c4449bc9ac597acefa24dc5ad4cbea6"
-  integrity sha512-p+vNbgpLjif/+D+DwAZAbndtRrR0md0MwfmOVN9N+2RgyACMT+7tfaRnT+WDPkqnuVwleyuBIG2XBxKDme3hPA==
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.3.2.tgz#ef280a05ec253712e486233db5c6f23441e7342d"
+  integrity sha512-lnJzDfJ66zkMy58OL5/NY5zp70S7Nz6KqcKkXYzn2tMVrNxvbqaBpg7H3qHaLxCJ5lNMsGuM8+ohS7cZrthdLQ==
 
 pretty-bytes@^5.3.0:
   version "5.6.0"
