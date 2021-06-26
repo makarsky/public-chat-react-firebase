@@ -5,25 +5,25 @@ import Message from '../interfaces/Message';
 const cachedMessages: Message[] = [];
 const cachedGroupedMessages: Array<Array<Message>> = [];
 
-const CachedMessageCollectionProvider: FunctionComponent<CachedMessageCollectionProviderProps> = ({
-  currentUser,
-  messages,
-  renderChildren,
-  afterCachedMessagesAreRenderedCallback,
-  scrollDown,
-  scrollDownSmoothly,
-}: CachedMessageCollectionProviderProps) => {
-  const [isListShown, setIsListShown] = useState(false);
+const CachedMessageCollectionProvider: FunctionComponent<CachedMessageCollectionProviderProps> =
+  ({
+    currentUser,
+    messages,
+    renderChildren,
+    afterCachedMessagesAreRenderedCallback,
+    scrollDown,
+    scrollDownSmoothly,
+  }: CachedMessageCollectionProviderProps) => {
+    const [isListShown, setIsListShown] = useState(false);
 
-  const newMessages = messages
-    .filter(
-      (message) =>
-        !cachedMessages.find(
-          (cachedMessage) => cachedMessage.id === message.id,
-        ),
-    )
-    .map(
-      (message): Message => {
+    const newMessages = messages
+      .filter(
+        (message) =>
+          !cachedMessages.find(
+            (cachedMessage) => cachedMessage.id === message.id,
+          ),
+      )
+      .map((message): Message => {
         if (message.timestamp) {
           return message;
         }
@@ -32,47 +32,46 @@ const CachedMessageCollectionProvider: FunctionComponent<CachedMessageCollection
           ...message,
           timestamp: { seconds: Date.now() / 1000 },
         };
-      },
-    );
+      });
 
-  cachedMessages.push(...newMessages);
+    cachedMessages.push(...newMessages);
 
-  newMessages.forEach((message: Message) => {
-    if (cachedGroupedMessages.length === 0) {
-      cachedGroupedMessages.push([message]);
-      return;
-    }
+    newMessages.forEach((message: Message) => {
+      if (cachedGroupedMessages.length === 0) {
+        cachedGroupedMessages.push([message]);
+        return;
+      }
 
-    const lastGroup = cachedGroupedMessages[cachedGroupedMessages.length - 1];
-    const lastGroupMessage = lastGroup[lastGroup.length - 1];
+      const lastGroup = cachedGroupedMessages[cachedGroupedMessages.length - 1];
+      const lastGroupMessage = lastGroup[lastGroup.length - 1];
 
-    if (lastGroupMessage.userData.uid === message.userData.uid) {
-      cachedGroupedMessages[cachedGroupedMessages.length - 1].push(message);
-    } else {
-      cachedGroupedMessages.push([message]);
-    }
-  });
+      if (lastGroupMessage.userData.uid === message.userData.uid) {
+        cachedGroupedMessages[cachedGroupedMessages.length - 1].push(message);
+      } else {
+        cachedGroupedMessages.push([message]);
+      }
+    });
 
-  useEffect(() => {
-    if (
-      cachedMessages.length !== messages.length &&
-      messages[messages.length - 1]?.userData.uid === currentUser.uid
-    ) {
-      // On each current user's new message
-      scrollDownSmoothly();
-    } else if (cachedMessages.length !== messages.length) {
-      // On each new message
-      afterCachedMessagesAreRenderedCallback();
-    }
-  });
+    useEffect(() => {
+      if (
+        cachedMessages.length !== messages.length &&
+        messages[messages.length - 1]?.userData.uid === currentUser.uid
+      ) {
+        // On each current user's new message
+        scrollDownSmoothly();
+      } else if (cachedMessages.length !== messages.length) {
+        // On each new message
+        afterCachedMessagesAreRenderedCallback();
+      }
+    });
 
-  useEffect(() => {
-    // On the first rendering
-    scrollDown();
-    setIsListShown(true);
-  }, [isListShown, scrollDown]);
+    useEffect(() => {
+      // On the first rendering
+      scrollDown();
+      setIsListShown(true);
+    }, [isListShown, scrollDown]);
 
-  return <>{renderChildren(cachedGroupedMessages, isListShown)}</>;
-};
+    return <>{renderChildren(cachedGroupedMessages, isListShown)}</>;
+  };
 
 export default CachedMessageCollectionProvider;

@@ -122,9 +122,10 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
   const [selectionEnd, setSelectionEnd] = useState(0);
   const theme = useTheme();
 
-  useEffect(() => setLastMessageDate(getLastSubmissionDate(userData)), [
-    userData,
-  ]);
+  useEffect(
+    () => setLastMessageDate(getLastSubmissionDate(userData)),
+    [userData],
+  );
 
   const style: Record<string, CSSProperties> = {
     emojiListStyle: {
