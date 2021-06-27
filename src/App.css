@@ -9,3 +9,12 @@
   align-items: center;
   justify-content: flex-end;
 }
+
+.emoji-mart {
+  display: flex !important;
+  flex-direction: column;
+}
+
+.emoji-mart .emoji-mart-scroll {
+  flex-grow: 1;
+}

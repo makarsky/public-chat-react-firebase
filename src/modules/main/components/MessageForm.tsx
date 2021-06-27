@@ -7,6 +7,8 @@ import { CSSProperties } from '@material-ui/core/styles/withStyles';
 import GifIcon from '@material-ui/icons/Image';
 import MoodIcon from '@material-ui/icons/Mood';
 import { IGif } from '@giphy/js-types';
+import 'emoji-mart/css/emoji-mart.css';
+import { EmojiData, Picker } from 'emoji-mart';
 import firebaseProvider from '../../../firebase';
 import Message from '../interfaces/Message';
 import SendMessageButton from './SendMessageButton';
@@ -14,7 +16,6 @@ import StyledTextField from './StyledTextField';
 import UserData from '../interfaces/UserData';
 import EmojiButton from './EmojiButton';
 import TabPanel from './TabPanel';
-import EmojiSelect from './EmojiSelect';
 import { isMobileBrowser } from '../utils/browser';
 import GiphySelect from './GiphySelect';
 import { isCoolDownActive } from '../utils/cooldown';
@@ -23,7 +24,7 @@ const maxMessageLength = 10000;
 
 const getModeratedMessage = (
   message: string,
-  event: React.FormEvent<HTMLFormElement> | null,
+  event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null,
 ) => {
   let moderatedMessage = message.trim();
   moderatedMessage = moderatedMessage.replace(/\n\n+/g, '\n');
@@ -37,7 +38,7 @@ const getModeratedMessage = (
 };
 
 const handleSubmit = async (
-  event: React.FormEvent<HTMLFormElement> | null,
+  event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null,
   userData: UserData,
   lastMessageDate: Date,
   setLastMessageDate: React.Dispatch<React.SetStateAction<Date>>,
@@ -59,7 +60,6 @@ const handleSubmit = async (
   };
 
   if (!newMessage.value) {
-    event?.preventDefault();
     return;
   }
 
@@ -84,8 +84,6 @@ const handleSubmit = async (
     }
   } catch (error) {
     window.location.reload();
-  } finally {
-    event?.preventDefault();
   }
 };
 
@@ -131,6 +129,7 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
     emojiListStyle: {
       overflowX: 'hidden',
       overflowY: 'auto',
+      height: '100%',
     },
   };
 
@@ -195,27 +194,13 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
         backgroundColor: theme.palette.background.default,
       }}
     >
-      <form
-        onSubmit={(event) =>
-          handleSubmit(
-            event,
-            userData,
-            lastMessageDate,
-            setLastMessageDate,
-            setMessage,
-            message,
-          )
-        }
-        noValidate
-        autoComplete='off'
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          width: '100%',
-          maxWidth: theme.breakpoints.values.md,
-          zIndex: 0,
-          backgroundColor: theme.palette.secondary.dark,
-        }}
+      <Box
+        display='flex'
+        flexDirection='column'
+        width='100%'
+        maxWidth={theme.breakpoints.values.md}
+        zIndex={0}
+        style={{ backgroundColor: theme.palette.secondary.dark }}
       >
         <Box display='flex' flexDirection='row'>
           <EmojiButton value={isEmojiListShown} onClick={setIsEmojiListShown} />
@@ -239,14 +224,35 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
           <SendMessageButton
             isDisabled={isLoading}
             lastMessageDate={lastMessageDate}
+            onClick={(event) =>
+              handleSubmit(
+                event,
+                userData,
+                lastMessageDate,
+                setLastMessageDate,
+                setMessage,
+                message,
+              )
+            }
           />
         </Box>
         <Collapse in={isEmojiListShown}>
-          <Box height='19.9rem' display='flex' flexDirection='column'>
+          <Box height='300px' display='flex' flexDirection='column'>
             <Divider />
-            <Box flexGrow='1' style={style.emojiListStyle}>
+            <Box style={style.emojiListStyle}>
               <TabPanel value={tab} index={0}>
-                <EmojiSelect onClick={handleEmojiClick} />
+                <Picker
+                  set='google'
+                  showPreview={false}
+                  showSkinTones={false}
+                  theme={theme.palette.type}
+                  color={theme.palette.secondary.main}
+                  style={{ width: '100%', height: '100%', borderRadius: 0 }}
+                  onSelect={(emoji: EmojiData) => {
+                    handleEmojiClick(emoji.colons || '');
+                  }}
+                  recent={['bug', 'beetle', 'ant']}
+                />
               </TabPanel>
               <TabPanel value={tab} index={1}>
                 <Box>
@@ -254,7 +260,7 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
                 </Box>
               </TabPanel>
             </Box>
-            <Box>
+            <Box display='flex'>
               <Divider />
               <Tabs
                 value={tab}
@@ -272,7 +278,7 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
             </Box>
           </Box>
         </Collapse>
-      </form>
+      </Box>
     </Box>
   );
 };
