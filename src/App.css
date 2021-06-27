@@ -18,3 +18,8 @@
 .emoji-mart .emoji-mart-scroll {
   flex-grow: 1;
 }
+
+.giphy-gif-img {
+  object-fit: contain;
+  background-color: unset !important;
+}
