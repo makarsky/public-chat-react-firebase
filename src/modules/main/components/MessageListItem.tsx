@@ -17,6 +17,7 @@ import GiphyService from '../../../service/GiphyService';
 timeago.register('enShort', enShort);
 
 const cardRadius = '10px';
+const giphySize = 190;
 
 const sharpLeftCorder = {
   borderBottomLeftRadius: '0',
@@ -66,7 +67,15 @@ const MessageListItem: FunctionComponent<MessageListItemProps> = ({
 
   if (!loadedContent && matches) {
     GiphyService.gif(matches[1]).then((iGif: IGif) =>
-      setLoadedContent(<Gif gif={iGif} width={190} noLink hideAttribution />),
+      setLoadedContent(
+        <Gif
+          gif={iGif}
+          height={giphySize}
+          width={giphySize}
+          noLink
+          hideAttribution
+        />,
+      ),
     );
   } else if (!loadedContent) {
     content = (
@@ -124,8 +133,8 @@ const MessageListItem: FunctionComponent<MessageListItemProps> = ({
             {!content && !loadedContent && (
               <Box
                 display='flex'
-                height='250px'
-                width='200px'
+                height={`${giphySize}px`}
+                width={`${giphySize}px`}
                 justifyContent='center'
                 alignItems='center'
               >
