@@ -14,11 +14,13 @@ let interval: NodeJS.Timeout;
 interface SendMessageButtonProps {
   isDisabled: boolean;
   lastMessageDate: Date;
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 const SendMessageButton: FunctionComponent<SendMessageButtonProps> = ({
   isDisabled,
   lastMessageDate,
+  onClick,
 }: SendMessageButtonProps) => {
   const [seconds, setSeconds] = useState(0);
   const [isTooltipOpen, setIsTooltipOpen] = useState(false);
@@ -58,10 +60,10 @@ const SendMessageButton: FunctionComponent<SendMessageButtonProps> = ({
           <IconButton
             size='medium'
             color='primary'
-            type='submit'
             aria-label='Send'
             data-testid='send-message'
             disabled={isDisabled}
+            onClick={onClick}
           >
             <SendIcon style={{ color: theme.palette.info.light }} />
           </IconButton>
