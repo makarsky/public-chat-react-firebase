@@ -134,7 +134,7 @@ const MessageListItem: FunctionComponent<MessageListItemProps> = ({
             {!content && !loadedContent && (
               <Box
                 display='flex'
-                height={`${giphySize}px`}
+                height={`${giphySize + 10}px`}
                 width={`${giphySize}px`}
                 justifyContent='center'
                 alignItems='center'
