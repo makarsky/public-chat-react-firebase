@@ -10,6 +10,7 @@ import enShort from 'timeago.js/lib/lang/en_short';
 import { Gif } from '@giphy/react-components';
 import { IGif } from '@giphy/js-types';
 import User from '../interfaces/User';
+import Emojify from './Emojify';
 import Message from '../interfaces/Message';
 import userColors from '../configs/userColors';
 import GiphyService from '../../../service/GiphyService';
@@ -81,7 +82,7 @@ const MessageListItem: FunctionComponent<MessageListItemProps> = ({
     content = (
       <Typography color='textPrimary' variant='body1' align='left'>
         <Linkify componentDecorator={componentDecorator}>
-          {message.value}
+          <Emojify>{message.value}</Emojify>
         </Linkify>
       </Typography>
     );
