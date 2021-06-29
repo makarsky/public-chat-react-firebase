@@ -24,7 +24,7 @@ const EmojiButton: FunctionComponent<EmojiButtonProps> = ({
           aria-label='Show emojis'
           data-testid='show-emojis'
           onClick={() => onClick(!value)}
-          style={{ paddingRight: '6px' }}
+          style={{ paddingRight: '6px', paddingLeft: '6px', marginLeft: '6px' }}
         >
           <Box display='flex' flexDirection='column'>
             {value && (
