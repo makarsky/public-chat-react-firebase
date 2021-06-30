@@ -32,7 +32,7 @@ const Emojify = ({ children }: EmojifyProps) => {
       strings.push(rawStrings[i]);
       if (emojiNames[i]) {
         strings.push(
-          <Emoji set='google' emoji={emojiNames[i]} size={20} key={i} />,
+          <Emoji set='google' emoji={emojiNames[i]} size={24} key={i} />,
         );
       }
     }
