@@ -26,13 +26,18 @@ const Emojify = ({ children }: EmojifyProps) => {
     const emojiNamesRegExp = new RegExp(emojiNames.join('|'));
     const rawStrings = children.split(emojiNamesRegExp);
 
+    const size =
+      emojiNames.length === 1 && rawStrings.filter((s) => s).length === 0
+        ? 27
+        : 23;
+
     const strings = [];
 
     for (let i = 0; i < rawStrings.length; i += 1) {
       strings.push(rawStrings[i]);
       if (emojiNames[i]) {
         strings.push(
-          <Emoji set='google' emoji={emojiNames[i]} size={24} key={i} />,
+          <Emoji set='google' emoji={emojiNames[i]} size={size} key={i} />,
         );
       }
     }
