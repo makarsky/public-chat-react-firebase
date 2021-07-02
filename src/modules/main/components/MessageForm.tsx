@@ -12,6 +12,8 @@ import { EmojiData, Picker } from 'emoji-mart';
 import firebaseProvider from '../../../firebase';
 import Message from '../interfaces/Message';
 import SendMessageButton from './SendMessageButton';
+import DeleteButton from './DeleteButton';
+import NewLineButton from './NewLineButton';
 import StyledTextField from './StyledTextField';
 import UserData from '../interfaces/UserData';
 import EmojiButton from './EmojiButton';
@@ -43,6 +45,8 @@ const handleSubmit = async (
   lastMessageDate: Date,
   setLastMessageDate: React.Dispatch<React.SetStateAction<Date>>,
   setMessage: React.Dispatch<React.SetStateAction<string>> | null,
+  setSelectionStart: React.Dispatch<React.SetStateAction<number>>,
+  setSelectionEnd: React.Dispatch<React.SetStateAction<number>>,
   message: string,
 ) => {
   if (isCoolDownActive(lastMessageDate)) {
@@ -81,6 +85,8 @@ const handleSubmit = async (
 
     if (setMessage) {
       setMessage('');
+      setSelectionStart(0);
+      setSelectionEnd(0);
     }
   } catch (error) {
     window.location.reload();
@@ -129,7 +135,6 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
     emojiListStyle: {
       overflowX: 'hidden',
       overflowY: 'auto',
-      height: '100%',
     },
   };
 
@@ -142,15 +147,15 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
     }
   };
 
-  const handleEmojiClick = (emoji: string) => {
+  const insertIntoMessage = (text: string) => {
     setMessage(
-      `${message.substring(0, selectionStart)}${emoji}${message.substring(
+      `${message.substring(0, selectionStart)}${text}${message.substring(
         selectionEnd,
         message.length,
       )}`,
     );
-    setSelectionStart(selectionStart + emoji.length);
-    setSelectionEnd(selectionEnd + emoji.length);
+    setSelectionStart(selectionStart + text.length);
+    setSelectionEnd(selectionEnd + text.length);
   };
 
   const handleGiphyClick = (
@@ -164,8 +169,47 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
       lastMessageDate,
       setLastMessageDate,
       null,
+      setSelectionStart,
+      setSelectionEnd,
       `#giphy#${gif.id}`,
     );
+  };
+
+  const handleDelete = () => {
+    if (selectionStart !== selectionEnd) {
+      setMessage(
+        `${message.substring(0, selectionStart)}${message.substring(
+          selectionEnd,
+          message.length,
+        )}`,
+      );
+      setSelectionEnd(selectionStart);
+      return;
+    }
+
+    const re = /(:[-+_0-9a-zA-Z]+:)$/g;
+    const matches = re.exec(message.substring(0, selectionStart));
+
+    if (matches) {
+      setMessage(
+        `${message.substring(
+          0,
+          selectionStart - matches[1].length,
+        )}${message.substring(selectionEnd, message.length)}`,
+      );
+      setSelectionStart(selectionStart - matches[1].length);
+      setSelectionEnd(selectionEnd - matches[1].length);
+      return;
+    }
+
+    setMessage(
+      `${message.substring(0, selectionStart - 1)}${message.substring(
+        selectionEnd,
+        message.length,
+      )}`,
+    );
+    setSelectionStart(selectionStart - 1);
+    setSelectionEnd(selectionEnd - 1);
   };
 
   const handleOnFocus = () => {
@@ -181,7 +225,7 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
     setError(event.target.value.length >= maxMessageLength);
     setHelperText(
       event.target.value.length >= maxMessageLength
-        ? 'Maximum message length is 256 characters'
+        ? `Maximum message length is ${maxMessageLength} characters`
         : '',
     );
   };
@@ -231,13 +275,15 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
                 lastMessageDate,
                 setLastMessageDate,
                 setMessage,
+                setSelectionStart,
+                setSelectionEnd,
                 message,
               )
             }
           />
         </Box>
         <Collapse in={isEmojiListShown}>
-          <Box height='300px' display='flex' flexDirection='column'>
+          <Box display='flex' flexDirection='column' height='280px'>
             <Divider />
             <Box style={style.emojiListStyle}>
               <TabPanel value={tab} index={0}>
@@ -248,9 +294,12 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
                   theme={theme.palette.type}
                   color={theme.palette.secondary.main}
                   style={{ width: '100%', height: '100%', borderRadius: 0 }}
-                  onSelect={(emoji: EmojiData) => {
-                    handleEmojiClick(emoji.colons || '');
-                  }}
+                  onSelect={(emoji: EmojiData) =>
+                    insertIntoMessage(emoji.colons || '')
+                  }
+                  emojisToShowFilter={(emoji: any) =>
+                    emoji.short_names[0] !== 'middle_finger'
+                  }
                   recent={['bug', 'beetle', 'ant']}
                 />
               </TabPanel>
@@ -260,8 +309,9 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
                 </Box>
               </TabPanel>
             </Box>
+            <Divider />
             <Box display='flex'>
-              <Divider />
+              <DeleteButton onClick={handleDelete} />
               <Tabs
                 value={tab}
                 onChange={(_event: React.ChangeEvent<any>, n: number) =>
@@ -271,10 +321,12 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
                 indicatorColor='primary'
                 textColor='secondary'
                 aria-label='Content type tabs'
+                style={{ flexGrow: 1 }}
               >
                 <Tab icon={<MoodIcon />} aria-label='Emojis' />
                 <Tab icon={<GifIcon />} aria-label='GIFs' />
               </Tabs>
+              <NewLineButton onClick={() => insertIntoMessage('\n')} />
             </Box>
           </Box>
         </Collapse>
