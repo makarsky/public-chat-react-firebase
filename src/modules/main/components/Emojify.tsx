@@ -1,7 +1,7 @@
 import React from 'react';
-import { Emoji } from 'emoji-mart';
+import { Emoji, EmojiData, EmojiProps } from 'emoji-mart';
 
-const re = /(:[-+_0-9a-zA-Z]+?:)/g;
+const re = /(:[-+_0-9a-zA-Z]+:)/g;
 
 const getEmojiNames = (message: string, emojiNames: string[]): string[] => {
   const newMatches = re.exec(message);
@@ -37,7 +37,16 @@ const Emojify = ({ children }: EmojifyProps) => {
       strings.push(rawStrings[i]);
       if (emojiNames[i]) {
         strings.push(
-          <Emoji set='google' emoji={emojiNames[i]} size={size} key={i} />,
+          <Emoji
+            set='google'
+            emoji={emojiNames[i]}
+            size={size}
+            key={i}
+            fallback={(_emoji: EmojiData, props: EmojiProps) => {
+              // eslint-disable-next-line react/prop-types
+              return <>{props.emoji}</>;
+            }}
+          />,
         );
       }
     }
