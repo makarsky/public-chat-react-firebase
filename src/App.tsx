@@ -43,6 +43,11 @@ const App: FunctionComponent = () => {
             default: isDarkMode ? '#212121' : '#e8eaf6',
           },
         },
+        typography: {
+          body1: {
+            lineHeight: 1.3,
+          },
+        },
       }),
     [isDarkMode],
   );
