@@ -135,6 +135,7 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
     emojiListStyle: {
       overflowX: 'hidden',
       overflowY: 'auto',
+      flexGrow: 1,
     },
   };
 
