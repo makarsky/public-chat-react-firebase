@@ -67,17 +67,27 @@ const MessageListItem: FunctionComponent<MessageListItemProps> = ({
   const matches = /^#giphy#(.+)/.exec(message.value);
 
   if (!loadedContent && matches) {
-    GiphyService.gif(matches[1]).then((iGif: IGif) =>
-      setLoadedContent(
-        <Gif
-          gif={iGif}
-          height={giphySize}
-          width={giphySize}
-          noLink
-          hideAttribution
-        />,
-      ),
-    );
+    GiphyService.gif(matches[1])
+      .then((iGif: IGif) =>
+        setLoadedContent(
+          <Gif
+            gif={iGif}
+            height={giphySize}
+            width={giphySize}
+            noLink
+            hideAttribution
+          />,
+        ),
+      )
+      .catch(() =>
+        setLoadedContent(
+          <Box borderRadius='4px' bgcolor='#ffcdd2'>
+            <Typography color='error' variant='subtitle2' align='left'>
+              Giphy connection error. Try reloading
+            </Typography>
+          </Box>,
+        ),
+      );
   } else if (!loadedContent) {
     content = (
       <Typography color='textPrimary' variant='body1' align='left'>
@@ -127,7 +137,7 @@ const MessageListItem: FunctionComponent<MessageListItemProps> = ({
               </Box>
             )}
             {(content || loadedContent) && (
-              <Box whiteSpace='break-spaces' mb={0.5}>
+              <Box whiteSpace='break-spaces' mb={loadedContent ? 0.5 : 0}>
                 {content || loadedContent}
               </Box>
             )}
