@@ -26,7 +26,7 @@ const App: FunctionComponent = () => {
         palette: {
           type: isDarkMode ? 'dark' : 'light',
           primary: {
-            light: isDarkMode ? '#616161' : '#2c387e',
+            light: isDarkMode ? '#37474f' : '#2c387e',
             main: isDarkMode ? '#424242' : '#3f51b5',
           },
           secondary: {

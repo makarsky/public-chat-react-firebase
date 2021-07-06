@@ -1,10 +1,21 @@
 import React, { FunctionComponent } from 'react';
 import Box from '@material-ui/core/Box';
 import Attachment from '@material-ui/icons/Attachment';
-import { Typography, useTheme } from '@material-ui/core';
+import { Typography, useTheme, Button } from '@material-ui/core';
+import hardCodedMessages from '../configs/hardCodedMessages';
 
-const PinnedMessage: FunctionComponent = () => {
+interface PinnedMessageProps {
+  onClick: () => void;
+}
+
+const PinnedMessage: FunctionComponent<PinnedMessageProps> = ({
+  onClick,
+}: PinnedMessageProps) => {
   const theme = useTheme();
+
+  if (hardCodedMessages.length === 0) {
+    return <></>;
+  }
 
   return (
     <Box position='relative' height='0'>
@@ -15,22 +26,35 @@ const PinnedMessage: FunctionComponent = () => {
         top='0'
         width='100%'
         bgcolor={theme.palette.primary.light}
-        color={theme.palette.grey.A100}
         zIndex={1}
       >
         <Box
-          p={1}
           display='flex'
           alignItems='center'
           width='100%'
           maxWidth={theme.breakpoints.values.md}
         >
-          <Box color='white' clone px={1}>
-            <Attachment />
-          </Box>
-          <Typography variant='body2' component='span' noWrap>
-            Pinned message
-          </Typography>
+          <Button
+            size='small'
+            style={{
+              width: '100%',
+              justifyContent: 'flex-start',
+              textTransform: 'none',
+            }}
+            onClick={onClick}
+          >
+            <Box color='white' clone px={1}>
+              <Attachment />
+            </Box>
+            <Typography
+              variant='body2'
+              component='span'
+              noWrap
+              style={{ color: theme.palette.grey.A100 }}
+            >
+              Pinned message: {hardCodedMessages[0][0].value}
+            </Typography>
+          </Button>
         </Box>
       </Box>
     </Box>

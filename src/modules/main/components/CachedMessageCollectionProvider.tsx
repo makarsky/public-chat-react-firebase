@@ -1,9 +1,11 @@
 import React, { useState, useEffect, FunctionComponent } from 'react';
 import CachedMessageCollectionProviderProps from '../interfaces/CachedMessageCollectionProviderProps';
 import Message from '../interfaces/Message';
+import hardCodedMessages from '../configs/hardCodedMessages';
 
 const cachedMessages: Message[] = [];
-const cachedGroupedMessages: Array<Array<Message>> = [];
+const cachedGroupedMessages: Array<Array<Message>> = hardCodedMessages;
+const hardCodedMessagesCount = hardCodedMessages.length;
 
 const CachedMessageCollectionProvider: FunctionComponent<CachedMessageCollectionProviderProps> =
   ({
@@ -54,12 +56,15 @@ const CachedMessageCollectionProvider: FunctionComponent<CachedMessageCollection
 
     useEffect(() => {
       if (
-        cachedMessages.length !== messages.length &&
+        cachedMessages.length - hardCodedMessagesCount !== messages.length &&
         messages[messages.length - 1]?.userData.uid === currentUser.uid
       ) {
         // On each current user's new message
         scrollDownSmoothly();
-      } else if (cachedMessages.length !== messages.length) {
+      } else if (
+        cachedMessages.length - hardCodedMessagesCount !==
+        messages.length
+      ) {
         // On each new message
         afterCachedMessagesAreRenderedCallback();
       }
