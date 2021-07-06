@@ -53,6 +53,10 @@ const MessageListContainer: FunctionComponent<MessageListContainerProps> = ({
     );
   };
 
+  const scrollUpSmoothly = () => {
+    chatRef?.current?.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const scrollDownSmoothly = () => {
     chatBottomRef?.current?.scrollIntoView({
       behavior: 'smooth',
@@ -115,7 +119,7 @@ const MessageListContainer: FunctionComponent<MessageListContainerProps> = ({
 
   return (
     <>
-      <PinnedMessage />
+      <PinnedMessage onClick={scrollUpSmoothly} />
       <Box
         {...{ ref: chatRef }}
         onScroll={onScroll}

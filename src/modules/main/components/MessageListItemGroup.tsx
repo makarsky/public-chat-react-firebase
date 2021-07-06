@@ -32,12 +32,15 @@ const MessageListItemGroup: FunctionComponent<MessageListItemGroupProps> = ({
           <Box flexGrow='1' />
           <Box position='sticky' bottom='0' pt={0.3} pb={0.4}>
             <Avatar
-              alt='Remy Sharp'
+              alt={messages[0].userData.name}
               style={{
                 backgroundColor: userColors[messages[0].userData.colorIndex],
               }}
+              src={messages[0].userData.avatarSrc}
             >
-              <Box style={{ color: '#fff' }}>{shortName}</Box>
+              {!messages[0].userData.avatarSrc && (
+                <Box style={{ color: '#fff' }}>{shortName}</Box>
+              )}
             </Avatar>
           </Box>
         </Box>
