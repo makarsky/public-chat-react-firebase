@@ -13,10 +13,15 @@
 .emoji-mart {
   display: flex !important;
   flex-direction: column;
+  font-size: 14px;
 }
 
 .emoji-mart .emoji-mart-scroll {
   flex-grow: 1;
+}
+
+.emoji-mart .emoji-mart-anchor {
+  padding: 6px 4px;
 }
 
 .giphy-gif-img {
