@@ -7,7 +7,6 @@ import Drawer from '@material-ui/core/Drawer';
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import MenuIcon from '@material-ui/icons/Menu';
-import MoodIcon from '@material-ui/icons/Mood';
 import MoonIcon from '@material-ui/icons/Brightness2';
 import SunIcon from '@material-ui/icons/Brightness7';
 import VolumeUp from '@material-ui/icons/VolumeUp';
@@ -49,12 +48,6 @@ const DefaultAppBar: FunctionComponent<DefaultAppBarProps> = ({
           >
             <MenuIcon />
           </IconButton>
-          <Typography component='h1' variant='h6' color='inherit'>
-            Emoji Chat
-          </Typography>
-          <Box color='inherit' clone m={1}>
-            <MoodIcon />
-          </Box>
           <Box textAlign='right' flexGrow='1'>
             <IconButton
               edge='end'
