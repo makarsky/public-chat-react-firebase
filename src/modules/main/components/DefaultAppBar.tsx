@@ -39,7 +39,7 @@ const DefaultAppBar: FunctionComponent<DefaultAppBarProps> = ({
   return (
     <>
       <AppBar position='static'>
-        <Toolbar>
+        <Toolbar variant='dense'>
           <IconButton
             edge='start'
             color='inherit'
