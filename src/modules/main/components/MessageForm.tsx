@@ -1,4 +1,9 @@
-import React, { useState, useEffect, FunctionComponent } from 'react';
+import React, {
+  useState,
+  useEffect,
+  FunctionComponent,
+  KeyboardEventHandler,
+} from 'react';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import { useTheme } from '@material-ui/core/styles';
@@ -148,6 +153,24 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
     }
   };
 
+  const handleOnKeyDown: KeyboardEventHandler<HTMLDivElement> = (
+    event: any,
+  ) => {
+    if (event.code === 'Enter' && !event.shiftKey && !isMobileBrowser()) {
+      event.preventDefault();
+      handleSubmit(
+        event,
+        userData,
+        lastMessageDate,
+        setLastMessageDate,
+        setMessage,
+        setSelectionStart,
+        setSelectionEnd,
+        message,
+      );
+    }
+  };
+
   const insertIntoMessage = (text: string) => {
     setMessage(
       `${message.substring(0, selectionStart)}${text}${message.substring(
@@ -255,6 +278,7 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
             onChange={handleOnChange}
             onClick={handleInputInteraction}
             onKeyUp={handleInputInteraction}
+            onKeyDown={handleOnKeyDown}
             onFocus={handleOnFocus}
             fullWidth
             value={message}
