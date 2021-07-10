@@ -24,9 +24,14 @@ const DeleteButton: FunctionComponent<DeleteButtonProps> = ({
   const theme = useTheme();
 
   return (
-    <Box display='flex'>
+    <Box
+      display='flex'
+      width='39px'
+      alignItems='center'
+      justifyContent='center'
+    >
       <IconButton
-        size='medium'
+        size='small'
         color='primary'
         type='button'
         aria-label='Delete'
