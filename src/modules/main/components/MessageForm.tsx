@@ -308,7 +308,12 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
           />
         </Box>
         <Collapse in={isEmojiListShown}>
-          <Box display='flex' flexDirection='column' height='280px'>
+          <Box
+            display='flex'
+            flexDirection='column'
+            height='42vh'
+            maxHeight='280px'
+          >
             <Divider />
             <Box style={style.emojiListStyle}>
               <TabPanel value={tab} index={0}>
@@ -346,10 +351,18 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
                 indicatorColor='primary'
                 textColor='secondary'
                 aria-label='Content type tabs'
-                style={{ flexGrow: 1 }}
+                style={{ flexGrow: 1, minHeight: '36px' }}
               >
-                <Tab icon={<MoodIcon />} aria-label='Emojis' />
-                <Tab icon={<GifIcon />} aria-label='GIFs' />
+                <Tab
+                  icon={<MoodIcon />}
+                  aria-label='Emojis'
+                  style={{ minHeight: 'initial' }}
+                />
+                <Tab
+                  icon={<GifIcon />}
+                  aria-label='GIFs'
+                  style={{ minHeight: 'initial' }}
+                />
               </Tabs>
               <NewLineButton onClick={() => insertIntoMessage('\n')} />
             </Box>
