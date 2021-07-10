@@ -12,12 +12,7 @@ const NewLineButton: FunctionComponent<NewLineButtonProps> = ({
   const theme = useTheme();
 
   return (
-    <Box
-      display='flex'
-      width='39px'
-      alignItems='center'
-      justifyContent='center'
-    >
+    <Box display='flex' width='16%' alignItems='center' justifyContent='center'>
       <IconButton
         size='small'
         color='primary'
