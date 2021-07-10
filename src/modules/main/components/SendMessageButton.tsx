@@ -55,10 +55,10 @@ const SendMessageButton: FunctionComponent<SendMessageButtonProps> = ({
 
   return (
     <Box display='flex' alignItems='flex-end'>
-      <Box display='flex' height='56px' width='48px'>
+      <Box display='flex' height='39px' width='39px'>
         {!isTimerShown && (
           <IconButton
-            size='medium'
+            size='small'
             color='primary'
             aria-label='Send'
             data-testid='send-message'
@@ -77,7 +77,7 @@ const SendMessageButton: FunctionComponent<SendMessageButtonProps> = ({
               arrow
             >
               <IconButton
-                size='medium'
+                size='small'
                 color='primary'
                 style={{ width: '100%' }}
                 onMouseDown={handleTooltipOpen}

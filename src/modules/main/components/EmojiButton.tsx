@@ -16,9 +16,9 @@ const EmojiButton: FunctionComponent<EmojiButtonProps> = ({
 
   return (
     <Box display='flex' alignItems='flex-end'>
-      <Box display='flex' height='56px'>
+      <Box display='flex' height='39px'>
         <IconButton
-          size='medium'
+          size='small'
           color='primary'
           type='button'
           aria-label='Show emojis'
