@@ -1,34 +1,34 @@
-import React, { useEffect, FunctionComponent } from 'react';
-import {
-  TextField,
-  useTheme,
-  withStyles,
-  TextFieldProps,
-} from '@material-ui/core';
+import React, { FunctionComponent } from 'react';
+import { TextField, withStyles, TextFieldProps } from '@material-ui/core';
 
-let StyledInput: any = TextField;
+const StyledInput = withStyles({
+  root: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    '& .MuiFormLabel-root.MuiInputLabel-root': {
+      transform: 'translate(6px, -50%)',
+      top: '50%',
+    },
+    '& .MuiFormLabel-root.MuiInputLabel-root.MuiInputLabel-shrink': {
+      display: 'none',
+    },
+    '& .MuiInputBase-root.MuiFilledInput-root': {
+      background: 'transparent',
+      padding: '10px 6px',
+    },
+    '& .MuiFilledInput-underline::after': {
+      display: 'none',
+    },
+    '& .MuiFilledInput-underline::before': {
+      display: 'none',
+    },
+  },
+})(TextField);
 
 const StyledTextField: FunctionComponent<TextFieldProps> = (
   props: TextFieldProps,
 ) => {
-  const theme = useTheme();
-
-  useEffect(() => {
-    StyledInput = withStyles({
-      root: {
-        '& .MuiFilledInput-root': {
-          background: theme.palette.secondary.dark,
-        },
-        '& .MuiFilledInput-underline::after': {
-          display: 'none',
-        },
-        '& .MuiFilledInput-underline::before': {
-          display: 'none',
-        },
-      },
-    })(TextField);
-  }, [theme]);
-
   /* eslint-disable react/jsx-props-no-spreading */
   return <StyledInput {...props} />;
 };
