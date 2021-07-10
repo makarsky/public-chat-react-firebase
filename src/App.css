@@ -19,7 +19,7 @@
   font-size: 13px;
 }
 
-@media only screen and (max-height: 500px) {
+@media only screen and (max-height: 600px) {
   .emoji-mart .emoji-mart-category-label {
     position: static;
   }
