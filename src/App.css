@@ -13,7 +13,16 @@
 .emoji-mart {
   display: flex !important;
   flex-direction: column;
-  font-size: 14px;
+}
+
+.emoji-mart .emoji-mart-category-label {
+  font-size: 13px;
+}
+
+@media only screen and (max-height: 500px) {
+  .emoji-mart .emoji-mart-category-label {
+    position: static;
+  }
 }
 
 .emoji-mart .emoji-mart-scroll {
