@@ -6,6 +6,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import { Box, CircularProgress, Link } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
+import { CSSProperties } from '@material-ui/styles';
 import enShort from 'timeago.js/lib/lang/en_short';
 import { Gif } from '@giphy/react-components';
 import { IGif } from '@giphy/js-types';
@@ -103,27 +104,33 @@ const MessageListItem: FunctionComponent<MessageListItemProps> = ({
     ? theme.palette.secondary.main
     : userColors[message.userData.colorIndex];
 
-  let cardStyle = {
-    borderTopLeftRadius: cardRadius,
-    borderTopRightRadius: cardRadius,
-    borderBottomLeftRadius: cardRadius,
-    borderBottomRightRadius: cardRadius,
-    backgroundColor: theme.palette.background.paper,
+  const style: Record<string, CSSProperties> = {
+    cardStyle: {
+      borderTopLeftRadius: cardRadius,
+      borderTopRightRadius: cardRadius,
+      borderBottomLeftRadius: cardRadius,
+      borderBottomRightRadius: cardRadius,
+      backgroundColor: theme.palette.background.paper,
+      wordBreak: 'break-word',
+    },
   };
 
   if (belongsToUser) {
-    cardStyle = { ...cardStyle, backgroundColor: theme.palette.info.dark };
+    style.cardStyle = {
+      ...style.cardStyle,
+      backgroundColor: theme.palette.info.dark,
+    };
   }
 
   if (showTail) {
     const borderStyle = belongsToUser ? sharpRightCorder : sharpLeftCorder;
-    cardStyle = { ...cardStyle, ...borderStyle };
+    style.cardStyle = { ...style.cardStyle, ...borderStyle };
   }
 
   return (
-    <Box flexGrow='1' my={0.2}>
+    <Box my={0.2}>
       <Box display='inline-block' maxWidth='80%' minWidth='90px'>
-        <Card style={cardStyle}>
+        <Card style={style.cardStyle}>
           <CardContent style={{ padding: '6px' }}>
             {showName && (
               <Box
@@ -137,7 +144,11 @@ const MessageListItem: FunctionComponent<MessageListItemProps> = ({
               </Box>
             )}
             {(content || loadedContent) && (
-              <Box whiteSpace='break-spaces' mb={loadedContent ? 0.5 : 0}>
+              <Box
+                whiteSpace='break-spaces'
+                mb={loadedContent ? 0.5 : 0}
+                maxWidth='inherit'
+              >
                 {content || loadedContent}
               </Box>
             )}
