@@ -1,6 +1,6 @@
 {
-  "short_name": "Emoji Chat",
-  "name": "Emoji Chat",
+  "short_name": "Public Chat",
+  "name": "Public Chat",
   "icons": [
     {
       "src": "favicon.ico",
@@ -20,6 +20,6 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#ffffff",
+  "background_color": "#1976d2"
 }
