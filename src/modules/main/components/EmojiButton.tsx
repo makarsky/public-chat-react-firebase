@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { Box, IconButton, useTheme } from '@material-ui/core';
 import MoodIcon from '@material-ui/icons/Mood';
-import KeyboardIcon from '@material-ui/icons/Keyboard';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 interface EmojiButtonProps {
   value: boolean;
@@ -28,7 +28,7 @@ const EmojiButton: FunctionComponent<EmojiButtonProps> = ({
         >
           <Box display='flex' flexDirection='column'>
             {value && (
-              <KeyboardIcon style={{ color: theme.palette.grey[500] }} />
+              <ExpandMoreIcon style={{ color: theme.palette.grey[500] }} />
             )}
             {!value && <MoodIcon style={{ color: theme.palette.grey[500] }} />}
           </Box>
