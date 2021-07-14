@@ -29,8 +29,7 @@ const getUserData = (
   userDataRaw: firebase.firestore.DocumentData | undefined,
 ) => {
   const colorIndex =
-    userDataRaw?.colorIndex ||
-    Math.floor(Math.random() * (userColors.length + 1));
+    userDataRaw?.colorIndex || Math.floor(Math.random() * userColors.length);
   return new UserData(
     uid,
     userDataRaw?.name || getRandomName(),
