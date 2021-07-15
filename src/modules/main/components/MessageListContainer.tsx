@@ -90,31 +90,33 @@ const MessageListContainer: FunctionComponent<MessageListContainerProps> = ({
   };
 
   const onScroll = () => {
-    if (isAtTheBottom()) {
-      setHaveNewMessages(false);
-      setIsScrollButtonShown(false);
-      setIsScrollingDown(false);
-      cachedScrollTop = 0;
-      return;
-    }
+    setTimeout(() => {
+      if (isAtTheBottom()) {
+        setHaveNewMessages(false);
+        setIsScrollButtonShown(false);
+        setIsScrollingDown(false);
+        cachedScrollTop = 0;
+        return;
+      }
 
-    if (
-      !haveNewMessages &&
-      !isScrollingDown &&
-      (cachedScrollTop === 0 || chatRef?.current?.scrollTop < cachedScrollTop)
-    ) {
-      cachedScrollTop = chatRef?.current?.scrollTop;
-      setIsScrollButtonShown(false);
-      return;
-    }
+      if (
+        !haveNewMessages &&
+        !isScrollingDown &&
+        (cachedScrollTop === 0 || chatRef?.current?.scrollTop < cachedScrollTop)
+      ) {
+        cachedScrollTop = chatRef?.current?.scrollTop;
+        setIsScrollButtonShown(false);
+        return;
+      }
 
-    if (
-      !isScrollingDown &&
-      cachedScrollTop + 50 < chatRef?.current?.scrollTop
-    ) {
-      cachedScrollTop = chatRef?.current?.scrollTop - 50;
-      setIsScrollButtonShown(true);
-    }
+      if (
+        !isScrollingDown &&
+        cachedScrollTop + 50 < chatRef?.current?.scrollTop
+      ) {
+        cachedScrollTop = chatRef?.current?.scrollTop - 50;
+        setIsScrollButtonShown(true);
+      }
+    }, 0);
   };
 
   return (
