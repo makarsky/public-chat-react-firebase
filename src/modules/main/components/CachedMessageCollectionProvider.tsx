@@ -5,7 +5,6 @@ import hardCodedMessages from '../configs/hardCodedMessages';
 
 const cachedMessages: Message[] = [];
 const cachedGroupedMessages: Array<Array<Message>> = hardCodedMessages;
-const hardCodedMessagesCount = hardCodedMessages.length;
 
 const CachedMessageCollectionProvider: FunctionComponent<CachedMessageCollectionProviderProps> =
   ({
