@@ -330,7 +330,6 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
                   emojisToShowFilter={(emoji: any) =>
                     emoji.short_names[0] !== 'middle_finger'
                   }
-                  recent={['bug', 'beetle', 'ant']}
                 />
               </TabPanel>
               <TabPanel value={tab} index={1}>
