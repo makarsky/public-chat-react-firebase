@@ -57,7 +57,7 @@ export const mainListItems = (
     <ListItem
       button
       component='a'
-      href='https://linktr.ee/makarskyy'
+      href='https://linktr.ee/makarsky'
       target='_blank'
     >
       <ListItemIcon>
