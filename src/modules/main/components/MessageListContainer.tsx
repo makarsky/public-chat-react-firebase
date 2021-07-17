@@ -31,6 +31,7 @@ const MessageListContainer: FunctionComponent<MessageListContainerProps> = ({
   playSound,
 }: MessageListContainerProps) => {
   const chatBottomRef = useRef() as MutableRefObject<HTMLDivElement>;
+  const chatTopRef = useRef() as MutableRefObject<HTMLDivElement>;
   const chatRef = useRef() as MutableRefObject<HTMLDivElement>;
   const [haveNewMessages, setHaveNewMessages] = useState(false);
   const [isScrollButtonShown, setIsScrollButtonShown] = useState(false);
@@ -54,7 +55,10 @@ const MessageListContainer: FunctionComponent<MessageListContainerProps> = ({
   };
 
   const scrollUpSmoothly = () => {
-    chatRef?.current?.scrollTo({ top: 0, behavior: 'smooth' });
+    chatTopRef?.current?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    });
   };
 
   const scrollDownSmoothly = () => {
@@ -129,6 +133,7 @@ const MessageListContainer: FunctionComponent<MessageListContainerProps> = ({
         position='relative'
         style={style.boxStyle}
       >
+        <div ref={chatTopRef} style={{ width: '100%', height: '0px' }} />
         <MessageCollectionProviderMemorized
           renderChildren={(messages: Message[], isLoading: boolean) => (
             <>
