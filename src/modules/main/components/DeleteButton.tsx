@@ -2,18 +2,6 @@ import React, { FunctionComponent } from 'react';
 import { Box, IconButton, useTheme } from '@material-ui/core';
 import BackspaceIcon from '@material-ui/icons/Backspace';
 
-const maxMs = 500;
-const minMs = 150;
-const stepMs = 50;
-
-let timeout: NodeJS.Timeout;
-
-const onLongPress = (onClick: () => void, ms: number = maxMs) => {
-  onClick();
-  const nextMs = ms - stepMs < minMs ? minMs : ms - stepMs;
-  timeout = setTimeout(() => onLongPress(onClick, nextMs), ms);
-};
-
 interface DeleteButtonProps {
   onClick: () => void;
 }
@@ -31,8 +19,7 @@ const DeleteButton: FunctionComponent<DeleteButtonProps> = ({
         type='button'
         aria-label='Delete'
         data-testid='delete-button'
-        onMouseDown={() => onLongPress(onClick)}
-        onMouseUp={() => clearTimeout(timeout)}
+        onClick={onClick}
       >
         <Box display='flex' flexDirection='column'>
           <BackspaceIcon style={{ color: theme.palette.grey[500] }} />
