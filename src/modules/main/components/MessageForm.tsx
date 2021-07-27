@@ -7,7 +7,7 @@ import React, {
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import { useTheme } from '@material-ui/core/styles';
-import { Box, Divider, Collapse, Tabs, Tab } from '@material-ui/core';
+import { Box, Divider, Tabs, Tab } from '@material-ui/core';
 import { CSSProperties } from '@material-ui/core/styles/withStyles';
 import GifIcon from '@material-ui/icons/Image';
 import MoodIcon from '@material-ui/icons/Mood';
@@ -307,66 +307,68 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
             }
           />
         </Box>
-        <Collapse in={isEmojiListShown}>
-          <Box
-            display='flex'
-            flexDirection='column'
-            height='42vh'
-            maxHeight='280px'
-          >
-            <Divider />
-            <Box style={style.emojiListStyle}>
-              <TabPanel value={tab} index={0}>
-                <Picker
-                  set='google'
-                  showPreview={false}
-                  showSkinTones={false}
-                  theme={theme.palette.type}
-                  color={theme.palette.secondary.main}
-                  style={{ width: '100%', height: '100%', borderRadius: 0 }}
-                  onSelect={(emoji: EmojiData) =>
-                    insertIntoMessage(emoji.colons || '')
-                  }
-                  emojisToShowFilter={(emoji: any) =>
-                    emoji.short_names[0] !== 'middle_finger'
-                  }
-                />
-              </TabPanel>
-              <TabPanel value={tab} index={1}>
-                <Box>
-                  <GiphySelect onClick={handleGiphyClick} />
-                </Box>
-              </TabPanel>
-            </Box>
-            <Divider />
-            <Box display='flex'>
-              <DeleteButton onClick={handleDelete} />
-              <Tabs
-                value={tab}
-                onChange={(_event: React.ChangeEvent<any>, n: number) =>
-                  setTab(n)
+        <Box
+          display='flex'
+          flexDirection='column'
+          height={isEmojiListShown ? '42vh' : '0vh'}
+          maxHeight='280px'
+        >
+          <Divider />
+          <Box style={style.emojiListStyle}>
+            <TabPanel value={tab} index={0}>
+              <Picker
+                set='google'
+                showPreview={false}
+                showSkinTones={false}
+                theme={theme.palette.type}
+                color={theme.palette.secondary.main}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  borderRadius: 0,
+                }}
+                onSelect={(emoji: EmojiData) =>
+                  insertIntoMessage(emoji.colons || '')
                 }
-                variant='fullWidth'
-                indicatorColor='primary'
-                textColor='secondary'
-                aria-label='Content type tabs'
-                style={{ flexGrow: 1, minHeight: '36px' }}
-              >
-                <Tab
-                  icon={<MoodIcon />}
-                  aria-label='Emojis'
-                  style={{ minHeight: 'initial' }}
-                />
-                <Tab
-                  icon={<GifIcon />}
-                  aria-label='GIFs'
-                  style={{ minHeight: 'initial' }}
-                />
-              </Tabs>
-              <NewLineButton onClick={() => insertIntoMessage('\n')} />
-            </Box>
+                emojisToShowFilter={(emoji: any) =>
+                  emoji.short_names[0] !== 'middle_finger'
+                }
+              />
+            </TabPanel>
+            <TabPanel value={tab} index={1}>
+              <Box>
+                <GiphySelect onClick={handleGiphyClick} />
+              </Box>
+            </TabPanel>
           </Box>
-        </Collapse>
+          <Divider />
+          <Box display='flex'>
+            <DeleteButton onClick={handleDelete} />
+            <Tabs
+              value={tab}
+              onChange={(_event: React.ChangeEvent<any>, n: number) =>
+                setTab(n)
+              }
+              variant='fullWidth'
+              indicatorColor='primary'
+              textColor='secondary'
+              aria-label='Content type tabs'
+              style={{ flexGrow: 1, minHeight: '36px' }}
+            >
+              <Tab
+                icon={<MoodIcon />}
+                aria-label='Emojis'
+                style={{ minHeight: 'initial' }}
+              />
+              <Tab
+                icon={<GifIcon />}
+                aria-label='GIFs'
+                style={{ minHeight: 'initial' }}
+              />
+            </Tabs>
+            <NewLineButton onClick={() => insertIntoMessage('\n')} />
+          </Box>
+        </Box>
       </Box>
     </Box>
   );
