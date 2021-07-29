@@ -308,10 +308,12 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
           />
         </Box>
         <Box
-          display={isEmojiListShown ? 'flex' : 'none'}
-          flexDirection='column'
           height='42vh'
           maxHeight='280px'
+          style={{
+            display: isEmojiListShown ? 'flex' : 'none',
+            flexDirection: 'column',
+          }}
         >
           <Divider />
           <Box style={style.emojiListStyle}>
