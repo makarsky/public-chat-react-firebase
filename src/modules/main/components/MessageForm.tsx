@@ -308,9 +308,9 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
           />
         </Box>
         <Box
-          display='flex'
+          display={isEmojiListShown ? 'flex' : 'none'}
           flexDirection='column'
-          height={isEmojiListShown ? '42vh' : '0vh'}
+          height='42vh'
           maxHeight='280px'
         >
           <Divider />
