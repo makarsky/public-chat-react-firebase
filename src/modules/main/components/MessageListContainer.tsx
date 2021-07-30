@@ -167,10 +167,12 @@ const MessageListContainer: FunctionComponent<MessageListContainerProps> = ({
               )}
               {isLoading && (
                 <Box
-                  display='flex'
-                  justifyContent='center'
-                  alignItems='center'
-                  height='100%'
+                  style={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                  }}
                 >
                   <CircularProgress color='primary' />
                 </Box>
