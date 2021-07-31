@@ -1,4 +1,5 @@
-const timeoutInSeconds = 10;
+// Set timeout as you want. Don't forget to add rate limiting rules to firestore from README.md
+const timeoutInSeconds = 0;
 
 export const isCoolDownActive = (lastAccessDate: Date) => {
   const allowedDate = new Date();
