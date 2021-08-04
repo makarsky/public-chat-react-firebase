@@ -1,4 +1,10 @@
-import React, { useState, useEffect, FunctionComponent } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  FunctionComponent,
+  MutableRefObject,
+} from 'react';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import { useTheme } from '@material-ui/core/styles';
@@ -128,11 +134,20 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
   const [errorMessage, setErrorMessage] = useState('');
   const [isEmojiListShown, setIsEmojiListShown] = useState(false);
   const [tab, setTab] = useState(0);
+  const inputRef = useRef() as MutableRefObject<HTMLDivElement>;
   const theme = useTheme();
 
   useEffect(
     () => setLastMessageDate(getLastSubmissionDate(userData)),
     [userData],
+  );
+
+  useEffect(
+    () =>
+      inputRef?.current?.scrollIntoView({
+        block: 'end',
+      }),
+    [message],
   );
 
   const style: Record<string, CSSProperties> = {
@@ -229,13 +244,16 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
                 <Box
                   whiteSpace='break-spaces'
                   width='100%'
-                  maxHeight='20vh'
+                  maxHeight='16vh'
                   overflow='auto'
                   onClick={() => setIsEmojiListShown(true)}
                 >
                   <Emojify makeTheOnlyEmojiBigger={false}>{message}</Emojify>
                   {/* The following element helps displaying a new line */}
-                  <Box display='inline-block' height='23px' />
+                  <div
+                    style={{ display: 'inline-block', height: '23px' }}
+                    ref={inputRef}
+                  />
                 </Box>
                 {error ? (
                   <Typography
