@@ -20,6 +20,7 @@ const DeleteButton: FunctionComponent<DeleteButtonProps> = ({
         aria-label='Delete'
         data-testid='delete-button'
         onClick={onClick}
+        style={{ height: '100%', width: '100%' }}
       >
         <Box display='flex' flexDirection='column'>
           <BackspaceIcon style={{ color: theme.palette.grey[500] }} />
