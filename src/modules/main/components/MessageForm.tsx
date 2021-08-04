@@ -2,7 +2,14 @@ import React, { useState, useEffect, FunctionComponent } from 'react';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import { useTheme } from '@material-ui/core/styles';
-import { Box, Divider, Tabs, Tab, Typography } from '@material-ui/core';
+import {
+  Box,
+  Divider,
+  Tabs,
+  Tab,
+  Typography,
+  ClickAwayListener,
+} from '@material-ui/core';
 import { CSSProperties } from '@material-ui/core/styles/withStyles';
 import GifIcon from '@material-ui/icons/Image';
 import MoodIcon from '@material-ui/icons/Mood';
@@ -184,141 +191,146 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
   };
 
   return (
-    <Box
-      display='flex'
-      justifyContent='center'
-      style={{
-        backgroundColor: theme.palette.background.default,
-      }}
-    >
+    <ClickAwayListener onClickAway={() => setIsEmojiListShown(false)}>
       <Box
         display='flex'
-        flexDirection='column'
-        width='100%'
-        maxWidth={theme.breakpoints.values.md}
-        zIndex={0}
-        style={{ backgroundColor: theme.palette.secondary.dark }}
+        justifyContent='center'
+        style={{
+          backgroundColor: theme.palette.background.default,
+        }}
       >
-        <Box display='flex' flexDirection='row'>
-          <EmojiButton value={isEmojiListShown} onClick={setIsEmojiListShown} />
-          {message.length === 0 ? (
-            <Box
-              width='100%'
-              style={{
-                padding: '10px 6px',
-                color: theme.palette.grey[600],
-              }}
-              onClick={() => setIsEmojiListShown(true)}
-            >
-              Enter emoji...
-            </Box>
-          ) : null}
-          {message.length > 0 ? (
-            <Box width='100%' padding='6px 6px'>
+        <Box
+          display='flex'
+          flexDirection='column'
+          width='100%'
+          maxWidth={theme.breakpoints.values.md}
+          zIndex={0}
+          style={{ backgroundColor: theme.palette.secondary.dark }}
+        >
+          <Box display='flex' flexDirection='row'>
+            <EmojiButton
+              value={isEmojiListShown}
+              onClick={setIsEmojiListShown}
+            />
+            {message.length === 0 ? (
               <Box
-                whiteSpace='break-spaces'
                 width='100%'
-                maxHeight='20vh'
-                overflow='auto'
+                style={{
+                  padding: '10px 6px',
+                  color: theme.palette.grey[600],
+                }}
                 onClick={() => setIsEmojiListShown(true)}
               >
-                <Emojify makeTheOnlyEmojiBigger={false}>{message}</Emojify>
-                {/* The following element helps displaying a new line */}
-                <Box display='inline-block' height='23px' />
+                Enter emoji...
               </Box>
-              {error ? (
-                <Typography
-                  variant='caption'
-                  component='div'
-                  align='center'
-                  color='error'
+            ) : null}
+            {message.length > 0 ? (
+              <Box width='100%' padding='6px 6px'>
+                <Box
+                  whiteSpace='break-spaces'
+                  width='100%'
+                  maxHeight='20vh'
+                  overflow='auto'
+                  onClick={() => setIsEmojiListShown(true)}
                 >
-                  {errorMessage}
-                </Typography>
-              ) : null}
-            </Box>
-          ) : null}
-          <SendMessageButton
-            isDisabled={isLoading}
-            lastMessageDate={lastMessageDate}
-            onClick={(event) =>
-              handleSubmit(
-                event,
-                userData,
-                lastMessageDate,
-                setLastMessageDate,
-                setMessage,
-                message,
-              )
-            }
-          />
-        </Box>
-        <Box
-          height='42vh'
-          maxHeight='280px'
-          style={{
-            display: isEmojiListShown ? 'flex' : 'none',
-            flexDirection: 'column',
-          }}
-        >
-          <Divider />
-          <Box style={style.emojiListStyle}>
-            <TabPanel value={tab} index={0}>
-              <Picker
-                set='google'
-                showPreview={false}
-                showSkinTones={false}
-                theme={theme.palette.type}
-                color={theme.palette.secondary.main}
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  borderRadius: 0,
-                }}
-                onSelect={(emoji: EmojiData) =>
-                  insertIntoMessage(emoji.colons || '')
-                }
-                emojisToShowFilter={(emoji: any) =>
-                  emoji.short_names[0] !== 'middle_finger'
-                }
-              />
-            </TabPanel>
-            <TabPanel value={tab} index={1}>
-              <Box>
-                <GiphySelect onClick={handleGiphyClick} />
+                  <Emojify makeTheOnlyEmojiBigger={false}>{message}</Emojify>
+                  {/* The following element helps displaying a new line */}
+                  <Box display='inline-block' height='23px' />
+                </Box>
+                {error ? (
+                  <Typography
+                    variant='caption'
+                    component='div'
+                    align='center'
+                    color='error'
+                  >
+                    {errorMessage}
+                  </Typography>
+                ) : null}
               </Box>
-            </TabPanel>
-          </Box>
-          <Divider />
-          <Box display='flex'>
-            <DeleteButton onClick={handleDelete} />
-            <Tabs
-              value={tab}
-              onChange={(_event: React.ChangeEvent<any>, n: number) =>
-                setTab(n)
+            ) : null}
+            <SendMessageButton
+              isDisabled={isLoading}
+              lastMessageDate={lastMessageDate}
+              onClick={(event) =>
+                handleSubmit(
+                  event,
+                  userData,
+                  lastMessageDate,
+                  setLastMessageDate,
+                  setMessage,
+                  message,
+                )
               }
-              variant='fullWidth'
-              indicatorColor='primary'
-              textColor='secondary'
-              aria-label='Content type tabs'
-              style={{ flexGrow: 1, minHeight: '36px' }}
-            >
-              <Tab
-                icon={<MoodIcon />}
-                aria-label='Emojis'
-                style={{ minHeight: 'initial' }}
-              />
-              <Tab
-                icon={<GifIcon />}
-                aria-label='GIFs'
-                style={{ minHeight: 'initial' }}
-              />
-            </Tabs>
-            <NewLineButton onClick={() => insertIntoMessage('\n')} />
+            />
+          </Box>
+          <Box
+            height='42vh'
+            maxHeight='280px'
+            style={{
+              display: isEmojiListShown ? 'flex' : 'none',
+              flexDirection: 'column',
+            }}
+          >
+            <Divider />
+            <Box style={style.emojiListStyle}>
+              <TabPanel value={tab} index={0}>
+                <Picker
+                  set='google'
+                  showPreview={false}
+                  showSkinTones={false}
+                  theme={theme.palette.type}
+                  color={theme.palette.secondary.main}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    borderRadius: 0,
+                  }}
+                  onSelect={(emoji: EmojiData) =>
+                    insertIntoMessage(emoji.colons || '')
+                  }
+                  emojisToShowFilter={(emoji: any) =>
+                    emoji.short_names[0] !== 'middle_finger'
+                  }
+                />
+              </TabPanel>
+              <TabPanel value={tab} index={1}>
+                <Box>
+                  <GiphySelect onClick={handleGiphyClick} />
+                </Box>
+              </TabPanel>
+            </Box>
+            <Divider />
+            <Box display='flex'>
+              <DeleteButton onClick={handleDelete} />
+              <Tabs
+                value={tab}
+                onChange={(_event: React.ChangeEvent<any>, n: number) =>
+                  setTab(n)
+                }
+                variant='fullWidth'
+                indicatorColor='primary'
+                textColor='secondary'
+                aria-label='Content type tabs'
+                style={{ flexGrow: 1, minHeight: '36px' }}
+              >
+                <Tab
+                  icon={<MoodIcon />}
+                  aria-label='Emojis'
+                  style={{ minHeight: 'initial' }}
+                />
+                <Tab
+                  icon={<GifIcon />}
+                  aria-label='GIFs'
+                  style={{ minHeight: 'initial' }}
+                />
+              </Tabs>
+              <NewLineButton onClick={() => insertIntoMessage('\n')} />
+            </Box>
           </Box>
         </Box>
       </Box>
-    </Box>
+    </ClickAwayListener>
   );
 };
 
