@@ -1,13 +1,8 @@
-import React, {
-  useState,
-  useEffect,
-  FunctionComponent,
-  KeyboardEventHandler,
-} from 'react';
+import React, { useState, useEffect, FunctionComponent } from 'react';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import { useTheme } from '@material-ui/core/styles';
-import { Box, Divider, Tabs, Tab } from '@material-ui/core';
+import { Box, Divider, Tabs, Tab, Typography } from '@material-ui/core';
 import { CSSProperties } from '@material-ui/core/styles/withStyles';
 import GifIcon from '@material-ui/icons/Image';
 import MoodIcon from '@material-ui/icons/Mood';
@@ -19,15 +14,18 @@ import Message from '../interfaces/Message';
 import SendMessageButton from './SendMessageButton';
 import DeleteButton from './DeleteButton';
 import NewLineButton from './NewLineButton';
-import StyledTextField from './StyledTextField';
 import UserData from '../interfaces/UserData';
 import EmojiButton from './EmojiButton';
 import TabPanel from './TabPanel';
-import { isMobileBrowser } from '../utils/browser';
 import GiphySelect from './GiphySelect';
 import { isCoolDownActive } from '../utils/cooldown';
+import Emojify, { getEmojiNames } from './Emojify';
 
-const maxMessageLength = 10000;
+const maxNumberOfEmojis = 36;
+const maxNumberOfRows = 6;
+
+const maxNumberOfEmojisMessage = `The maximum number of emojis is ${maxNumberOfEmojis}`;
+const maxNumberOfRowsMessage = `Only ${maxNumberOfRows} rows are allowed`;
 
 const getModeratedMessage = (
   message: string,
@@ -50,8 +48,6 @@ const handleSubmit = async (
   lastMessageDate: Date,
   setLastMessageDate: React.Dispatch<React.SetStateAction<Date>>,
   setMessage: React.Dispatch<React.SetStateAction<string>> | null,
-  setSelectionStart: React.Dispatch<React.SetStateAction<number>>,
-  setSelectionEnd: React.Dispatch<React.SetStateAction<number>>,
   message: string,
 ) => {
   if (isCoolDownActive(lastMessageDate)) {
@@ -90,8 +86,6 @@ const handleSubmit = async (
 
     if (setMessage) {
       setMessage('');
-      setSelectionStart(0);
-      setSelectionEnd(0);
     }
   } catch (error) {
     window.location.reload();
@@ -124,11 +118,9 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
   );
   const [message, setMessage] = useState('');
   const [error, setError] = useState(false);
-  const [helperText, setHelperText] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const [isEmojiListShown, setIsEmojiListShown] = useState(false);
   const [tab, setTab] = useState(0);
-  const [selectionStart, setSelectionStart] = useState(0);
-  const [selectionEnd, setSelectionEnd] = useState(0);
   const theme = useTheme();
 
   useEffect(
@@ -144,42 +136,23 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
     },
   };
 
-  const handleInputInteraction = (
-    e: React.SyntheticEvent<HTMLDivElement, Event>,
-  ) => {
-    if (e.target instanceof HTMLTextAreaElement) {
-      setSelectionStart(e.target.selectionStart);
-      setSelectionEnd(e.target.selectionEnd);
-    }
-  };
-
-  const handleOnKeyDown: KeyboardEventHandler<HTMLDivElement> = (
-    event: any,
-  ) => {
-    if (event.code === 'Enter' && !event.shiftKey && !isMobileBrowser()) {
-      event.preventDefault();
-      handleSubmit(
-        event,
-        userData,
-        lastMessageDate,
-        setLastMessageDate,
-        setMessage,
-        setSelectionStart,
-        setSelectionEnd,
-        message,
-      );
-    }
-  };
-
   const insertIntoMessage = (text: string) => {
-    setMessage(
-      `${message.substring(0, selectionStart)}${text}${message.substring(
-        selectionEnd,
-        message.length,
-      )}`,
-    );
-    setSelectionStart(selectionStart + text.length);
-    setSelectionEnd(selectionEnd + text.length);
+    const newMessage = message + text;
+    const emojiNames = getEmojiNames(newMessage);
+
+    if (emojiNames.length > maxNumberOfEmojis) {
+      setError(true);
+      setErrorMessage(maxNumberOfEmojisMessage);
+      return;
+    }
+    if (newMessage.split(/\r\n|\r|\n/).length > maxNumberOfRows) {
+      setError(true);
+      setErrorMessage(maxNumberOfRowsMessage);
+      return;
+    }
+
+    setError(false);
+    setMessage(newMessage);
   };
 
   const handleGiphyClick = (
@@ -193,65 +166,21 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
       lastMessageDate,
       setLastMessageDate,
       null,
-      setSelectionStart,
-      setSelectionEnd,
       `#giphy#${gif.id}`,
     );
   };
 
   const handleDelete = () => {
-    if (selectionStart !== selectionEnd) {
-      setMessage(
-        `${message.substring(0, selectionStart)}${message.substring(
-          selectionEnd,
-          message.length,
-        )}`,
-      );
-      setSelectionEnd(selectionStart);
-      return;
-    }
-
     const re = /(:[-+_0-9a-zA-Z]+:)$/g;
-    const matches = re.exec(message.substring(0, selectionStart));
+    const matches = re.exec(message);
+    setError(false);
 
     if (matches) {
-      setMessage(
-        `${message.substring(
-          0,
-          selectionStart - matches[1].length,
-        )}${message.substring(selectionEnd, message.length)}`,
-      );
-      setSelectionStart(selectionStart - matches[1].length);
-      setSelectionEnd(selectionEnd - matches[1].length);
+      setMessage(message.substring(0, message.length - matches[1].length));
       return;
     }
 
-    setMessage(
-      `${message.substring(0, selectionStart - 1)}${message.substring(
-        selectionEnd,
-        message.length,
-      )}`,
-    );
-    setSelectionStart(selectionStart - 1);
-    setSelectionEnd(selectionEnd - 1);
-  };
-
-  const handleOnFocus = () => {
-    if (isMobileBrowser()) {
-      setIsEmojiListShown(false);
-    }
-  };
-
-  const handleOnChange: React.ChangeEventHandler<
-    HTMLTextAreaElement | HTMLInputElement
-  > = (event) => {
-    setMessage(event.target.value);
-    setError(event.target.value.length >= maxMessageLength);
-    setHelperText(
-      event.target.value.length >= maxMessageLength
-        ? `Maximum message length is ${maxMessageLength} characters`
-        : '',
-    );
+    setMessage(message.substring(0, message.length - 1));
   };
 
   return (
@@ -272,24 +201,43 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
       >
         <Box display='flex' flexDirection='row'>
           <EmojiButton value={isEmojiListShown} onClick={setIsEmojiListShown} />
-          <StyledTextField
-            label='Message...'
-            variant='filled'
-            onChange={handleOnChange}
-            onClick={handleInputInteraction}
-            onKeyUp={handleInputInteraction}
-            onKeyDown={handleOnKeyDown}
-            onFocus={handleOnFocus}
-            fullWidth
-            value={message}
-            multiline
-            rowsMax={10}
-            error={error}
-            helperText={helperText}
-            inputProps={{
-              maxLength: maxMessageLength,
-            }}
-          />
+          {message.length === 0 ? (
+            <Box
+              width='100%'
+              style={{
+                padding: '10px 6px',
+                color: theme.palette.grey[600],
+              }}
+              onClick={() => setIsEmojiListShown(true)}
+            >
+              Enter emoji...
+            </Box>
+          ) : null}
+          {message.length > 0 ? (
+            <Box width='100%' padding='6px 6px'>
+              <Box
+                whiteSpace='break-spaces'
+                width='100%'
+                maxHeight='20vh'
+                overflow='auto'
+                onClick={() => setIsEmojiListShown(true)}
+              >
+                <Emojify makeTheOnlyEmojiBigger={false}>{message}</Emojify>
+                {/* The following element helps displaying a new line */}
+                <Box display='inline-block' height='23px' />
+              </Box>
+              {error ? (
+                <Typography
+                  variant='caption'
+                  component='div'
+                  align='center'
+                  color='error'
+                >
+                  {errorMessage}
+                </Typography>
+              ) : null}
+            </Box>
+          ) : null}
           <SendMessageButton
             isDisabled={isLoading}
             lastMessageDate={lastMessageDate}
@@ -300,8 +248,6 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
                 lastMessageDate,
                 setLastMessageDate,
                 setMessage,
-                setSelectionStart,
-                setSelectionEnd,
                 message,
               )
             }
