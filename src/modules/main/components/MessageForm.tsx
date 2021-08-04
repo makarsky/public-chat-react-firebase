@@ -330,7 +330,7 @@ const MessageForm: FunctionComponent<MessageFormProps> = ({
                 indicatorColor='primary'
                 textColor='secondary'
                 aria-label='Content type tabs'
-                style={{ flexGrow: 1, minHeight: '36px' }}
+                style={{ flexGrow: 1, minHeight: '40px' }}
               >
                 <Tab
                   icon={<MoodIcon />}

@@ -20,6 +20,7 @@ const NewLineButton: FunctionComponent<NewLineButtonProps> = ({
         aria-label='Delete'
         data-testid='delete-button'
         onClick={onClick}
+        style={{ height: '100%', width: '100%' }}
       >
         <Box display='flex' flexDirection='column'>
           <SubdirectoryArrowLeftIcon
