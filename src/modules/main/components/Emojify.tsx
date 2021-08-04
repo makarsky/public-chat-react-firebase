@@ -3,7 +3,10 @@ import { Emoji, EmojiData, EmojiProps } from 'emoji-mart';
 
 const re = /(:[-+_0-9a-zA-Z]+:)/g;
 
-const getEmojiNames = (message: string, emojiNames: string[]): string[] => {
+export const getEmojiNames = (
+  message: string,
+  emojiNames: string[] = [],
+): string[] => {
   const newMatches = re.exec(message);
 
   if (!newMatches) {
@@ -15,19 +18,29 @@ const getEmojiNames = (message: string, emojiNames: string[]): string[] => {
   return getEmojiNames(message, emojiNames);
 };
 
+const getEscapedEmojiNames = (emojiNames: string[]): string[] => {
+  return emojiNames.map((name) =>
+    name.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&'),
+  );
+};
+
 interface EmojifyProps {
   children: string;
+  makeTheOnlyEmojiBigger?: boolean;
 }
 
-const Emojify = ({ children }: EmojifyProps) => {
-  const emojiNames = getEmojiNames(children, []);
+const Emojify = ({ children, makeTheOnlyEmojiBigger }: EmojifyProps) => {
+  const emojiNames = getEmojiNames(children);
+  const escapedEmojiNames = getEscapedEmojiNames(emojiNames);
 
   if (emojiNames.length) {
-    const emojiNamesRegExp = new RegExp(emojiNames.join('|'));
+    const emojiNamesRegExp = new RegExp(escapedEmojiNames.join('|'));
     const rawStrings = children.split(emojiNamesRegExp);
 
     const size =
-      emojiNames.length === 1 && rawStrings.filter((s) => s).length === 0
+      makeTheOnlyEmojiBigger &&
+      emojiNames.length === 1 &&
+      rawStrings.filter((s) => s).length === 0
         ? 27
         : 23;
 
@@ -55,6 +68,10 @@ const Emojify = ({ children }: EmojifyProps) => {
   }
 
   return <>{children}</>;
+};
+
+Emojify.defaultProps = {
+  makeTheOnlyEmojiBigger: true,
 };
 
 export default Emojify;
