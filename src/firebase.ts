@@ -3,6 +3,8 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 // eslint-disable-next-line import/no-duplicates
 import 'firebase/firestore';
+// eslint-disable-next-line import/no-duplicates
+import 'firebase/analytics';
 import config from './config/firebase';
 
 class FirebaseProvider {
@@ -10,10 +12,13 @@ class FirebaseProvider {
 
   firestore: firebase.firestore.Firestore;
 
+  analytics: firebase.analytics.Analytics;
+
   constructor() {
     firebase.initializeApp(config);
     this.auth = firebase.auth();
     this.firestore = firebase.firestore();
+    this.analytics = firebase.analytics();
     this.auth.signInAnonymously();
   }
 
