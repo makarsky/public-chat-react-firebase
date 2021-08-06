@@ -54,7 +54,6 @@ const CachedMessageCollectionProvider: FunctionComponent<CachedMessageCollection
     });
 
     useEffect(() => {
-      console.log(isListShown, cachedMessages.length, messages.length);
       if (
         isListShown &&
         messages[messages.length - 1]?.userData.uid === currentUser.uid
