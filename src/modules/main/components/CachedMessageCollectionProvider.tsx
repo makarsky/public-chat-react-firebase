@@ -54,13 +54,14 @@ const CachedMessageCollectionProvider: FunctionComponent<CachedMessageCollection
     });
 
     useEffect(() => {
+      console.log(isListShown, cachedMessages.length, messages.length);
       if (
-        cachedMessages.length !== messages.length &&
+        isListShown &&
         messages[messages.length - 1]?.userData.uid === currentUser.uid
       ) {
         // On each current user's new message
         scrollDownSmoothly();
-      } else if (cachedMessages.length !== messages.length) {
+      } else if (isListShown) {
         // On each new message
         afterCachedMessagesAreRenderedCallback();
       }
