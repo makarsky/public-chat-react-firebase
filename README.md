@@ -12,7 +12,7 @@ Stack:
 
 - Material-UI
 
-## Firestore rules
+## Firestore rules with rate limiting (1 message per 15 seconds)
 
 ```
 rules_version = '2';
@@ -22,7 +22,13 @@ service cloud.firestore {
       allow read;
       allow write: if isAuthenticated();
       function isAuthenticated() {
-      	return request.auth.uid != null;
+      	return request.auth.uid != null && isCalm();
+      }
+      function isCalm() {
+      	return isUserNotRegistered() || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.rateLimit.lastMessage  + duration.value(15, 's') < request.resource.data.timestamp;
+      }
+      function isUserNotRegistered() {
+      	return !exists(/databases/$(database)/documents/users/$(request.auth.uid));
       }
     }
     match /users/{userUid} {
