@@ -91,7 +91,7 @@ const MessageListItem: FunctionComponent<MessageListItemProps> = ({
       );
   } else if (!loadedContent) {
     content = (
-      <Typography color='textPrimary' variant='body1' align='left'>
+      <Typography color='textPrimary' variant='inherit' align='left'>
         <Linkify componentDecorator={componentDecorator}>
           <Emojify>{message.value}</Emojify>
         </Linkify>
