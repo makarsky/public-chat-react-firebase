@@ -7,6 +7,8 @@ import FacebookIcon from '@material-ui/icons/Facebook';
 import FilterVintageIcon from '@material-ui/icons/FilterVintage';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import LayersIcon from '@material-ui/icons/Layers';
+import OpenInNewIcon from '@material-ui/icons/OpenInNew';
+import Divider from '@material-ui/core/Divider';
 
 export const mainListItems = (
   <div>
@@ -65,6 +67,7 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary='Linktree' />
     </ListItem>
+    <Divider />
     <ListItem
       button
       component='a'
@@ -75,6 +78,17 @@ export const mainListItems = (
         <GitHubIcon />
       </ListItemIcon>
       <ListItemText primary='Source Code' />
+    </ListItem>
+    <ListItem
+      button
+      component='a'
+      href='https://public-chat-react-firebase.vercel.app'
+      target='_blank'
+    >
+      <ListItemIcon>
+        <OpenInNewIcon />
+      </ListItemIcon>
+      <ListItemText primary='Open in new window' />
     </ListItem>
   </div>
 );
