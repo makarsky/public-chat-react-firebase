@@ -2,7 +2,7 @@
 
 [Live Demo](https://public-chat-react-firebase.vercel.app/)
 
-Stack:
+## Stack
 
 - Typescript
 
@@ -90,11 +90,11 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 [Timer component](https://upmostly.com/tutorials/build-a-react-timer-component-using-hooks)
 
-## Generating icon
+## Icon generators
 
-[Online service 1](https://romannurik.github.io/AndroidAssetStudio/icons-launcher.html#foreground.type=clipart&foreground.clipart=chat&foreground.space.trim=0&foreground.space.pad=0.25&foreColor=rgb(255%2C%20238%2C%2088)&backColor=rgb(25%2C%20118%2C%20210)&crop=0&backgroundShape=square&effects=none&name=ic_launcher)
+[AndroidAssetStudio](https://romannurik.github.io/AndroidAssetStudio/icons-launcher.html#foreground.type=clipart&foreground.clipart=chat&foreground.space.trim=0&foreground.space.pad=0.25&foreColor=rgb(255%2C%20238%2C%2088)&backColor=rgb(25%2C%20118%2C%20210)&crop=0&backgroundShape=square&effects=none&name=ic_launcher)
 
-[Online service 2](https://appicon.co/)
+[appicon.co](https://appicon.co/)
 
 ```
 sudo apt-get install imagemagick
