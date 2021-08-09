@@ -68,7 +68,7 @@ export const mainListItems = (
     <ListItem
       button
       component='a'
-      href='https://github.com/makarsky'
+      href='https://github.com/makarsky/public-chat-react-firebase'
       target='_blank'
     >
       <ListItemIcon>
