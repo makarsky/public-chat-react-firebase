@@ -1,4 +1,4 @@
-# Public chat
+# Emoji Chat
 
 [Live Demo](https://public-chat-react-firebase.vercel.app/)
 
