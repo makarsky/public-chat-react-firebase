@@ -5,7 +5,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InstagramIcon from '@material-ui/icons/Instagram';
 import FacebookIcon from '@material-ui/icons/Facebook';
 import GitHubIcon from '@material-ui/icons/GitHub';
-import LayersIcon from '@material-ui/icons/Layers';
 import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 import Divider from '@material-ui/core/Divider';
 
@@ -43,17 +42,6 @@ export const mainListItems = (
         <GitHubIcon />
       </ListItemIcon>
       <ListItemText primary='GitHub' />
-    </ListItem>
-    <ListItem
-      button
-      component='a'
-      href='https://linktr.ee/makarsky'
-      target='_blank'
-    >
-      <ListItemIcon>
-        <LayersIcon />
-      </ListItemIcon>
-      <ListItemText primary='Linktree' />
     </ListItem>
     <Divider />
     <ListItem
