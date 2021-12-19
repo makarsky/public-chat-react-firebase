@@ -4,7 +4,6 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InstagramIcon from '@material-ui/icons/Instagram';
 import FacebookIcon from '@material-ui/icons/Facebook';
-import FilterVintageIcon from '@material-ui/icons/FilterVintage';
 import GitHubIcon from '@material-ui/icons/GitHub';
 import LayersIcon from '@material-ui/icons/Layers';
 import OpenInNewIcon from '@material-ui/icons/OpenInNew';
@@ -33,17 +32,6 @@ export const mainListItems = (
         <FacebookIcon />
       </ListItemIcon>
       <ListItemText primary='Facebook' />
-    </ListItem>
-    <ListItem
-      button
-      component='a'
-      href='https://www.sololearn.com/profile/779917?ref=app'
-      target='_blank'
-    >
-      <ListItemIcon>
-        <FilterVintageIcon />
-      </ListItemIcon>
-      <ListItemText primary='SoloLearn' />
     </ListItem>
     <ListItem
       button
